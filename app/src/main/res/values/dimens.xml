@@ -4,4 +4,5 @@
     <dimen name="padding">8</dimen>
     <dimen name="text_heading">40</dimen>
     <dimen name="text_heading1">30sp</dimen>
+    <dimen name="text_standard">18sp</dimen>
 </resources>
