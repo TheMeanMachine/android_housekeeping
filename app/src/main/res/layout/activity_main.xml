@@ -44,6 +44,17 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="@dimen/StandardSpacing"
+                    android:layout_marginEnd="@dimen/StandardSpacing"
+                    android:layout_marginRight="@dimen/StandardSpacing"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/app_logo" />
+
             </android.support.constraint.ConstraintLayout>
 
         </LinearLayout>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="StandardSpacing">24</dimen>
+    <dimen name="StandardSpacing">24dp</dimen>
     <dimen name="padding">8</dimen>
     <dimen name="text_heading">40</dimen>
 
@@ -11,4 +11,5 @@
     <dimen name="text_heading1">30sp</dimen>
     <dimen name="text_heading1_large">38sp</dimen>
     <dimen name="StandardSpacingHalf">12</dimen>
+    <dimen name="standardIcon">24dp</dimen>
 </resources>

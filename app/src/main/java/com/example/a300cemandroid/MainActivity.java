@@ -26,21 +26,21 @@ public class MainActivity extends AppCompatActivity {
         register = (Button) findViewById(R.id.register);
         Toast.makeText(getApplicationContext(), "Setup",Toast.LENGTH_SHORT).show();
 
-        setButtons();
+        setListeners();
 
     }
 
-    private void setButtons(){
+    private void setListeners(){
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Login",Toast.LENGTH_SHORT).show();
+
             }
         });
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Register",Toast.LENGTH_SHORT).show();
+
             }
         });
     }
