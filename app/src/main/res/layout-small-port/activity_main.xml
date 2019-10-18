@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,12 +12,11 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        >
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="100dp"
             android:background="@color/colorPrimaryDark"
             android:elevation="2dp"
             android:orientation="vertical">
@@ -31,14 +29,14 @@
 
                 <TextView
                     android:id="@+id/textView"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:gravity="center"
                     android:text="@string/app_name"
                     android:textColor="@color/textWhite"
                     android:textColorLink="@color/textWhite"
-                    android:textSize="@dimen/text_heading1"
+                    android:textSize="@dimen/text_standard"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -62,7 +60,7 @@
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="50dp" />
+                    android:layout_height="@dimen/StandardSpacing" />
 
                 <Button
                     android:id="@+id/login"
@@ -72,9 +70,7 @@
                     android:text="@string/login"
                     android:textSize="@dimen/text_standard" />
 
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="24dp" />
+                <Space android:layout_width="match_parent" />
 
                 <Button
                     android:id="@+id/register"
@@ -92,5 +88,4 @@
         </ScrollView>
 
     </LinearLayout>
-
 </android.support.constraint.ConstraintLayout>
