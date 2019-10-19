@@ -91,28 +91,43 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-                    <EditText
-                        android:id="@+id/nameText"
-                        android:layout_width="0dp"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/firstName"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:autofillHints=""
+                            android:ems="10"
+                            android:hint="@string/firstName"
+                            android:inputType="textPersonName" />
+
+                        <EditText
+                            android:id="@+id/lastName"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:autofillHints=""
+                            android:ems="10"
+                            android:hint="@string/lastName"
+                            android:inputType="textPersonName" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/nameValidationText"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:autofillHints=""
-                        android:ems="10"
-                        android:hint="@string/firstName"
-                        android:inputType="textPersonName" />
-
-                    <EditText
-                        android:id="@+id/nameText2"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:autofillHints=""
-                        android:ems="10"
-                        android:hint="@string/lastName"
-                        android:inputType="textPersonName" />
-
+                        android:text="@string/nameValidation"
+                        android:textColor="@color/textWarn"
+                        android:visibility="gone" />
                 </LinearLayout>
 
                 <Space
@@ -195,6 +210,14 @@
                         android:hint="@string/retypePassword"
                         android:inputType="textPassword" />
 
+                    <TextView
+                        android:id="@+id/reTypePasswordValidationText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/passwordsMustMatch"
+                        android:textColor="@color/textWarn"
+                        android:visibility="gone" />
+
                 </LinearLayout>
 
                 <Space
@@ -202,7 +225,7 @@
                     android:layout_height="50dp" />
 
                 <Button
-                    android:id="@+id/login"
+                    android:id="@+id/register"
                     style="@style/Widget.AppCompat.Button.Colored"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

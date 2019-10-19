@@ -19,4 +19,6 @@
     <string name="retypePassword">Retype password</string>
     <string name="firstName">First Name</string>
     <string name="lastName">Last Name</string>
+    <string name="nameValidation">Must be a valid name</string>
+    <string name="passwordsMustMatch">Passwords must match</string>
 </resources>
