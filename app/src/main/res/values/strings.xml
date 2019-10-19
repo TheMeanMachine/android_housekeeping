@@ -16,4 +16,7 @@
     <string name="passOkay">Okay</string>
     <string name="passStrong">Strong</string>
     <string name="submit">SUBMIT</string>
+    <string name="retypePassword">Retype password</string>
+    <string name="firstName">First Name</string>
+    <string name="lastName">Last Name</string>
 </resources>
