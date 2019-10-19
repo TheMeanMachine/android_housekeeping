@@ -15,4 +15,5 @@
     <string name="passWeak">Weak</string>
     <string name="passOkay">Okay</string>
     <string name="passStrong">Strong</string>
+    <string name="submit">SUBMIT</string>
 </resources>
