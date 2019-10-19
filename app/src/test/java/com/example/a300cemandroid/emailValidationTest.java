@@ -6,6 +6,8 @@ import static com.example.a300cemandroid.emailValidation.isEmail;
 import static org.junit.Assert.*;
 
 public class emailValidationTest {
+
+    //isEmail
     @Test
     public void isEmail_emptyString() {
         String testString = "";
