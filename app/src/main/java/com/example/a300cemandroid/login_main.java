@@ -16,10 +16,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class login_main extends AppCompatActivity {
     private EditText password;
@@ -34,8 +30,9 @@ public class login_main extends AppCompatActivity {
 
     private Button forgotDetails;
 
+    private passwordValidation passValidator = new passwordValidation();
+    private emailValidation emailValidator = new emailValidation();
 
-    private static int passwordMinimumLength = 8;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +62,7 @@ public class login_main extends AppCompatActivity {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     String email_string = email.getText().toString();
-                    if(isEmail(email_string)){
+                    if(emailValidator.isEmail(email_string)){
                         emailValidation.setVisibility(View.GONE);
                     }else{
                         emailValidation.setVisibility(View.VISIBLE);
@@ -80,7 +77,7 @@ public class login_main extends AppCompatActivity {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     String passwordString = password.getText().toString();
-                    if(passwordStrength(passwordString) > 1 || passwordString.length() == 0){
+                    if(passValidator.passwordStrength(passwordString) > 1 || passwordString.length() == 0){
                         passwordValidation.setVisibility(View.GONE);
                     }else{
                         passwordValidation.setVisibility(View.VISIBLE);
@@ -95,7 +92,7 @@ public class login_main extends AppCompatActivity {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 String passwordString = password.getText().toString();
 
-                if(passwordStrength(passwordString) > 1 || start <= passwordMinimumLength){
+                if(passValidator.passwordStrength(passwordString) > 1 || start <= passValidator.getPasswordMinimumLength()){
                     passwordValidation.setVisibility(View.GONE);
                 }else{
                     passwordValidation.setVisibility(View.VISIBLE);
@@ -105,7 +102,7 @@ public class login_main extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String passText = s.toString();
-                int strength = passwordStrength(passText);
+                int strength = passValidator.passwordStrength(passText);
 
                 passwordStrengthBar.setProgress(strength);
 
@@ -160,35 +157,6 @@ public class login_main extends AppCompatActivity {
         }
     }
 
-    public static int passwordStrength(String password){
-        int len = password.length();
-        Boolean strong = (len >= 12);
-        Boolean okay = (len >= passwordMinimumLength && len < 12);
-        Boolean weak = (len > 0 && len < passwordMinimumLength);
-        Boolean hasSymbol = containsSymbol(password);
 
-        if((weak || okay || strong) && !hasSymbol) {
-            return 1;
-        }else if(okay && hasSymbol){
-            return 2;
-        }else if(strong && hasSymbol){
-            return 3;
-        }
 
-        return 0;
-    }
-
-    public static boolean containsSymbol(String target){
-        String expression = "[$&+,:;=?@#|'<>.^*()%!-]";
-        Pattern pattern = Pattern.compile(expression);
-        Matcher matcher = pattern.matcher(target);
-        return matcher.find();
-    }
-
-    public static boolean isEmail(String email) {
-        String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
-        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(email);
-        return matcher.matches();
-    }
 }
