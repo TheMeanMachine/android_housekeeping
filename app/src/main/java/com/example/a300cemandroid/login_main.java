@@ -34,6 +34,9 @@ public class login_main extends AppCompatActivity {
 
     private Button forgotDetails;
 
+
+    private static int passwordMinimumLength = 8;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +80,7 @@ public class login_main extends AppCompatActivity {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     String passwordString = password.getText().toString();
-                    if(passwordStrength(passwordString) != 0){
+                    if(passwordStrength(passwordString) > 1 || passwordString.length() == 0){
                         passwordValidation.setVisibility(View.GONE);
                     }else{
                         passwordValidation.setVisibility(View.VISIBLE);
@@ -89,7 +92,15 @@ public class login_main extends AppCompatActivity {
 
         password.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                String passwordString = password.getText().toString();
+
+                if(passwordStrength(passwordString) > 1 || start <= passwordMinimumLength){
+                    passwordValidation.setVisibility(View.GONE);
+                }else{
+                    passwordValidation.setVisibility(View.VISIBLE);
+                }
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -151,11 +162,16 @@ public class login_main extends AppCompatActivity {
 
     public static int passwordStrength(String password){
         int len = password.length();
-        if(len > 0 && len < 8) {
+        Boolean strong = (len >= 12);
+        Boolean okay = (len >= passwordMinimumLength && len < 12);
+        Boolean weak = (len > 0 && len < passwordMinimumLength);
+        Boolean hasSymbol = containsSymbol(password);
+
+        if((weak || okay || strong) && !hasSymbol) {
             return 1;
-        }else if((len >= 8 && len < 12) && containsSymbol(password)){
+        }else if(okay && hasSymbol){
             return 2;
-        }else if(len >= 12 && containsSymbol(password)){
+        }else if(strong && hasSymbol){
             return 3;
         }
 
