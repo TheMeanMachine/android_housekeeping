@@ -27,6 +27,8 @@
     <string name="title_account">Account</string>
     <string name="navigationGraph">\@navigation/navigationGraph</string>
     <string name="newPhoto" >New photo</string>
+    <string name="logout">LOGOUT</string>
+    <string name="deleteAccount">DELETE ACCOUNT</string>
 
 
 </resources>
