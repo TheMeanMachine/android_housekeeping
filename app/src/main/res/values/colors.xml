@@ -7,4 +7,5 @@
     <color name="textBlack">#000000</color>
     <color name="textGrey">#6c737e</color>
     <color name="textWarn">#ff6961</color>
+    <color name="colorPrimaryShaded">#C1C4C8</color>
 </resources>

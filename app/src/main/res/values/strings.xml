@@ -21,4 +21,11 @@
     <string name="lastName">Last Name</string>
     <string name="nameValidation">Must be a valid name</string>
     <string name="passwordsMustMatch">Passwords must match</string>
+    <string name="title_activity_main_screen">main_screen</string>
+    <string name="title_houses">Houses</string>
+    <string name="title_tasks">Tasks</string>
+    <string name="title_account">Account</string>
+    <string name="navigationGraph">\@navigation/navigationGraph</string>
+
+
 </resources>
