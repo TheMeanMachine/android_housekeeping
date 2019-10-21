@@ -7,26 +7,20 @@
 
     <fragment
         android:id="@+id/navigation_tasks"
-        android:name="com.example.a300cemandroid.ui.houses.housesFragment"
+        android:name="com.example.a300cemandroid.ui.tasks.tasksFragment"
 
-        tools:layout="@layout/fragment_house" >
-        <action
-            android:id="@+id/action_navigation_tasks_to_navigation_account2"
-            app:destination="@id/navigation_account" />
-        <action
-            android:id="@+id/action_navigation_tasks_to_navigation_house2"
-            app:destination="@id/navigation_houses" />
-    </fragment>
+        tools:layout="@layout/fragment_tasks" />
+
 
     <fragment
         android:id="@+id/navigation_account"
-        android:name="com.example.a300cemandroid.ui.tasks.tasksFragment"
+        android:name="com.example.a300cemandroid.ui.account.accountFragment"
 
         tools:layout="@layout/fragment_account" />
 
     <fragment
         android:id="@+id/navigation_houses"
-        android:name="com.example.a300cemandroid.ui.account.accountFragment"
+        android:name="com.example.a300cemandroid.ui.houses.housesFragment"
 
-        tools:layout="@layout/fragment_tasks" />
+        tools:layout="@layout/fragment_house" />
 </navigation>
