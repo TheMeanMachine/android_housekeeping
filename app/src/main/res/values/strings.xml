@@ -29,6 +29,10 @@
     <string name="newPhoto" >New photo</string>
     <string name="logout">LOGOUT</string>
     <string name="deleteAccount">DELETE ACCOUNT</string>
+    <string name="select">SELECT</string>
+    <string name="deleteHouse">DELETE HOUSE</string>
+    <string name="name">Name</string>
+    <string name="houseHead">Head of House</string>
 
 
 </resources>
