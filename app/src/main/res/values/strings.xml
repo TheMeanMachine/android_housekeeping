@@ -33,6 +33,13 @@
     <string name="deleteHouse">DELETE HOUSE</string>
     <string name="name">Name</string>
     <string name="houseHead">Head of House</string>
+    <string name="members">Members</string>
+    <string name="inviteMember">Invite Member</string>
+    <string name="selecthouse">SELECT HOUSE</string>
+    <string name="tasksremaining">Tasks Remaining</string>
+    <string name="location">LOCATION</string>
+    <string name="tasksTotal">Total tasks</string>
+    <string name="totalTasks">Total Tasks</string>
 
 
 </resources>
