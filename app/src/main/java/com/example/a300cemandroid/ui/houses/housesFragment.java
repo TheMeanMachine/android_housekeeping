@@ -1,7 +1,7 @@
 package com.example.a300cemandroid.ui.houses;
 
 import android.arch.lifecycle.Observer;
-import android.database.DataSetObserver;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -12,22 +12,19 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.arch.lifecycle.ViewModelProviders;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.a300cemandroid.AppController;
 import com.example.a300cemandroid.House;
 import com.example.a300cemandroid.R;
 import com.example.a300cemandroid.User;
 import com.example.a300cemandroid.mainScreenController;
-
-import org.w3c.dom.Text;
+import com.example.a300cemandroid.newHouse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +43,7 @@ public class housesFragment extends Fragment{
     private Spinner membersDrop;
 
     private TextView headOfHouseVal;
-    private TextView tasksRemainingVal;
+    private TextView tasksCompletedVal;
     private TextView totalTasksVal;
 
     private ProgressBar taskProgress;
@@ -76,7 +73,7 @@ public class housesFragment extends Fragment{
 
 
         headOfHouseVal = (TextView) view.findViewById(R.id.headOfHouseValue);
-        tasksRemainingVal = (TextView) view.findViewById(R.id.tasksRemainingValue);
+        tasksCompletedVal = (TextView) view.findViewById(R.id.tasksCompletedValue);
         totalTasksVal = (TextView) view.findViewById(R.id.totalTasksValue);
 
         taskProgress = (ProgressBar) view.findViewById(R.id.taskProgress);
@@ -107,7 +104,7 @@ public class housesFragment extends Fragment{
         viewModel.getTasksRemaining().observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(@Nullable Integer i) {
-                tasksRemainingVal.setText(i.toString());
+                tasksCompletedVal.setText(i.toString());
                 taskProgress.setProgress(i);
             }
         });
@@ -124,7 +121,18 @@ public class housesFragment extends Fragment{
             @Override
             public void onChanged(@Nullable ArrayList<House> h) {
                 houses = h;
-                setSpinners();
+
+                //Houses
+                List<String> houseNames = new ArrayList<String>();
+                for(Integer i =0; i < houses.size(); i++){
+                    houseNames.add(houses.get(i).getHouseName());
+                }
+                ArrayAdapter<String> adapter;
+                adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, houseNames);
+
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                housesDrop.setAdapter(adapter);
             }
         });
 
@@ -132,34 +140,32 @@ public class housesFragment extends Fragment{
             @Override
             public void onChanged(@Nullable ArrayList<User> m) {
                 members = m;
-                setSpinners();
+
+                //User
+                List<String> userNames = new ArrayList<String>();
+                for(Integer i = 0; i < members.size(); i++){
+                    userNames.add(members.get(i).getFullName());
+                }
+                ArrayAdapter<String> adapter;
+                adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, userNames);
+
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                membersDrop.setAdapter(adapter);
             }
         });
 
     }
 
-    public void setSpinners(){
 
-        //Houses
-        List<String> houseNames = new ArrayList<String>();
-        for(Integer i =0; i < houses.size(); i++){
-            houseNames.add(houses.get(i).getHouseName());
-        }
-        ArrayAdapter<String> adapter;
-        adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, houseNames);
-
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        housesDrop.setAdapter(adapter);
-
-
-    }
 
     public void setListeners(){
         faBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent myIntent = new Intent(v.getContext(), newHouse.class);
 
+                startActivity(myIntent);
             }
         });
 

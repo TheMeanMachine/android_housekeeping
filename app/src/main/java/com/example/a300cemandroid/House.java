@@ -21,7 +21,19 @@ public class House {
         this.tasks = tasks;
     }
 
+    public Integer countCompletedTasks(){
+        Integer counter = 0;
+        for(Integer i = 0; i < this.tasks.size(); i++){
+            if(this.tasks.get(i).isCompleted()){
+                counter++;
+            }
+        }
+        return counter;
+    }
 
+    public Integer countTasks(){
+        return this.tasks.size();
+    }
 
 
     public void setHouseName(String name){

@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import com.example.a300cemandroid.House;
+import com.example.a300cemandroid.Task;
 import com.example.a300cemandroid.User;
 
 import java.util.ArrayList;
@@ -21,18 +22,12 @@ public class housesViewModel extends ViewModel {
     private MutableLiveData<ArrayList<User>> users = new MutableLiveData<>();
 
     private MutableLiveData<Integer> totalTasks = new MutableLiveData<>();
-    private MutableLiveData<Integer> tasksRemaining = new MutableLiveData<>();
+    private MutableLiveData<Integer> tasksCompleted = new MutableLiveData<>();
     private MutableLiveData<String> headOfHouseName = new MutableLiveData<>();
 
     public housesViewModel(){
         ArrayList<House> h = new ArrayList<House>();
-        House home = new House();
-        home.setHouseName("1");
-        h.add(home);
 
-        home = new House();
-        home.setHouseName("2");
-        h.add(home);
 
         setHouses(h);
 
@@ -52,7 +47,7 @@ public class housesViewModel extends ViewModel {
         users.setValue(u);
 
         totalTasks.setValue(0);
-        tasksRemaining.setValue(0);
+        tasksCompleted.setValue(0);
         headOfHouseName.setValue("");
     }
 
@@ -104,11 +99,11 @@ public class housesViewModel extends ViewModel {
     }
 
     public MutableLiveData<Integer> getTasksRemaining(){
-        return tasksRemaining;
+        return tasksCompleted;
     }
 
-    public void setTasksRemaining(Integer tasks){
-        tasksRemaining.setValue(tasks);
+    public void setTasksCompleted(Integer tasks){
+        tasksCompleted.setValue(tasks);
     }
 
 

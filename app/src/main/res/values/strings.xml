@@ -26,7 +26,7 @@
     <string name="title_tasks">Tasks</string>
     <string name="title_account">Account</string>
     <string name="navigationGraph">\@navigation/navigationGraph</string>
-    <string name="newPhoto" >New photo</string>
+    <string name="newPhoto">New photo</string>
     <string name="logout">LOGOUT</string>
     <string name="deleteAccount">DELETE ACCOUNT</string>
     <string name="select">SELECT</string>
@@ -40,6 +40,8 @@
     <string name="location">LOCATION</string>
     <string name="tasksTotal">Total tasks</string>
     <string name="totalTasks">Total Tasks</string>
+    <string name="tasksCompleted" />
+    <string name="taskCompleted">Tasks Completed</string>
 
 
 </resources>

@@ -227,13 +227,13 @@
                                 android:id="@+id/textView10"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="@string/tasksremaining" />
+                                android:text="@string/taskCompleted" />
 
                             <TextView
-                                android:id="@+id/tasksRemainingValue"
+                                android:id="@+id/tasksCompletedValue"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="@string/tasksremaining"
+                                android:text="@string/taskCompleted"
                                 android:textColor="@color/textBlack" />
                         </LinearLayout>
 

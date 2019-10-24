@@ -21,6 +21,8 @@ public class AppController {
 
     public User getUser(Integer id){
         User u = new User();
+        u.setFirstName("Pizza");
+        u.setLastName("Man");
         //do get user logic later
         return u;
     }
