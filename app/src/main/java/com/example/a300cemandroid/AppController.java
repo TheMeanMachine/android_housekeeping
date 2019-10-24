@@ -18,4 +18,10 @@ public class AppController {
         }
         return instance;
     }
+
+    public User getUser(Integer id){
+        User u = new User();
+        //do get user logic later
+        return u;
+    }
 }

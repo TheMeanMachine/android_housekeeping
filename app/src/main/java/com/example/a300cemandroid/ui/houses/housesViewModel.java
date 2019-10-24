@@ -26,10 +26,18 @@ public class housesViewModel extends ViewModel {
 
     public housesViewModel(){
         ArrayList<House> h = new ArrayList<House>();
-        houses.setValue(h);
+        House home = new House();
+        home.setHouseName("1");
+        h.add(home);
+
+        home = new House();
+        home.setHouseName("2");
+        h.add(home);
+
+        setHouses(h);
 
         ArrayList<User> u = new ArrayList<User>();
-        users.setValue(u);
+        setUsers(u);
     }
     //Singleton pattern applied
     public static housesViewModel getInstance(){
@@ -37,6 +45,15 @@ public class housesViewModel extends ViewModel {
             instance = new housesViewModel();
         }
         return instance;
+    }
+
+    public void clearData(){
+        ArrayList<User> u = new ArrayList<User>();
+        users.setValue(u);
+
+        totalTasks.setValue(0);
+        tasksRemaining.setValue(0);
+        headOfHouseName.setValue("");
     }
 
     public LiveData<String> getHeadOfHouseName(){
@@ -59,6 +76,10 @@ public class housesViewModel extends ViewModel {
 
     }
 
+    public void setHouses(ArrayList<House> h){
+        houses.setValue(h);
+    }
+
     public MutableLiveData<ArrayList<User>> getUsers(){
         return users;
     }
@@ -67,6 +88,10 @@ public class housesViewModel extends ViewModel {
         ArrayList<User> u = users.getValue();
         u.add(user);
 
+        users.setValue(u);
+    }
+
+    public void setUsers(ArrayList<User> u){
         users.setValue(u);
     }
 

@@ -25,6 +25,7 @@ import com.example.a300cemandroid.AppController;
 import com.example.a300cemandroid.House;
 import com.example.a300cemandroid.R;
 import com.example.a300cemandroid.User;
+import com.example.a300cemandroid.mainScreenController;
 
 import org.w3c.dom.Text;
 
@@ -54,6 +55,7 @@ public class housesFragment extends Fragment{
     private List<User> members;
 
     private static AppController appController = AppController.getInstance();
+    private static mainScreenController msController = mainScreenController.getInstance();
     private housesViewModel viewModel = housesViewModel.getInstance();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -157,12 +159,7 @@ public class housesFragment extends Fragment{
         faBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                House newHouse = new House();
-                newHouse.setHouseName("Hello!");
 
-                viewModel.addHouse(newHouse);
-
-                //viewModel.setTasksRemaining(2);
             }
         });
 
@@ -190,16 +187,17 @@ public class housesFragment extends Fragment{
         housesDrop.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+                msController.newHouseSelected(houses.get(position));
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                msController.clearFields_Houses();
             }
         });
 
     }
+
 
     public void setFields(){
 
