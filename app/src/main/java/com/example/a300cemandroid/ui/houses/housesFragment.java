@@ -20,6 +20,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.arch.lifecycle.ViewModelProviders;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.a300cemandroid.AppController;
 import com.example.a300cemandroid.House;
@@ -176,7 +177,16 @@ public class housesFragment extends Fragment{
         locationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Integer sel = (Integer) housesDrop.getSelectedItemPosition();
+                if(sel > 0){
+                    Intent myIntent = new Intent(v.getContext(), inviteMember.class);
+                    Bundle extras = myIntent.getExtras();
+                    extras.putInt("longitude", viewModel.getLongitude());
+                    extras.putInt("latitude", viewModel.getLatitude());
+                    startActivity(myIntent);
+                }else{
+                    Toast.makeText(getContext(), "No house selected", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -191,9 +201,18 @@ public class housesFragment extends Fragment{
             @Override
             public void onClick(View v) {
 
-                Intent myIntent = new Intent(v.getContext(), inviteMember.class);
 
-                startActivity(myIntent);
+                Integer sel = (Integer) housesDrop.getSelectedItemPosition();
+                if(sel > 0){
+                    Intent myIntent = new Intent(v.getContext(), inviteMember.class);
+                    Bundle extras = myIntent.getExtras();
+                    extras.putInt("houseID", sel);
+                    startActivity(myIntent);
+                }else{
+                    Toast.makeText(getContext(), "No house selected", Toast.LENGTH_SHORT).show();
+                }
+
+
 
             }
         });
@@ -201,7 +220,19 @@ public class housesFragment extends Fragment{
         housesDrop.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                msController.newHouseSelected(houses.get(position));
+
+
+
+                if(position > 0){
+                    House selHouse = houses.get(position);
+                    if(selHouse != null){
+                        msController.newHouseSelected(selHouse);
+                    }
+
+                }else{
+                    Toast.makeText(getContext(), "No house selected", Toast.LENGTH_SHORT).show();
+                }
+
             }
 
             @Override
@@ -212,7 +243,18 @@ public class housesFragment extends Fragment{
 
         selectBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v){
+                Integer pos = housesDrop.getSelectedItemPosition();
+                if(pos > 0){
+                    House selHouse = houses.get(pos);
+                    if(selHouse != null){
+                        msController.selectHouse(selHouse);
+                    }
+
+                }else{
+                    Toast.makeText(getContext(), "No house selected", Toast.LENGTH_SHORT).show();
+                }
+
 
             }
         });
@@ -223,16 +265,20 @@ public class housesFragment extends Fragment{
         new AlertDialog.Builder(getContext())
                 .setTitle("Delete house")
                 .setMessage("Are you sure you want to delete this house?")
-
-                // Specifying a listener allows you to take an action before dismissing the dialog.
-                // The dialog is automatically dismissed when a dialog button is clicked.
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        // Continue with delete operation
+                        Integer pos = housesDrop.getSelectedItemPosition();
+                        if(pos > 0){
+                            House selHouse = houses.get(pos);
+                            if(selHouse != null){
+                                msController.deleteHouse(selHouse);
+                            }
+
+                        }else{
+                            Toast.makeText(getContext(), "No house selected", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 })
-
-                // A null listener allows the button to dismiss the dialog and take no further action.
                 .setNegativeButton(android.R.string.no, null)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();

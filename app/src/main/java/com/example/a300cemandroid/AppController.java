@@ -4,8 +4,6 @@ import java.util.List;
 
 public class AppController {
     private static AppController instance = null;
-    private List<House> houses;
-    private House selectedHouse;
 
 
     private AppController(){

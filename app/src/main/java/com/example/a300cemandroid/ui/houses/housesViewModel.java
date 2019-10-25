@@ -25,6 +25,30 @@ public class housesViewModel extends ViewModel {
     private MutableLiveData<Integer> tasksCompleted = new MutableLiveData<>();
     private MutableLiveData<String> headOfHouseName = new MutableLiveData<>();
 
+    private Integer Longitude = 0;
+    private Integer Latitude = 0;
+
+    public Integer getLongitude() {
+        return Longitude;
+    }
+
+    public void setLongitude(Integer longitude) {
+        Longitude = longitude;
+    }
+
+    public Integer getLatitude() {
+        return Latitude;
+    }
+
+    public void setLatitude(Integer latitude) {
+        Latitude = latitude;
+    }
+
+
+
+    private House selectedHouse;
+
+
     public housesViewModel(){
         ArrayList<House> h = new ArrayList<House>();
 
@@ -40,6 +64,14 @@ public class housesViewModel extends ViewModel {
             instance = new housesViewModel();
         }
         return instance;
+    }
+
+    public House getSelectedHouse() {
+        return selectedHouse;
+    }
+
+    public void setSelectedHouse(House selectedHouse) {
+        this.selectedHouse = selectedHouse;
     }
 
     public void clearData(){
