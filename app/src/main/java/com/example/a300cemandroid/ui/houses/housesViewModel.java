@@ -1,11 +1,15 @@
 package com.example.a300cemandroid.ui.houses;
 
+import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModel;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
+import com.example.a300cemandroid.AppController;
 import com.example.a300cemandroid.House;
 import com.example.a300cemandroid.Task;
 import com.example.a300cemandroid.User;
@@ -25,6 +29,28 @@ public class housesViewModel extends ViewModel {
     private MutableLiveData<Integer> totalTasks = new MutableLiveData<>();
     private MutableLiveData<Integer> tasksCompleted = new MutableLiveData<>();
     private MutableLiveData<String> headOfHouseName = new MutableLiveData<>();
+
+    private House selectedHouse;
+
+    private AppController app = AppController.getInstance();
+
+    public housesViewModel(){
+        ArrayList<House> h = new ArrayList<House>();
+
+
+        setHouses(h);
+
+        ArrayList<User> u = new ArrayList<User>();
+        setUsers(u);
+    }
+    //Singleton pattern applied
+    public static housesViewModel getInstance(){
+        if(instance == null){
+            instance = new housesViewModel();
+        }
+        return instance;
+    }
+
 
     public MutableLiveData<URL> getHeadOfHouseImg() {
         return headOfHouseImg;
@@ -57,25 +83,10 @@ public class housesViewModel extends ViewModel {
 
 
 
-    private House selectedHouse;
 
 
-    public housesViewModel(){
-        ArrayList<House> h = new ArrayList<House>();
 
 
-        setHouses(h);
-
-        ArrayList<User> u = new ArrayList<User>();
-        setUsers(u);
-    }
-    //Singleton pattern applied
-    public static housesViewModel getInstance(){
-        if(instance == null){
-            instance = new housesViewModel();
-        }
-        return instance;
-    }
 
     public House getSelectedHouse() {
         return selectedHouse;
@@ -148,8 +159,6 @@ public class housesViewModel extends ViewModel {
     public void setTasksCompleted(Integer tasks){
         tasksCompleted.setValue(tasks);
     }
-
-
 
 
 

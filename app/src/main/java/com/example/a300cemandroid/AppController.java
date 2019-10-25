@@ -1,10 +1,13 @@
 package com.example.a300cemandroid;
 
+import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.ViewModel;
+
 import java.util.List;
 
-public class AppController {
+public class AppController extends ViewModel {
     private static AppController instance = null;
-
+    private MutableLiveData<Integer> one = new MutableLiveData<>();
 
     private AppController(){
 
@@ -23,5 +26,14 @@ public class AppController {
         u.setLastName("Man");
         //do get user logic later
         return u;
+    }
+
+
+    public MutableLiveData<Integer> getOne() {
+        return one;
+    }
+
+    public void setOne(MutableLiveData<Integer> one) {
+        this.one = one;
     }
 }
