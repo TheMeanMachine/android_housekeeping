@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".newHouse">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -28,28 +27,6 @@
                 android:layout_height="0dp"
                 android:layout_weight="2">
 
-
-                <android.support.constraint.ConstraintLayout
-                    android:layout_width="50dp"
-                    android:layout_height="0dp"
-                    android:layout_marginEnd="@dimen/StandardSpacingHalf"
-                    android:layout_marginRight="@dimen/StandardSpacingHalf"
-                    android:padding="4dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <ImageView
-                        android:id="@+id/imageView3"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:scaleType="centerInside"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/app_logo" />
-                </android.support.constraint.ConstraintLayout>
 
                 <TextView
                     android:id="@+id/textView"
@@ -156,7 +133,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:gravity="end"
-                            android:orientation="vertical"/>
+                            android:orientation="vertical" />
 
                     </LinearLayout>
 

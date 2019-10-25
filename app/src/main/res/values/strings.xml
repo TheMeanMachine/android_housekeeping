@@ -45,6 +45,12 @@
     <string name="inviteMemberUpper">INVITE MEMBER</string>
     <string name="cancel">CANCEL</string>
     <string name="newHouse">NEW HOUSE</string>
+    <string name="newHouse_lower">New House</string>
+    <string name="houseName">House Name</string>
+    <string name="addLocation">Add Location</string>
+    <string name="add">ADD</string>
+    <string name="finish">FINISH</string>
+    <string name="mustBeValidHouseName">Must be a valid house name</string>
 
 
 </resources>
