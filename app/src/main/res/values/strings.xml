@@ -44,6 +44,7 @@
     <string name="taskCompleted">Tasks Completed</string>
     <string name="inviteMemberUpper">INVITE MEMBER</string>
     <string name="cancel">CANCEL</string>
+    <string name="newHouse">NEW HOUSE</string>
 
 
 </resources>
