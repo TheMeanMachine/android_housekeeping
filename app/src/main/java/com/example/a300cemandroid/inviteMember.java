@@ -3,8 +3,11 @@ package com.example.a300cemandroid;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Spinner;
 
-public class newHouse extends AppCompatActivity {
+public class inviteMember extends AppCompatActivity {
+
+    private Spinner usersDrop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -13,6 +16,12 @@ public class newHouse extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
 
-        setContentView(R.layout.activity_new_house);
+        setContentView(R.layout.activity_invite_member);
+
+
+
+        usersDrop = (Spinner) findViewById(R.id.usersDropdown);
     }
+
+
 }

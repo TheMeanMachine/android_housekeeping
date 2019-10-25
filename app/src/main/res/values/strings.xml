@@ -42,6 +42,8 @@
     <string name="totalTasks">Total Tasks</string>
     <string name="tasksCompleted" />
     <string name="taskCompleted">Tasks Completed</string>
+    <string name="inviteMemberUpper">INVITE MEMBER</string>
+    <string name="cancel">CANCEL</string>
 
 
 </resources>

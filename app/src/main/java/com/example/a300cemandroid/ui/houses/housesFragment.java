@@ -1,10 +1,12 @@
 package com.example.a300cemandroid.ui.houses;
 
 import android.arch.lifecycle.Observer;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +25,7 @@ import com.example.a300cemandroid.AppController;
 import com.example.a300cemandroid.House;
 import com.example.a300cemandroid.R;
 import com.example.a300cemandroid.User;
+import com.example.a300cemandroid.inviteMember;
 import com.example.a300cemandroid.mainScreenController;
 import com.example.a300cemandroid.newHouse;
 
@@ -38,6 +41,7 @@ public class housesFragment extends Fragment{
     private FloatingActionButton faBtn;
     private Button addMemberBtn;
     private Button locationBtn;
+    private Button selectBtn;
     private Button deleteBtn;
     private Spinner housesDrop;
     private Spinner membersDrop;
@@ -70,7 +74,7 @@ public class housesFragment extends Fragment{
         deleteBtn = (Button) view.findViewById(R.id.deleteHouseBtn);
         housesDrop = (Spinner) view.findViewById(R.id.housesDropdown);
         membersDrop = (Spinner) view.findViewById(R.id.membersDrop);
-
+        selectBtn = (Button) view.findViewById(R.id.selectBtn);
 
         headOfHouseVal = (TextView) view.findViewById(R.id.headOfHouseValue);
         tasksCompletedVal = (TextView) view.findViewById(R.id.tasksCompletedValue);
@@ -179,13 +183,17 @@ public class housesFragment extends Fragment{
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                deleteAlert();
             }
         });
 
         addMemberBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Intent myIntent = new Intent(v.getContext(), inviteMember.class);
+
+                startActivity(myIntent);
 
             }
         });
@@ -202,11 +210,33 @@ public class housesFragment extends Fragment{
             }
         });
 
+        selectBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
     }
 
+    public void deleteAlert(){
+        new AlertDialog.Builder(getContext())
+                .setTitle("Delete house")
+                .setMessage("Are you sure you want to delete this house?")
 
-    public void setFields(){
+                // Specifying a listener allows you to take an action before dismissing the dialog.
+                // The dialog is automatically dismissed when a dialog button is clicked.
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Continue with delete operation
+                    }
+                })
 
+                // A null listener allows the button to dismiss the dialog and take no further action.
+                .setNegativeButton(android.R.string.no, null)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
+
 
 }
