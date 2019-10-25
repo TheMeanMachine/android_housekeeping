@@ -24,6 +24,7 @@ public class AppController extends ViewModel {
         User u = new User();
         u.setFirstName("Pizza");
         u.setLastName("Man");
+        u.setImageURL("https://i.stack.imgur.com/GsDIl.jpg");
         //do get user logic later
         return u;
     }

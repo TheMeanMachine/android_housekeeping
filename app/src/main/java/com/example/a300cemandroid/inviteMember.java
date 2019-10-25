@@ -43,6 +43,7 @@ public class inviteMember extends AppCompatActivity {
         usersDrop = (Spinner) findViewById(R.id.usersDropdown);
 
         setListeners();
+        setObservers();
     }
 
     public void setListeners(){

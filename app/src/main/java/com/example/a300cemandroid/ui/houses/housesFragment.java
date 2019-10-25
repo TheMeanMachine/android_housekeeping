@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -29,6 +30,7 @@ import com.example.a300cemandroid.AppController;
 import com.example.a300cemandroid.House;
 import com.example.a300cemandroid.R;
 import com.example.a300cemandroid.User;
+
 import com.example.a300cemandroid.inviteMember;
 import com.example.a300cemandroid.mainScreenController;
 import com.example.a300cemandroid.newHouse;
@@ -114,18 +116,10 @@ public class housesFragment extends Fragment{
             }
         });
 
-        viewModel.getHeadOfHouseImg().observe(this, new Observer<URL>() {
+        viewModel.getHeadOfHouseImg().observe(this, new Observer<Bitmap>() {
             @Override
-            public void onChanged(@Nullable URL url) {
-                Bitmap bitmap = null;
-                try {
-                    bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-                    headOfHouseImg.setImageBitmap(bitmap);
-                } catch (IOException e) {
-                    headOfHouseImg.setImageBitmap(null);
-                    e.printStackTrace();
-                }
-
+            public void onChanged(@Nullable Bitmap bitmap) {
+                headOfHouseImg.setImageBitmap(bitmap);
             }
         });
 
@@ -202,7 +196,7 @@ public class housesFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 Integer sel = (Integer) housesDrop.getSelectedItemPosition();
-                if(sel > 0){
+                if(housesDrop.getCount()  > 0){
                     Intent myIntent = new Intent(v.getContext(), inviteMember.class);
                     Bundle extras = myIntent.getExtras();
                     extras.putInt("longitude", viewModel.getLongitude());
@@ -224,13 +218,10 @@ public class housesFragment extends Fragment{
         addMemberBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-                Integer sel = (Integer) housesDrop.getSelectedItemPosition();
-                if(sel > 0){
+                if(housesDrop.getCount()  > 0){
                     Intent myIntent = new Intent(v.getContext(), inviteMember.class);
                     Bundle extras = myIntent.getExtras();
-                    extras.putInt("houseID", sel);
+                    extras.putInt("houseID", housesDrop.getSelectedItemPosition());
                     startActivity(myIntent);
                 }else{
                     Toast.makeText(getContext(), "No house selected", Toast.LENGTH_SHORT).show();
@@ -269,7 +260,7 @@ public class housesFragment extends Fragment{
             @Override
             public void onClick(View v){
                 Integer pos = housesDrop.getSelectedItemPosition();
-                if(pos > 0){
+                if(housesDrop.getCount() > 0){
                     House selHouse = houses.get(pos);
                     if(selHouse != null){
                         msController.selectHouse(selHouse);
@@ -292,7 +283,7 @@ public class housesFragment extends Fragment{
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         Integer pos = housesDrop.getSelectedItemPosition();
-                        if(pos > 0){
+                        if(housesDrop.getCount()  > 0){
                             House selHouse = houses.get(pos);
                             if(selHouse != null){
                                 msController.deleteHouse(selHouse);

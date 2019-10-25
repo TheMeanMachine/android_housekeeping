@@ -8,6 +8,7 @@ public class User {
     private String lastName;
     private String email;
     private URL imageURL;
+    private Integer ID;
 
     public User(){
         try {
@@ -49,8 +50,14 @@ public class User {
         return imageURL;
     }
 
-    public void setImageURL(URL imageURL) {
-        this.imageURL = imageURL;
+    public void setImageURL(String imageURL) {
+        URL u = null;
+        try {
+            u = new URL(imageURL);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        this.imageURL = u;
     }
 
 
