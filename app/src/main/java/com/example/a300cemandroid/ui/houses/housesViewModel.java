@@ -10,6 +10,7 @@ import com.example.a300cemandroid.House;
 import com.example.a300cemandroid.Task;
 import com.example.a300cemandroid.User;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +25,16 @@ public class housesViewModel extends ViewModel {
     private MutableLiveData<Integer> totalTasks = new MutableLiveData<>();
     private MutableLiveData<Integer> tasksCompleted = new MutableLiveData<>();
     private MutableLiveData<String> headOfHouseName = new MutableLiveData<>();
+
+    public MutableLiveData<URL> getHeadOfHouseImg() {
+        return headOfHouseImg;
+    }
+
+    public void setHeadOfHouseImg(URL headOfHouseImg) {
+        this.headOfHouseImg.setValue(headOfHouseImg);
+    }
+
+    private MutableLiveData<URL> headOfHouseImg = new MutableLiveData<>();
 
     private Integer Longitude = 0;
     private Integer Latitude = 0;

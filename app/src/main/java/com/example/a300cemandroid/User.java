@@ -1,5 +1,6 @@
 package com.example.a300cemandroid;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 
 public class User {
@@ -7,6 +8,14 @@ public class User {
     private String lastName;
     private String email;
     private URL imageURL;
+
+    public User(){
+        try {
+            imageURL = new URL("");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public String getFullName(){
         return firstName + " " + lastName;

@@ -3,6 +3,8 @@ package com.example.a300cemandroid.ui.houses;
 import android.arch.lifecycle.Observer;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -14,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.support.annotation.NonNull;
@@ -30,6 +33,8 @@ import com.example.a300cemandroid.inviteMember;
 import com.example.a300cemandroid.mainScreenController;
 import com.example.a300cemandroid.newHouse;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +55,8 @@ public class housesFragment extends Fragment{
     private TextView headOfHouseVal;
     private TextView tasksCompletedVal;
     private TextView totalTasksVal;
+
+    private ImageView headOfHouseImg;
 
     private ProgressBar taskProgress;
 
@@ -81,6 +88,8 @@ public class housesFragment extends Fragment{
         tasksCompletedVal = (TextView) view.findViewById(R.id.tasksCompletedValue);
         totalTasksVal = (TextView) view.findViewById(R.id.totalTasksValue);
 
+        headOfHouseImg = (ImageView) view.findViewById(R.id.headOfHouseImg);
+
         taskProgress = (ProgressBar) view.findViewById(R.id.taskProgress);
 
         setListeners();
@@ -102,6 +111,21 @@ public class housesFragment extends Fragment{
             @Override
             public void onChanged(@Nullable String s) {
                 headOfHouseVal.setText(s);
+            }
+        });
+
+        viewModel.getHeadOfHouseImg().observe(this, new Observer<URL>() {
+            @Override
+            public void onChanged(@Nullable URL url) {
+                Bitmap bitmap = null;
+                try {
+                    bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                    headOfHouseImg.setImageBitmap(bitmap);
+                } catch (IOException e) {
+                    headOfHouseImg.setImageBitmap(null);
+                    e.printStackTrace();
+                }
+
             }
         });
 
