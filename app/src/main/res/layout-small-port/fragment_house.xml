@@ -1,24 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/StandardSpacing"
-        android:layout_marginRight="@dimen/StandardSpacing"
-        android:layout_marginBottom="@dimen/StandardSpacing"
-        android:clickable="true"
-        android:elevation="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_plussymbol"
-        android:tint="@color/colorPrimary"
-        />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -42,28 +27,6 @@
                 android:layout_height="0dp"
                 android:layout_weight="2">
 
-
-                <android.support.constraint.ConstraintLayout
-                    android:layout_width="50dp"
-                    android:layout_height="0dp"
-                    android:layout_marginEnd="@dimen/StandardSpacingHalf"
-                    android:layout_marginRight="@dimen/StandardSpacingHalf"
-                    android:padding="4dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <ImageView
-                        android:id="@+id/imageView3"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:scaleType="centerInside"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/app_logo" />
-                </android.support.constraint.ConstraintLayout>
 
                 <TextView
                     android:id="@+id/textView"
@@ -215,12 +178,14 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:gravity="bottom">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
+                            android:gravity="bottom"
                             android:orientation="vertical">
 
                             <TextView
@@ -241,6 +206,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
+                            android:gravity="bottom"
                             android:orientation="vertical">
 
                             <TextView
@@ -298,28 +264,40 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/StandardSpacingHalf" />
 
+                    <Button
+                        android:id="@+id/inviteMemberBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="@string/inviteMember" />
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/StandardSpacingHalf" />
+
+                    <Button
+                        android:id="@+id/deleteHouseBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="1dp"
+                        android:text="@string/deleteHouse" />
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/StandardSpacingHalf" />
+
+                    <Button
+                        android:id="@+id/floatingActionButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="1dp"
+                        android:text="@string/newHouse" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center_horizontal"
                         android:orientation="horizontal">
 
-                        <Button
-                            android:id="@+id/inviteMemberBtn"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:text="@string/inviteMember" />
-
-                        <Space
-                            android:layout_width="@dimen/StandardSpacingHalf"
-                            android:layout_height="match_parent" />
-
-                        <Button
-                            android:id="@+id/deleteHouseBtn"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="1dp"
-                            android:text="@string/deleteHouse" />
                     </LinearLayout>
 
                     <Space

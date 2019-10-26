@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -14,11 +14,10 @@
         android:layout_marginBottom="@dimen/StandardSpacing"
         android:clickable="true"
         android:elevation="10dp"
+        android:tint="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_plussymbol"
-        android:tint="@color/colorPrimary"
-        />
+        app:srcCompat="@drawable/ic_plussymbol" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -135,8 +134,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="100dp"
+                    android:layout_marginRight="100dp"
                     android:gravity="center_horizontal"
                     android:orientation="vertical">
 
@@ -276,23 +275,31 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/StandardSpacingHalf" />
 
-                    <Button
-                        android:id="@+id/selectBtn"
-                        style="@style/Widget.AppCompat.Button.Colored"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/selecthouse" />
-
-                    <Space
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/StandardSpacingHalf" />
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal">
 
-                    <Button
-                        android:id="@+id/locationBtn"
-                        style="@style/Widget.AppCompat.Button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/location" />
+                        <Button
+                            android:id="@+id/selectBtn"
+                            style="@style/Widget.AppCompat.Button.Colored"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/selecthouse" />
+
+                        <Space
+                            android:layout_width="@dimen/StandardSpacingHalf"
+                            android:layout_height="match_parent" />
+
+                        <Button
+                            android:id="@+id/locationBtn"
+                            style="@style/Widget.AppCompat.Button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/location" />
+
+                    </LinearLayout>
 
                     <Space
                         android:layout_width="match_parent"
@@ -321,6 +328,10 @@
                             android:layout_marginBottom="1dp"
                             android:text="@string/deleteHouse" />
                     </LinearLayout>
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp" />
 
                     <Space
                         android:layout_width="match_parent"

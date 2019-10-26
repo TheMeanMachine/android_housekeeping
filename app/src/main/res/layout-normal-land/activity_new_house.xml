@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -56,7 +56,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:gravity="center"
-                    android:text="@string/title_account"
+                    android:text="@string/newHouse_lower"
                     android:textColor="@color/textWhite"
                     android:textColorLink="@color/textWhite"
                     android:textSize="@dimen/text_standard"
@@ -81,62 +81,6 @@
                 android:gravity="top"
                 android:orientation="vertical">
 
-                <android.support.constraint.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorPrimaryShaded"
-                    android:elevation="2dp"
-                    android:paddingTop="@dimen/StandardSpacingHalf">
-
-                    <android.support.constraint.ConstraintLayout
-                        android:id="@+id/constraintLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <ImageView
-                            android:id="@+id/imageView4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="0dp"
-                            android:scaleType="centerInside"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:srcCompat="@drawable/profile" />
-
-                    </android.support.constraint.ConstraintLayout>
-
-                    <Space
-                        android:id="@+id/space"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/StandardSpacing"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/constraintLayout" />
-
-                    <Button
-                        android:id="@+id/button2"
-                        style="@style/Widget.AppCompat.Button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/newPhoto"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/space" />
-
-                    <Space
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/StandardSpacingHalf"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/button2" />
-
-                </android.support.constraint.ConstraintLayout>
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -154,24 +98,64 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical">
 
-                        <LinearLayout
+                        <TextView
+                            android:id="@+id/textView2"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:text="@string/houseName" />
+
+                        <EditText
+                            android:id="@+id/houseName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="@string/houseName"
+                            android:inputType="textShortMessage" />
+
+                        <TextView
+                            android:id="@+id/houseNameError"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/mustBeValidHouseName"
+                            android:textColor="@color/textWarn"
+                            android:visibility="gone" />
+                    </LinearLayout>
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/StandardSpacingHalf" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:baselineAligned="true">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
 
                             <TextView
-                                android:id="@+id/textView3"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="@string/firstName" />
+                                android:id="@+id/headOfHousetxt"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="@string/houseHead" />
 
-                            <TextView
-                                android:id="@+id/headOfHouseValue"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="@string/lastName" />
+                            <Spinner
+                                android:id="@+id/membersDrop"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="@dimen/StandardSpacing"
+                                android:layout_marginEnd="@dimen/StandardSpacing" />
+
                         </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="end"
+                            android:orientation="vertical" />
 
                     </LinearLayout>
 
@@ -179,33 +163,33 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/StandardSpacingHalf" />
 
-                    <TextView
-                        android:id="@+id/textView5"
+                    <Switch
+                        android:id="@+id/locationSwitch"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/email" />
-
-                    <Space
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp" />
-
-                    <Button
-                        android:id="@+id/selectBtn"
-                        style="@style/Widget.AppCompat.Button.Colored"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/logout" />
+                        android:text="@string/addLocation" />
 
                     <Space
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/StandardSpacingHalf" />
 
                     <Button
-                        android:id="@+id/deleteHouseBtn"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/okayBtn"
+                        style="@style/Widget.AppCompat.Button.Colored"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="1dp"
-                        android:text="@string/deleteAccount" />
+                        android:text="@string/passOkay" />
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/StandardSpacingHalf" />
+
+                    <Button
+                        android:id="@+id/cancelBtn"
+                        style="@style/Widget.AppCompat.Button.Colored"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/cancel" />
 
                     <Space
                         android:layout_width="match_parent"
@@ -217,5 +201,4 @@
         </ScrollView>
 
     </LinearLayout>
-
 </android.support.constraint.ConstraintLayout>
