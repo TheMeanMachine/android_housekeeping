@@ -51,6 +51,9 @@
     <string name="add">ADD</string>
     <string name="finish">FINISH</string>
     <string name="mustBeValidHouseName">Must be a valid house name</string>
+    <string name="time">Time</string>
+    <string name="date">Date</string>
+    <string name="madeBy">Made by</string>
 
 
 </resources>

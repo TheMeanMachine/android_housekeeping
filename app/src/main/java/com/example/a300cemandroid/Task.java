@@ -1,12 +1,16 @@
 package com.example.a300cemandroid;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class Task {
     private String title;
     private boolean completed;
-    private Date dateMade;
-    private Date dateOfReminder;
+    private SimpleDateFormat dateMade = new SimpleDateFormat("dd-MM-yy");
+    private SimpleDateFormat timeMade = new SimpleDateFormat("HH:mm:ss");
+    private User madeBy;
+
 
     public Task(){
 
@@ -28,21 +32,37 @@ public class Task {
         this.completed = completed;
     }
 
-    public Date getDateMade() {
+    public SimpleDateFormat getDateMade() {
         return dateMade;
     }
 
-    public void setDateMade(Date dateMade) {
+    public void setDateMade(SimpleDateFormat dateMade) {
         this.dateMade = dateMade;
     }
 
-    public Date getDateOfReminder() {
-        return dateOfReminder;
+    public SimpleDateFormat getTimeMade() {
+        return timeMade;
     }
 
-    public void setDateOfReminder(Date dateOfReminder) {
-        this.dateOfReminder = dateOfReminder;
+    public void setTimeMade(SimpleDateFormat timeMade) {
+        this.timeMade = timeMade;
     }
 
 
+
+    public String getStringTimeMade(){
+        return timeMade.format(new Date());
+    }
+
+    public String getStringDateMade(){
+        return dateMade.format(new Date());
+    }
+
+    public User getMadeBy() {
+        return madeBy;
+    }
+
+    public void setMadeBy(User madeBy) {
+        this.madeBy = madeBy;
+    }
 }
