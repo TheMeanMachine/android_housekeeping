@@ -31,6 +31,7 @@ import com.example.a300cemandroid.House;
 import com.example.a300cemandroid.R;
 import com.example.a300cemandroid.User;
 
+import com.example.a300cemandroid.appViewModel;
 import com.example.a300cemandroid.inviteMember;
 import com.example.a300cemandroid.mainScreenController;
 import com.example.a300cemandroid.newHouse;
@@ -66,6 +67,7 @@ public class housesFragment extends Fragment{
     private List<User> members;
 
     private static AppController appController = AppController.getInstance();
+    private static appViewModel appVM = appViewModel.getInstance();
     private static mainScreenController msController = mainScreenController.getInstance();
     private housesViewModel viewModel = housesViewModel.getInstance();
 
@@ -198,9 +200,12 @@ public class housesFragment extends Fragment{
                 Integer sel = (Integer) housesDrop.getSelectedItemPosition();
                 if(housesDrop.getCount()  > 0){
                     Intent myIntent = new Intent(v.getContext(), inviteMember.class);
-                    Bundle extras = myIntent.getExtras();
-                    extras.putInt("longitude", viewModel.getLongitude());
-                    extras.putInt("latitude", viewModel.getLatitude());
+                    Bundle extras = new Bundle();
+
+                    extras.putLong("longitude", viewModel.getLongitude());
+                    extras.putLong("latitude", viewModel.getLatitude());
+
+                    myIntent.putExtras(extras);
                     startActivity(myIntent);
                 }else{
                     Toast.makeText(getContext(), "No house selected", Toast.LENGTH_SHORT).show();
@@ -220,8 +225,9 @@ public class housesFragment extends Fragment{
             public void onClick(View v) {
                 if(housesDrop.getCount()  > 0){
                     Intent myIntent = new Intent(v.getContext(), inviteMember.class);
-                    Bundle extras = myIntent.getExtras();
-                    extras.putInt("houseID", housesDrop.getSelectedItemPosition());
+                    Bundle extras = new Bundle();
+                    extras.putInt("houseID", houses.get(housesDrop.getSelectedItemPosition()).getID());
+                    myIntent.putExtras(extras);
                     startActivity(myIntent);
                 }else{
                     Toast.makeText(getContext(), "No house selected", Toast.LENGTH_SHORT).show();

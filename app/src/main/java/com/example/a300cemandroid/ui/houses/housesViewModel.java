@@ -36,8 +36,8 @@ public class housesViewModel extends ViewModel {
 
     private MutableLiveData<Bitmap> headOfHouseImg = new MutableLiveData<>();
 
-    private Integer Longitude = 0;
-    private Integer Latitude = 0;
+    private Long Longitude = 0L;
+    private Long Latitude = 0L;
 
     private House selectedHouse;
 
@@ -45,24 +45,9 @@ public class housesViewModel extends ViewModel {
 
     public housesViewModel(){
         ArrayList<House> h = new ArrayList<House>();
-        House house = new House();
-        house.setHouseName("Yo yo");
-
         ArrayList<User> u = new ArrayList<User>();
-        User user = new User();
-        user.setFirstName("Pizza");
-        user.setLastName("Man");
-        user.setImageURL("https://cdn.britannica.com/45/5645-050-B9EC0205/head-treasure-flower-disk-flowers-inflorescence-ray.jpg");
-        setHeadOfHouseImg(user.getImageURL());
-        //house.addMember(user);
-        u.add(user);
-        h.add(house);
-
-
 
         setHouses(h);
-
-
         setUsers(u);
     }
     //Singleton pattern applied
@@ -91,19 +76,19 @@ public class housesViewModel extends ViewModel {
     }
 
 
-    public Integer getLongitude() {
+    public Long getLongitude() {
         return Longitude;
     }
 
-    public void setLongitude(Integer longitude) {
+    public void setLongitude(Long longitude) {
         Longitude = longitude;
     }
 
-    public Integer getLatitude() {
+    public Long getLatitude() {
         return Latitude;
     }
 
-    public void setLatitude(Integer latitude) {
+    public void setLatitude(Long latitude) {
         Latitude = latitude;
     }
 
