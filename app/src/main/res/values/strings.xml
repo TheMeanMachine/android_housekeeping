@@ -26,9 +26,31 @@
     <string name="title_tasks">Tasks</string>
     <string name="title_account">Account</string>
     <string name="navigationGraph">\@navigation/navigationGraph</string>
-    <string name="newPhoto" >New photo</string>
+    <string name="newPhoto">New photo</string>
     <string name="logout">LOGOUT</string>
     <string name="deleteAccount">DELETE ACCOUNT</string>
+    <string name="select">SELECT</string>
+    <string name="deleteHouse">DELETE HOUSE</string>
+    <string name="name">Name</string>
+    <string name="houseHead">Head of House</string>
+    <string name="members">Members</string>
+    <string name="inviteMember">Invite Member</string>
+    <string name="selecthouse">SELECT HOUSE</string>
+    <string name="tasksremaining">Tasks Remaining</string>
+    <string name="location">LOCATION</string>
+    <string name="tasksTotal">Total tasks</string>
+    <string name="totalTasks">Total Tasks</string>
+    <string name="tasksCompleted" />
+    <string name="taskCompleted">Tasks Completed</string>
+    <string name="inviteMemberUpper">INVITE MEMBER</string>
+    <string name="cancel">CANCEL</string>
+    <string name="newHouse">NEW HOUSE</string>
+    <string name="newHouse_lower">New House</string>
+    <string name="houseName">House Name</string>
+    <string name="addLocation">Add Location</string>
+    <string name="add">ADD</string>
+    <string name="finish">FINISH</string>
+    <string name="mustBeValidHouseName">Must be a valid house name</string>
 
 
 </resources>
