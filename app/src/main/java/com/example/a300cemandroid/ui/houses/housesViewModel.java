@@ -5,6 +5,9 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModel;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.ArrayAdapter;
@@ -14,6 +17,7 @@ import com.example.a300cemandroid.House;
 import com.example.a300cemandroid.Task;
 import com.example.a300cemandroid.User;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,17 +34,20 @@ public class housesViewModel extends ViewModel {
     private MutableLiveData<Integer> tasksCompleted = new MutableLiveData<>();
     private MutableLiveData<String> headOfHouseName = new MutableLiveData<>();
 
+    private MutableLiveData<Bitmap> headOfHouseImg = new MutableLiveData<>();
+
+    private Long Longitude = 0L;
+    private Long Latitude = 0L;
+
     private House selectedHouse;
 
     private AppController app = AppController.getInstance();
 
     public housesViewModel(){
         ArrayList<House> h = new ArrayList<House>();
-
+        ArrayList<User> u = new ArrayList<User>();
 
         setHouses(h);
-
-        ArrayList<User> u = new ArrayList<User>();
         setUsers(u);
     }
     //Singleton pattern applied
@@ -52,32 +59,36 @@ public class housesViewModel extends ViewModel {
     }
 
 
-    public MutableLiveData<URL> getHeadOfHouseImg() {
+    public MutableLiveData<Bitmap> getHeadOfHouseImg() {
         return headOfHouseImg;
     }
 
     public void setHeadOfHouseImg(URL headOfHouseImg) {
-        this.headOfHouseImg.setValue(headOfHouseImg);
+        getImage imageRenderer = new getImage();
+        imageRenderer.execute(headOfHouseImg);
+
+
+
     }
 
-    private MutableLiveData<URL> headOfHouseImg = new MutableLiveData<>();
+    private void setHeadOfHouseImgBitmap(Bitmap bitmap){
+        this.headOfHouseImg.setValue(bitmap);
+    }
 
-    private Integer Longitude = 0;
-    private Integer Latitude = 0;
 
-    public Integer getLongitude() {
+    public Long getLongitude() {
         return Longitude;
     }
 
-    public void setLongitude(Integer longitude) {
+    public void setLongitude(Long longitude) {
         Longitude = longitude;
     }
 
-    public Integer getLatitude() {
+    public Long getLatitude() {
         return Latitude;
     }
 
-    public void setLatitude(Integer latitude) {
+    public void setLatitude(Long latitude) {
         Latitude = latitude;
     }
 
@@ -160,6 +171,37 @@ public class housesViewModel extends ViewModel {
         tasksCompleted.setValue(tasks);
     }
 
+    private class getImage extends AsyncTask<URL, Void, Bitmap> {
+        public getImage(){
+            super();
+        }
 
+        @Override
+        protected Bitmap doInBackground(URL[] params) {
+            URL url = params[0];
+            Bitmap bitmap = null;
+            try {
+
+                assert url != null;
+                bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                if(bitmap != null){
+                    return bitmap;
+                }
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap){
+            if(bitmap != null){
+                setHeadOfHouseImgBitmap(bitmap);
+            }
+        }
+    }
 
 }
