@@ -8,7 +8,7 @@ public class accountViewModel extends ViewModel {
     private MutableLiveData<String> firstName;
     private MutableLiveData<String> lastName;
     private MutableLiveData<String> email;
-    
+
     public accountViewModel() {
 
     }
