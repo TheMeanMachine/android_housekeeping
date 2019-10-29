@@ -10,6 +10,7 @@ public class Task {
     private SimpleDateFormat dateMade = new SimpleDateFormat("dd-MM-yy");
     private SimpleDateFormat timeMade = new SimpleDateFormat("HH:mm:ss");
     private User madeBy;
+    private Boolean editing = false;
 
 
     public Task(){
@@ -64,5 +65,13 @@ public class Task {
 
     public void setMadeBy(User madeBy) {
         this.madeBy = madeBy;
+    }
+
+    public Boolean getEditing() {
+        return editing;
+    }
+
+    public void setEditing(Boolean editing) {
+        this.editing = editing;
     }
 }

@@ -66,8 +66,9 @@ public class tasksFragment extends Fragment {
                 tNew.setTitle("Somewhere");
                 uNew.setFirstName("Aaron");
                 uNew.setLastName("Mandol");
-                SimpleDateFormat date = new SimpleDateFormat("dd-MM-yy");
+                SimpleDateFormat date = new SimpleDateFormat("dd-MM-yy");//https://stackoverflow.com/questions/28542070/how-to-save-date-dd-mm-yyyy-in-java
                 tNew.setDateMade(date);
+                date = new SimpleDateFormat("HH:mm:ss");
                 tNew.setTimeMade(date);
                 tNew.setMadeBy(uNew);
 
