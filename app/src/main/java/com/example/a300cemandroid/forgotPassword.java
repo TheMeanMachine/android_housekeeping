@@ -14,6 +14,7 @@ public class forgotPassword extends AppCompatActivity {
     private EditText email;
     private TextView emailValidation;
     private Button submitButton;
+    private Button backBtn;
 
     private emailValidation emailValidator = new emailValidation();
     @Override
@@ -27,7 +28,7 @@ public class forgotPassword extends AppCompatActivity {
         email = (EditText) findViewById(R.id.emailText);
         emailValidation = (TextView) findViewById(R.id.emailValidationText);
         submitButton = (Button) findViewById(R.id.submit);
-
+        backBtn = (Button) findViewById(R.id.backBtn);
 
         setListeners();
     }
@@ -57,6 +58,14 @@ public class forgotPassword extends AppCompatActivity {
 
             }
         });
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
     }
 
     private void emailLogic(String emailString){

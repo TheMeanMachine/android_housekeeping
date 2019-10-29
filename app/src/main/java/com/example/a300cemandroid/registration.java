@@ -1,17 +1,20 @@
 package com.example.a300cemandroid;
 
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.AppCompatCheckBox;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 
 public class registration extends AppCompatActivity {
     private EditText password;
@@ -28,6 +31,15 @@ public class registration extends AppCompatActivity {
     private EditText firstName;
     private EditText lastName;
     private TextView nameValidationText;
+
+    private Button backBtn;
+    private Button regBtn;
+
+    private ProgressBar progressSpin;
+
+    private TextView title;
+
+    private ImageView icon;
 
     private passwordValidation passValidator = new passwordValidation();
     private emailValidation emailValidator = new emailValidation();
@@ -57,11 +69,32 @@ public class registration extends AppCompatActivity {
         lastName = (EditText) findViewById(R.id.lastName);
         nameValidationText = (TextView) findViewById(R.id.nameValidationText);
 
+        backBtn = (Button) findViewById(R.id.backBtn);
+        regBtn = (Button) findViewById(R.id.register);
+
+        progressSpin = (ProgressBar) findViewById(R.id.progressAnim);
+
+        icon = (ImageView) findViewById(R.id.houseIcon);
+
+        title = (TextView) findViewById(R.id.title);
         setListeners();
+
+
+
     }
 
 
     private void setListeners() {
+        icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                YoYo.with(Techniques.RubberBand)
+                        .duration(700)
+                        .repeat(1)
+                        .playOn(title);
+            }
+        });
+
         email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -191,9 +224,46 @@ public class registration extends AppCompatActivity {
 
             }
         });
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        regBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean nameV = nameValidationManager();
+                boolean emailV = emailValidationManager();
+                boolean passwordV = passwordStrengthManager(password.getText().toString());
+
+                String passwordS =  password.getText().toString();
+                String rePasswordS = rePassword.getText().toString();
+                boolean isPasswordSame =passwordS.equals(rePasswordS);
+                if(nameV && emailV && passwordV && isPasswordSame){
+                    register();
+                }else{
+                    progressSpin.setVisibility(View.GONE);
+                    Toast.makeText(registration.this, "You must enter valid information", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
-    private void nameValidationManager(){
+    private void register(){
+        progressBarAnimation animation = new progressBarAnimation(progressSpin, 1000, 2000);
+        animation.setDuration(1000);
+        progressSpin.startAnimation(animation);
+
+        progressSpin.setVisibility(View.VISIBLE);
+
+        Toast.makeText(this, "Registering now...", Toast.LENGTH_SHORT).show();
+    }
+
+
+    private boolean nameValidationManager(){
         String fName = firstName.getText().toString();
         String lName = lastName.getText().toString();
 
@@ -204,18 +274,21 @@ public class registration extends AppCompatActivity {
         } else {
             nameValidationText.setVisibility(View.VISIBLE);
         }
+        return nameValid;
     }
 
-    private void emailValidationManager(){
+    private Boolean emailValidationManager(){
         String email_string = email.getText().toString();
         if (emailValidator.isEmail(email_string)) {
             emailValidation.setVisibility(View.GONE);
+            return true;
         } else {
             emailValidation.setVisibility(View.VISIBLE);
+            return false;
         }
     }
 
-    private void passwordStrengthManager(String passText){
+    private boolean passwordStrengthManager(String passText){
         int strength = passValidator.passwordStrength(passText);
 
         passwordStrengthBar.setProgress(strength);
@@ -223,17 +296,18 @@ public class registration extends AppCompatActivity {
         switch(strength){
             case 0:
                 passwordStrengthText.setText("");
-                break;
+                return false;
+
             case 1:
                 passwordStrengthText.setText(getResources().getString(R.string.passWeak));
-                break;
+                return false;
             case 2:
                 passwordStrengthText.setText(getResources().getString(R.string.passOkay));
-                break;
+                return true;
             case 3:
                 passwordStrengthText.setText(getResources().getString(R.string.passStrong));
-                break;
+                return true;
         }
-
+        return false;
     }
 }

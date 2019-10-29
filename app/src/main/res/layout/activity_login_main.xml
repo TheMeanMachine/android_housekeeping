@@ -30,7 +30,7 @@
 
 
                 <ImageView
-                    android:id="@+id/imageView3"
+                    android:id="@+id/houseIcon"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginTop="@dimen/StandardSpacing"
@@ -41,7 +41,7 @@
                     app:srcCompat="@drawable/app_logo" />
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
@@ -56,7 +56,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
-                    android:id="@+id/button"
+                    android:id="@+id/backBtn"
                     style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="@dimen/standardIcon"
                     android:layout_height="@dimen/StandardSpacing"
@@ -129,19 +129,6 @@
                         android:hint="@string/password"
                         android:inputType="textPassword" />
 
-                    <ProgressBar
-                        android:id="@+id/passwordStrengthBar"
-                        style="?android:attr/progressBarStyleHorizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:max="3"
-                        android:progress="0" />
-
-                    <TextView
-                        android:id="@+id/passwordStrengthText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
                     <TextView
                         android:id="@+id/passwordValidationText"
                         android:layout_width="match_parent"
@@ -161,6 +148,13 @@
                 <Space
                     android:layout_width="match_parent"
                     android:layout_height="50dp" />
+
+                <ProgressBar
+                    android:id="@+id/progressAnim"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/login"

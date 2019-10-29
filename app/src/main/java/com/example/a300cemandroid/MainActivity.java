@@ -1,17 +1,12 @@
 package com.example.a300cemandroid;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
-
-import org.json.JSONObject;
-
-import java.lang.reflect.Method;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,13 +37,15 @@ public class MainActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent i = new Intent(getBaseContext(), login_main.class);
+                startActivity(i);
             }
         });
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent i = new Intent(getBaseContext(), registration.class);
+                startActivity(i);
             }
         });
     }

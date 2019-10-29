@@ -1,12 +1,10 @@
 package com.example.a300cemandroid;
 
-import android.support.annotation.StringRes;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.AppCompatCheckBox;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
@@ -15,7 +13,6 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 public class login_main extends AppCompatActivity {
@@ -29,7 +26,12 @@ public class login_main extends AppCompatActivity {
 
     private AppCompatCheckBox showToggleCheck;
 
+    private ProgressBar progressSpin;
+
     private Button forgotDetails;
+    private Button loginBtn;
+
+    private Button backBtn;
 
     private passwordValidation passValidator = new passwordValidation();
     private emailValidation emailValidator = new emailValidation();
@@ -48,12 +50,14 @@ public class login_main extends AppCompatActivity {
 
         password = (EditText) findViewById(R.id.password);
         passwordValidation = (TextView) findViewById(R.id.passwordValidationText);
-        passwordStrengthBar = (ProgressBar) findViewById(R.id.passwordStrengthBar);
-        passwordStrengthText = (TextView) findViewById(R.id.passwordStrengthText);
 
         showToggleCheck = (AppCompatCheckBox) findViewById(R.id.showToggleCheck);
 
         forgotDetails = (Button) findViewById(R.id.forgetDetails);
+        loginBtn = (Button) findViewById(R.id.login);
+        backBtn = (Button) findViewById(R.id.backBtn);
+
+        progressSpin = (ProgressBar) findViewById(R.id.progressAnim);
 
         setListeners();
 
@@ -61,76 +65,7 @@ public class login_main extends AppCompatActivity {
     }
 
     private void setListeners(){
-        email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    String email_string = email.getText().toString();
-                    if(emailValidator.isEmail(email_string)){
-                        emailValidation.setVisibility(View.GONE);
-                    }else{
-                        emailValidation.setVisibility(View.VISIBLE);
-                    }
-                }
-            }
 
-        });
-
-        password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    String passwordString = password.getText().toString();
-                    if(passValidator.passwordStrength(passwordString) > 1 || passwordString.length() == 0){
-                        passwordValidation.setVisibility(View.GONE);
-                    }else{
-                        passwordValidation.setVisibility(View.VISIBLE);
-                    }
-                }
-            }
-
-        });
-
-        password.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                String passwordString = password.getText().toString();
-
-                if(passValidator.passwordStrength(passwordString) > 1 || start <= passValidator.getPasswordMinimumLength()){
-                    passwordValidation.setVisibility(View.GONE);
-                }else{
-                    passwordValidation.setVisibility(View.VISIBLE);
-                }
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String passText = s.toString();
-                int strength = passValidator.passwordStrength(passText);
-
-                passwordStrengthBar.setProgress(strength);
-
-                switch(strength){
-                    case 0:
-                        passwordStrengthText.setText("");
-                        break;
-                    case 1:
-                        passwordStrengthText.setText(getResources().getString(R.string.passWeak));
-                        break;
-                    case 2:
-                        passwordStrengthText.setText(getResources().getString(R.string.passOkay));
-                        break;
-                    case 3:
-                        passwordStrengthText.setText(getResources().getString(R.string.passStrong));
-                        break;
-                }
-
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {}
-        });
 
         showToggleCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -142,11 +77,34 @@ public class login_main extends AppCompatActivity {
         forgotDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent i = new Intent(getBaseContext(), forgotPassword.class);
+                startActivity(i);
+            }
+        });
+
+        loginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean emailV = emailValidationManager();
+                boolean passwordV = passwordStrengthManager(password.getText().toString());
+
+
+
+
+                if(emailV && passwordV){
+                    login();
+                }
+
 
             }
         });
 
-
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     public void togglePasswordVisibility(CompoundButton compoundButton, boolean isChecked) {
@@ -161,6 +119,58 @@ public class login_main extends AppCompatActivity {
         }
     }
 
+    private void login(){
 
+        inProgress();
+
+
+
+    }
+
+    private void inProgress(){
+        progressBarAnimation animation = new progressBarAnimation(progressSpin, 1000, 2000);
+        animation.setDuration(1000);
+        progressSpin.startAnimation(animation);
+        progressSpin.setVisibility(View.VISIBLE);
+
+        email.setEnabled(false);
+        password.setEnabled(false);
+        loginBtn.setClickable(false);
+        forgotDetails.setClickable(false);
+        backBtn.setClickable(false);
+    }
+
+    private void stopProgress(){
+        progressSpin.setVisibility(View.GONE);
+
+        email.setEnabled(true);
+        password.setEnabled(true);
+        loginBtn.setClickable(true);
+        forgotDetails.setClickable(true);
+        backBtn.setClickable(true);
+    }
+
+    private Boolean emailValidationManager(){
+        String email_string = email.getText().toString();
+        if (emailValidator.isEmail(email_string)) {
+            emailValidation.setVisibility(View.GONE);
+            return true;
+        } else {
+            emailValidation.setVisibility(View.VISIBLE);
+            return false;
+        }
+    }
+
+    private boolean passwordStrengthManager(String passText){
+        int strength = passValidator.passwordStrength(passText);
+
+
+        if(strength >= 2){
+            passwordValidation.setVisibility(View.GONE);
+            return true;
+        }
+        passwordValidation.setVisibility(View.VISIBLE);
+        return false;
+    }
 
 }
