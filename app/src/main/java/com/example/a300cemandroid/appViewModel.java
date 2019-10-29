@@ -10,6 +10,10 @@ public class appViewModel {
     private MutableLiveData<ArrayList<User>> allUsers = new MutableLiveData<>();
     private ArrayList<House> allHouses;
 
+    private MutableLiveData<House> selectedHouse = new MutableLiveData<>();
+    private MutableLiveData<User> currentUser = new MutableLiveData<>();
+
+
 
     //Singleton pattern applied
     public static appViewModel getInstance(){
@@ -46,4 +50,6 @@ public class appViewModel {
         }
         return h;
     }
+
+
 }
