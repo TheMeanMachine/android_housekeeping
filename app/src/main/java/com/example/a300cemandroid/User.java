@@ -1,21 +1,16 @@
 package com.example.a300cemandroid;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import android.graphics.Bitmap;
 
 public class User {
     private String firstName;
     private String lastName;
     private String email;
-    private URL imageURL;
+    private Bitmap img;
     private Integer ID;
 
     public User(){
-        try {
-            imageURL = new URL("");
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+
     }
 
     public String getFullName(){
@@ -46,10 +41,8 @@ public class User {
         this.email = email;
     }
 
-    public URL getImageURL() {
-        return imageURL;
-    }
 
+/*
     public void setImageURL(String imageURL) {
         URL u = null;
         try {
@@ -59,7 +52,7 @@ public class User {
         }
         this.imageURL = u;
     }
-
+*/
 
     public Integer getID() {
         return ID;
@@ -67,5 +60,13 @@ public class User {
 
     public void setID(Integer ID) {
         this.ID = ID;
+    }
+
+    public Bitmap getImg() {
+        return img;
+    }
+
+    public void setImg(Bitmap img) {
+        this.img = img;
     }
 }

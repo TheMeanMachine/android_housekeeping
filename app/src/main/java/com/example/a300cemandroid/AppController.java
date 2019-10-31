@@ -3,8 +3,6 @@ package com.example.a300cemandroid;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
-import java.util.List;
-
 public class AppController extends ViewModel {
     private static AppController instance = null;
     private MutableLiveData<Integer> one = new MutableLiveData<>();
@@ -24,7 +22,7 @@ public class AppController extends ViewModel {
         User u = new User();
         u.setFirstName("Pizza");
         u.setLastName("Man");
-        u.setImageURL("https://i.stack.imgur.com/GsDIl.jpg");
+        //u.setImageURL("https://i.stack.imgur.com/GsDIl.jpg");
         //do get user logic later
         return u;
     }

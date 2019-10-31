@@ -1,5 +1,6 @@
 package com.example.a300cemandroid.ui.account;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -19,10 +21,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.a300cemandroid.R;
+import com.example.a300cemandroid.appViewModel;
 
 public class accountFragment extends Fragment {
 
-    private accountViewModel accountViewModel;
+    private accountViewModel accountVM;
 
     private  View view;
 
@@ -36,11 +39,15 @@ public class accountFragment extends Fragment {
     private Button logout;
     private Button deleteAccount;
 
+    private appViewModel appVM = appViewModel.getInstance();
+
     private static final int pic_id = 123;
+
+    private accountViewModel viewModel = accountViewModel.getInstance();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        accountViewModel =
+        accountVM =
                 ViewModelProviders.of(this).get(accountViewModel.class);
         view = inflater.inflate(R.layout.fragment_account, container, false);
 
@@ -53,7 +60,7 @@ public class accountFragment extends Fragment {
         deleteAccount = (Button) view.findViewById(R.id.deleteAccount);
 
         setListeners();
-
+        setObservers();
         return view;
     }
 
@@ -66,7 +73,33 @@ public class accountFragment extends Fragment {
     }
 
     private void setObservers(){
+        viewModel.getUsrImg().observe(this, new Observer<Bitmap>() {
+            @Override
+            public void onChanged(@Nullable Bitmap bitmap) {
+                userImg.setImageBitmap(bitmap);
+            }
+        });
 
+        viewModel.getFirstName().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String s) {
+                firstName.setText(s);
+            }
+        });
+
+        viewModel.getLastName().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String s) {
+                lastName.setText(s);
+            }
+        });
+
+        viewModel.getEmail().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String s) {
+                email.setText(s);
+            }
+        });
     }
 
     private void setListeners(){
@@ -104,13 +137,10 @@ public class accountFragment extends Fragment {
 
         // Match the request 'pic id with requestCode
         if (requestCode == pic_id) {
+            Bitmap usrImg = (Bitmap) data.getExtras().get("data");
+            viewModel.setUsrImg( usrImg );
 
-            // BitMap is data structure of image file
-            // which stor the image in memory
-            userImg.setImageBitmap( (Bitmap)data.getExtras()
-                    .get("data"));
 
-            // Set the image in imageview for display
 
         }
     }

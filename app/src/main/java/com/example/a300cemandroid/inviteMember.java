@@ -105,6 +105,8 @@ public class inviteMember extends AppCompatActivity {
                 usersDrop.setAdapter(adapter);
             }
         });
+
+
     }
 
     private ArrayList<User> removeExistingMembers(ArrayList<User> u){

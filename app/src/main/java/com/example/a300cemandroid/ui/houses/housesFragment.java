@@ -1,14 +1,15 @@
 package com.example.a300cemandroid.ui.houses;
 
 import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -20,9 +21,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.arch.lifecycle.ViewModelProviders;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,14 +28,11 @@ import com.example.a300cemandroid.AppController;
 import com.example.a300cemandroid.House;
 import com.example.a300cemandroid.R;
 import com.example.a300cemandroid.User;
-
 import com.example.a300cemandroid.appViewModel;
 import com.example.a300cemandroid.inviteMember;
 import com.example.a300cemandroid.mainScreenController;
 import com.example.a300cemandroid.newHouse;
 
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -179,6 +174,8 @@ public class housesFragment extends Fragment{
                 membersDrop.setAdapter(adapter);
             }
         });
+
+
 
     }
 

@@ -1,28 +1,19 @@
 package com.example.a300cemandroid.ui.houses;
 
-import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModel;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.support.annotation.Nullable;
-import android.util.Log;
-import android.widget.ArrayAdapter;
 
 import com.example.a300cemandroid.AppController;
 import com.example.a300cemandroid.House;
-import com.example.a300cemandroid.Task;
 import com.example.a300cemandroid.User;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
-
-import static android.content.ContentValues.TAG;
 
 public class housesViewModel extends ViewModel {
     private static housesViewModel instance = null;
@@ -40,6 +31,7 @@ public class housesViewModel extends ViewModel {
     private Long Latitude = 0L;
 
     private House selectedHouse;
+
 
     private AppController app = AppController.getInstance();
 
@@ -203,5 +195,7 @@ public class housesViewModel extends ViewModel {
             }
         }
     }
+
+
 
 }

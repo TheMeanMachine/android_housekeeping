@@ -1,11 +1,6 @@
 package com.example.a300cemandroid;
 
-import android.content.Intent;
-import android.view.View;
-
 import com.example.a300cemandroid.ui.houses.housesViewModel;
-
-import java.util.ArrayList;
 
 public class mainScreenController {
     private static mainScreenController instance;
@@ -30,7 +25,7 @@ public class mainScreenController {
 
     public void newHouseSelected(House newHouse){
         User headOfHouse = app.getUser(newHouse.getHeadOfHouseID());
-        housesVM.setHeadOfHouseImg(headOfHouse.getImageURL());
+        //housesVM.setHeadOfHouseImg(headOfHouse.getImageURL());
         housesVM.setHeadOfHouseName(headOfHouse.getFullName());
         housesVM.setTotalTasks(newHouse.countTasks());
         housesVM.setTasksCompleted(newHouse.countCompletedTasks());
