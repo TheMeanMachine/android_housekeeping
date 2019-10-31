@@ -137,7 +137,7 @@ public class login_main extends AppCompatActivity {
         password.setEnabled(false);
         loginBtn.setClickable(false);
         forgotDetails.setClickable(false);
-        backBtn.setClickable(false);
+
     }
 
     private void stopProgress(){
@@ -147,7 +147,7 @@ public class login_main extends AppCompatActivity {
         password.setEnabled(true);
         loginBtn.setClickable(true);
         forgotDetails.setClickable(true);
-        backBtn.setClickable(true);
+
     }
 
     private Boolean emailValidationManager(){
