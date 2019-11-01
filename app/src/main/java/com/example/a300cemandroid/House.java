@@ -10,22 +10,22 @@ public class House {
     private ArrayList<User> members;
     private ArrayList<Task> tasks;
 
-    private Long Longitude;
-    private Long Latitude;
+    private Double Longitude;
+    private Double Latitude;
 
-    public Long getLongitude() {
+    public Double getLongitude() {
         return Longitude;
     }
 
-    public void setLongitude(Long longitude) {
+    public void setLongitude(Double longitude) {
         Longitude = longitude;
     }
 
-    public Long getLatitude() {
+    public Double getLatitude() {
         return Latitude;
     }
 
-    public void setLatitude(Long latitude) {
+    public void setLatitude(Double latitude) {
         Latitude = latitude;
     }
 

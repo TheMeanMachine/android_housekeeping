@@ -27,10 +27,10 @@ public class housesViewModel extends ViewModel {
 
     private MutableLiveData<Bitmap> headOfHouseImg = new MutableLiveData<>();
 
-    private Long Longitude = 0L;
-    private Long Latitude = 0L;
+    private Double Longitude = 0.0;
+    private Double Latitude = 0.0;
 
-    private House selectedHouse;
+    private MutableLiveData<House> selectedHouse = new MutableLiveData<>();
 
 
     private AppController app = AppController.getInstance();
@@ -50,6 +50,13 @@ public class housesViewModel extends ViewModel {
         return instance;
     }
 
+    public House getSelectedHouseRaw(){
+        return selectedHouse.getValue();
+    }
+
+    public void setSelectedHouseRaw(House h){
+        selectedHouse.setValue(h);
+    }
 
     public MutableLiveData<Bitmap> getHeadOfHouseImg() {
         return headOfHouseImg;
@@ -68,19 +75,19 @@ public class housesViewModel extends ViewModel {
     }
 
 
-    public Long getLongitude() {
+    public Double getLongitude() {
         return Longitude;
     }
 
-    public void setLongitude(Long longitude) {
+    public void setLongitude(Double longitude) {
         Longitude = longitude;
     }
 
-    public Long getLatitude() {
+    public Double getLatitude() {
         return Latitude;
     }
 
-    public void setLatitude(Long latitude) {
+    public void setLatitude(Double latitude) {
         Latitude = latitude;
     }
 
@@ -91,13 +98,7 @@ public class housesViewModel extends ViewModel {
 
 
 
-    public House getSelectedHouse() {
-        return selectedHouse;
-    }
 
-    public void setSelectedHouse(House selectedHouse) {
-        this.selectedHouse = selectedHouse;
-    }
 
     public void clearData(){
         ArrayList<User> u = new ArrayList<User>();
@@ -161,6 +162,14 @@ public class housesViewModel extends ViewModel {
 
     public void setTasksCompleted(Integer tasks){
         tasksCompleted.setValue(tasks);
+    }
+
+    public MutableLiveData<House> getSelectedHouse() {
+        return selectedHouse;
+    }
+
+    public void setSelectedHouse(MutableLiveData<House> selectedHouse) {
+        this.selectedHouse = selectedHouse;
     }
 
     private class getImage extends AsyncTask<URL, Void, Bitmap> {

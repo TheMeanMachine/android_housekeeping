@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -26,6 +27,7 @@ import android.widget.Toast;
 
 import com.example.a300cemandroid.AppController;
 import com.example.a300cemandroid.House;
+import com.example.a300cemandroid.MapsActivity;
 import com.example.a300cemandroid.R;
 import com.example.a300cemandroid.User;
 import com.example.a300cemandroid.appViewModel;
@@ -53,6 +55,8 @@ public class housesFragment extends Fragment{
     private TextView headOfHouseVal;
     private TextView tasksCompletedVal;
     private TextView totalTasksVal;
+
+    private LinearLayout content;
 
     private ImageView headOfHouseImg;
 
@@ -90,6 +94,8 @@ public class housesFragment extends Fragment{
         headOfHouseImg = (ImageView) view.findViewById(R.id.headOfHouseImg);
 
         taskProgress = (ProgressBar) view.findViewById(R.id.taskProgress);
+
+        content = (LinearLayout) view.findViewById(R.id.content);
 
         setListeners();
 
@@ -195,12 +201,20 @@ public class housesFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 Integer sel = (Integer) housesDrop.getSelectedItemPosition();
-                if(housesDrop.getCount()  > 0){
-                    Intent myIntent = new Intent(v.getContext(), inviteMember.class);
+
+
+                if(housesDrop.getCount() > 0){
+                    Intent myIntent = new Intent(v.getContext(), MapsActivity.class);
                     Bundle extras = new Bundle();
 
-                    extras.putLong("longitude", viewModel.getLongitude());
-                    extras.putLong("latitude", viewModel.getLatitude());
+                    if(viewModel.getLongitude() == 0 && viewModel.getLatitude() == 0){
+                        Toast.makeText(getContext(), "", Toast.LENGTH_SHORT).show();
+                    }
+
+
+                    extras.putDouble("longitude", viewModel.getLongitude());
+                    extras.putDouble("latitude", viewModel.getLatitude());
+
 
                     myIntent.putExtras(extras);
                     startActivity(myIntent);
@@ -213,7 +227,12 @@ public class housesFragment extends Fragment{
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteAlert();
+                if(housesDrop.getCount()  > 0){
+                    deleteAlert();
+                }else{
+                    Toast.makeText(getContext(), "No house selected", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
@@ -245,6 +264,10 @@ public class housesFragment extends Fragment{
                     House selHouse = houses.get(position);
                     if(selHouse != null){
                         msController.newHouseSelected(selHouse);
+                        content.setVisibility(View.VISIBLE);
+
+                    }else{
+                        content.setVisibility(View.GONE);
                     }
 
                 }else{
@@ -256,6 +279,7 @@ public class housesFragment extends Fragment{
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 msController.clearFields_Houses();
+                content.setVisibility(View.GONE);
             }
         });
 
@@ -286,15 +310,12 @@ public class housesFragment extends Fragment{
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         Integer pos = housesDrop.getSelectedItemPosition();
-                        if(housesDrop.getCount()  > 0){
-                            House selHouse = houses.get(pos);
-                            if(selHouse != null){
-                                msController.deleteHouse(selHouse);
-                            }
-
-                        }else{
-                            Toast.makeText(getContext(), "No house selected", Toast.LENGTH_SHORT).show();
+                        House selHouse = houses.get(pos);
+                        if(selHouse != null){
+                            msController.deleteHouse(selHouse);
                         }
+
+
                     }
                 })
                 .setNegativeButton(android.R.string.no, null)

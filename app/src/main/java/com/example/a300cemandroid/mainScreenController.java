@@ -46,7 +46,7 @@ public class mainScreenController {
     }
 
     public void selectHouse(House house){
-        housesVM.setSelectedHouse(house);
+        housesVM.setSelectedHouseRaw(house);
 
     }
 
