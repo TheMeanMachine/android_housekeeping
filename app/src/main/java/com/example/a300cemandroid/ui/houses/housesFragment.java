@@ -100,6 +100,7 @@ public class housesFragment extends Fragment{
         content.setVisibility(View.GONE);
 
         setListeners();
+        setObservers();
 
         return view;
     }
@@ -108,7 +109,11 @@ public class housesFragment extends Fragment{
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
-        setObservers();
+        //Todo fix this selection problem
+        housesDrop.setSelection(viewModel.getSelectedPosition());
+
+        String pos = Integer.toString(viewModel.getSelectedPosition());
+        Toast.makeText(getContext(), pos, Toast.LENGTH_SHORT).show();
 
     }
 
@@ -158,7 +163,7 @@ public class housesFragment extends Fragment{
 
                 if(h.size() == 1){
                     viewModel.setSelectedHouseRaw(h.get(0));
-
+                    viewModel.setSelectedPosition(housesDrop.getSelectedItemPosition());
                 }
 
                 //Houses
@@ -253,7 +258,7 @@ public class housesFragment extends Fragment{
                 if(housesDrop.getCount()  > 0){
                     Intent myIntent = new Intent(v.getContext(), inviteMember.class);
                     Bundle extras = new Bundle();
-                    extras.putInt("houseID", houses.get(housesDrop.getSelectedItemPosition()).getID());
+                    //extras.putInt("houseID", houses.get(housesDrop.getSelectedItemPosition()).getID());
                     myIntent.putExtras(extras);
                     startActivity(myIntent);
                 }else{
@@ -274,7 +279,11 @@ public class housesFragment extends Fragment{
                 if(position > 0){
                     House selHouse = houses.get(position);
                     if(selHouse != null){
+
+
                         viewModel.setSelectedHouseRaw(selHouse);
+                        viewModel.setSelectedPosition(position);
+
                         content.setVisibility(View.VISIBLE);
 
                     }else{
@@ -282,7 +291,7 @@ public class housesFragment extends Fragment{
                     }
 
                 }else{
-                    Toast.makeText(getContext(), "No house selected", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(), "No house selected", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -294,7 +303,7 @@ public class housesFragment extends Fragment{
             }
         });
 
-        selectBtn.setOnClickListener(new View.OnClickListener() {
+        /*selectBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
                 Integer pos = housesDrop.getSelectedItemPosition();
@@ -310,7 +319,7 @@ public class housesFragment extends Fragment{
 
 
             }
-        });
+        });*/
 
     }
 

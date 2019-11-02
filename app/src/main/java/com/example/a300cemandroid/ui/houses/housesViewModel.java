@@ -33,6 +33,7 @@ public class housesViewModel extends ViewModel {
     private Double Latitude = 0.0;
 
     private MutableLiveData<House> selectedHouse = new MutableLiveData<>();
+    private int selectedPosition = 0;
 
     private appViewModel appVM = appViewModel.getInstance();
     private AppController app = AppController.getInstance();
@@ -191,6 +192,14 @@ public class housesViewModel extends ViewModel {
 
     public void setSelectedHouse(MutableLiveData<House> selectedHouse) {
         this.selectedHouse = selectedHouse;
+    }
+
+    public int getSelectedPosition() {
+        return selectedPosition;
+    }
+
+    public void setSelectedPosition(int selectedPosition) {
+        this.selectedPosition = selectedPosition;
     }
 
     private class getImage extends AsyncTask<URL, Void, Bitmap> {
