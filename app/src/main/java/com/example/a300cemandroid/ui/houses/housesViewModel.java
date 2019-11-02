@@ -9,7 +9,9 @@ import android.os.AsyncTask;
 
 import com.example.a300cemandroid.AppController;
 import com.example.a300cemandroid.House;
+import com.example.a300cemandroid.Task;
 import com.example.a300cemandroid.User;
+import com.example.a300cemandroid.appViewModel;
 
 import java.io.IOException;
 import java.net.URL;
@@ -32,12 +34,16 @@ public class housesViewModel extends ViewModel {
 
     private MutableLiveData<House> selectedHouse = new MutableLiveData<>();
 
-
+    private appViewModel appVM = appViewModel.getInstance();
     private AppController app = AppController.getInstance();
 
     public housesViewModel(){
         ArrayList<House> h = new ArrayList<House>();
         ArrayList<User> u = new ArrayList<User>();
+        //House house = new House();
+        //house.setID(1);
+        //house.setHouseName("Faloula");
+        //h.add(house);
 
         setHouses(h);
         setUsers(u);
@@ -56,6 +62,23 @@ public class housesViewModel extends ViewModel {
 
     public void setSelectedHouseRaw(House h){
         selectedHouse.setValue(h);
+        updateFields();
+    }
+
+    public void updateFields(){
+        House h = selectedHouse.getValue();
+        totalTasks.setValue(h.countTasks());
+        tasksCompleted.setValue(h.countCompletedTasks());
+
+        User head = appVM.getUserByID(h.getHeadOfHouseID());
+
+        headOfHouseName.setValue(head.getFullName());
+        headOfHouseImg.setValue(head.getImg());
+
+        users.setValue(h.getMembers());
+
+        Longitude = h.getLongitude();
+        Latitude = h.getLatitude();
     }
 
     public MutableLiveData<Bitmap> getHeadOfHouseImg() {
@@ -92,14 +115,6 @@ public class housesViewModel extends ViewModel {
     }
 
 
-
-
-
-
-
-
-
-
     public void clearData(){
         ArrayList<User> u = new ArrayList<User>();
         users.setValue(u);
@@ -125,8 +140,14 @@ public class housesViewModel extends ViewModel {
         ArrayList<House> h = houses.getValue();
         h.add(house);
 
+
         houses.setValue(h);
 
+    }
+
+    public void addTaskToHouse(Task task){
+        selectedHouse.getValue().addTask(task);
+        updateFields();
     }
 
     public void setHouses(ArrayList<House> h){

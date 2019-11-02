@@ -23,7 +23,14 @@ public class appViewModel {
     }
 
     private appViewModel(){
+        allHouses.setValue(new ArrayList<House>());
+        allUsers.setValue(new ArrayList<User>());
 
+        User u = new User();
+        u.setFirstName("Peepe");
+        u.setLastName("Deepe");
+        u.setID(1);
+        allUsers.getValue().add(u);
     }
 
     public MutableLiveData<ArrayList<User>> getAllUsers() {
@@ -99,6 +106,8 @@ public class appViewModel {
         //do db stuff
     }
 
-
+    public void addHouse(House h){
+        allHouses.getValue().add(h);
+    }
 
 }

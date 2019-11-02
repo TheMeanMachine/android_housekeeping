@@ -51,6 +51,12 @@ public class accountViewModel extends ViewModel {
         return instance;
     }
 
+    public User getCurrentUser() {
+        return currentUser;
+    }
+
+
+
     public MutableLiveData<String> getFirstName() {
         return firstName;
     }

@@ -86,6 +86,7 @@ public class housesFragment extends Fragment{
         housesDrop = (Spinner) view.findViewById(R.id.housesDropdown);
         membersDrop = (Spinner) view.findViewById(R.id.membersDrop);
         selectBtn = (Button) view.findViewById(R.id.selectBtn);
+        selectBtn.setVisibility(View.GONE);
 
         headOfHouseVal = (TextView) view.findViewById(R.id.headOfHouseValue);
         tasksCompletedVal = (TextView) view.findViewById(R.id.tasksCompletedValue);
@@ -96,6 +97,7 @@ public class housesFragment extends Fragment{
         taskProgress = (ProgressBar) view.findViewById(R.id.taskProgress);
 
         content = (LinearLayout) view.findViewById(R.id.content);
+        content.setVisibility(View.GONE);
 
         setListeners();
 
@@ -147,6 +149,17 @@ public class housesFragment extends Fragment{
             @Override
             public void onChanged(@Nullable ArrayList<House> h) {
                 houses = h;
+
+                if(h.size() > 0){
+                    content.setVisibility(View.VISIBLE);
+                }else{
+                    content.setVisibility(View.GONE);
+                }
+
+                if(h.size() == 1){
+                    viewModel.setSelectedHouseRaw(h.get(0));
+
+                }
 
                 //Houses
                 List<String> houseNames = new ArrayList<String>();
@@ -207,14 +220,12 @@ public class housesFragment extends Fragment{
                     Intent myIntent = new Intent(v.getContext(), MapsActivity.class);
                     Bundle extras = new Bundle();
 
-                    if(viewModel.getLongitude() == 0 && viewModel.getLatitude() == 0){
-                        Toast.makeText(getContext(), "", Toast.LENGTH_SHORT).show();
+                    if(viewModel.getLongitude() == 0.0 && viewModel.getLatitude() == 0.0){
+                        Toast.makeText(getContext(), "No location saved", Toast.LENGTH_SHORT).show();
+                    }else{
+                        extras.putDouble("longitude", viewModel.getLongitude());
+                        extras.putDouble("latitude", viewModel.getLatitude());
                     }
-
-
-                    extras.putDouble("longitude", viewModel.getLongitude());
-                    extras.putDouble("latitude", viewModel.getLatitude());
-
 
                     myIntent.putExtras(extras);
                     startActivity(myIntent);
@@ -263,7 +274,7 @@ public class housesFragment extends Fragment{
                 if(position > 0){
                     House selHouse = houses.get(position);
                     if(selHouse != null){
-                        msController.newHouseSelected(selHouse);
+                        viewModel.setSelectedHouseRaw(selHouse);
                         content.setVisibility(View.VISIBLE);
 
                     }else{
