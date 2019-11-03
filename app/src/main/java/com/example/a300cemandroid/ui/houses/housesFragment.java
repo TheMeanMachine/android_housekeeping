@@ -65,6 +65,8 @@ public class housesFragment extends Fragment{
     private List<House> houses;
     private List<User> members;
 
+    private Boolean restarted;
+
     private static AppController appController = AppController.getInstance();
     private static appViewModel appVM = appViewModel.getInstance();
     private static mainScreenController msController = mainScreenController.getInstance();
@@ -99,8 +101,9 @@ public class housesFragment extends Fragment{
         content = (LinearLayout) view.findViewById(R.id.content);
         content.setVisibility(View.GONE);
 
-        setListeners();
-        setObservers();
+        restarted = true;
+
+
 
         return view;
     }
@@ -109,11 +112,13 @@ public class housesFragment extends Fragment{
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
-        //Todo fix this selection problem
-        housesDrop.setSelection(viewModel.getSelectedPosition());
 
-        String pos = Integer.toString(viewModel.getSelectedPosition());
-        Toast.makeText(getContext(), pos, Toast.LENGTH_SHORT).show();
+
+
+
+        setListeners();
+        setObservers();
+
 
     }
 
@@ -163,7 +168,7 @@ public class housesFragment extends Fragment{
 
                 if(h.size() == 1){
                     viewModel.setSelectedHouseRaw(h.get(0));
-                    viewModel.setSelectedPosition(housesDrop.getSelectedItemPosition());
+                    //viewModel.setSelectedPosition(housesDrop.getSelectedItemPosition());
                 }
 
                 //Houses
@@ -187,7 +192,7 @@ public class housesFragment extends Fragment{
 
                 //User
                 List<String> userNames = new ArrayList<String>();
-                for(Integer i = 0; i < members.size(); i++){
+                for(int i = 0; i < members.size(); i++){
                     userNames.add(members.get(i).getFullName());
                 }
                 ArrayAdapter<String> adapter;
@@ -275,10 +280,17 @@ public class housesFragment extends Fragment{
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
 
+                if(restarted){
+                    housesDrop.setSelection(viewModel.getSelectedPosition(), false);
 
-                if(position > 0){
+                    restarted = false;
+                    return;
+                }
+                if(position > -1){
                     House selHouse = houses.get(position);
                     if(selHouse != null){
+
+
 
 
                         viewModel.setSelectedHouseRaw(selHouse);
@@ -291,7 +303,7 @@ public class housesFragment extends Fragment{
                     }
 
                 }else{
-                    //Toast.makeText(getContext(), "No house selected", Toast.LENGTH_SHORT).show();
+
                 }
 
             }

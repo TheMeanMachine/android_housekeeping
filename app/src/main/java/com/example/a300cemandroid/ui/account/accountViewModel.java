@@ -27,7 +27,10 @@ public class accountViewModel extends ViewModel {
 
 
         User u = new User();
-        u.setFirstName("Pandian");
+        u.setFirstName("Reepio");
+        u.setLastName("Lopio");
+        u.setID(2);
+
 
         currentUser =u;
 

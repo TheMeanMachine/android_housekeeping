@@ -39,12 +39,24 @@ public class housesViewModel extends ViewModel {
     private AppController app = AppController.getInstance();
 
     public housesViewModel(){
+
+
         ArrayList<House> h = new ArrayList<House>();
         ArrayList<User> u = new ArrayList<User>();
-        //House house = new House();
-        //house.setID(1);
-        //house.setHouseName("Faloula");
-        //h.add(house);
+        House house = new House();
+        house.setID(1);
+        house.setHouseName("Faloula");
+        h.add(house);
+
+        house = new House();
+        house.setID(2);
+        house.setHouseName("Yeepers Creepers");
+        h.add(house);
+
+        house = new House();
+        house.setID(3);
+        house.setHouseName("Deepers Shaggy");
+        h.add(house);
 
         setHouses(h);
         setUsers(u);
@@ -72,9 +84,11 @@ public class housesViewModel extends ViewModel {
         tasksCompleted.setValue(h.countCompletedTasks());
 
         User head = appVM.getUserByID(h.getHeadOfHouseID());
+        if(head != null){
+            headOfHouseName.setValue(head.getFullName());
+            headOfHouseImg.setValue(head.getImg());
+        }
 
-        headOfHouseName.setValue(head.getFullName());
-        headOfHouseImg.setValue(head.getImg());
 
         users.setValue(h.getMembers());
 
@@ -160,10 +174,15 @@ public class housesViewModel extends ViewModel {
     }
 
     public void addUser(User user){
-        ArrayList<User> u = users.getValue();
-        u.add(user);
 
-        users.setValue(u);
+
+            //Todo db
+
+        selectedHouse.getValue().addMember(user);
+        houses.getValue().get(selectedPosition).addMember(user);
+
+        updateFields();
+
     }
 
     public void setUsers(ArrayList<User> u){

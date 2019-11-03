@@ -31,6 +31,18 @@ public class appViewModel {
         u.setLastName("Deepe");
         u.setID(1);
         allUsers.getValue().add(u);
+
+        u = new User();
+        u.setFirstName("Reepio");
+        u.setLastName("Lopio");
+        u.setID(2);
+        allUsers.getValue().add(u);
+
+        u = new User();
+        u.setFirstName("Lopindo");
+        u.setLastName("Pindiantio");
+        u.setID(3);
+        allUsers.getValue().add(u);
     }
 
     public MutableLiveData<ArrayList<User>> getAllUsers() {
