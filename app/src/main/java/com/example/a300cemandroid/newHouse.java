@@ -21,6 +21,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.a300cemandroid.ui.account.accountViewModel;
 import com.example.a300cemandroid.ui.houses.housesViewModel;
 
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ import java.util.List;
 public class newHouse extends AppCompatActivity {
     private housesViewModel housesVM;
     private appViewModel appVM;
+    private accountViewModel accountVM;
     private nameValidation nameValidator;
 
     private Spinner usersDrop;
@@ -42,6 +44,8 @@ public class newHouse extends AppCompatActivity {
     private Double latitude;
     private Double longitude;
 
+    private ArrayList<User> users;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,9 +57,10 @@ public class newHouse extends AppCompatActivity {
 
         housesVM = housesViewModel.getInstance();
         appVM = appViewModel.getInstance();
+        accountVM = accountViewModel.getInstance();
         nameValidator = new nameValidation();
 
-        usersDrop = (Spinner) findViewById(R.id.usersDropdown);
+        usersDrop = (Spinner) findViewById(R.id.membersDrop);
 
         houseName = (EditText) findViewById(R.id.houseName);
         houseNameError = (TextView) findViewById(R.id.houseNameError);
@@ -69,11 +74,13 @@ public class newHouse extends AppCompatActivity {
         setObservers();
     }
 
-    public void setListeners() {
+
+    private void setListeners() {
         okayBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                addHouse();
+                finish();
             }
         });
 
@@ -88,17 +95,19 @@ public class newHouse extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    Toast.makeText(newHouse.this, "wat", Toast.LENGTH_SHORT).show();
+                    //If user wants location saved
                     LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
                     if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
+                        //Location is not enabled
                         Toast.makeText(newHouse.this, "You need to enable location permissions", Toast.LENGTH_SHORT).show();
                         locationSwitch.setChecked(false);
 
                     }
+                    //Get location
                     Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                     longitude = location.getLongitude();
                     latitude = location.getLatitude();
+                    //Show user
                     Toast.makeText(newHouse.this, "Your longitude is: " + Double.toString(longitude) + " Your latitude is: " + Double.toString(latitude), Toast.LENGTH_SHORT).show();
 
                 }else{
@@ -110,25 +119,63 @@ public class newHouse extends AppCompatActivity {
 
     }
 
-    public void setObservers(){
+    private void setObservers(){
+
+        /*
+        Sets the list of users for the user to select head of house from
+         */
         appVM.getAllUsers().observe(this, new Observer<ArrayList<User>>() {
             @Override
             public void onChanged(@Nullable ArrayList<User> u) {
-                ArrayList<User> users = u;
+                users = u;
 
-                //Houses
-                List<String> userNames = new ArrayList<String>();
-                for(Integer i = 0; i < u.size(); i++){
-                    userNames.add(users.get(i).getFullName());
+
+                assert u != null;
+                if(u.size() > 0){
+
+                    List<String> userNames = new ArrayList<>();
+                    for(Integer i = 0; i < u.size(); i++){
+                        userNames.add(users.get(i).getFullName());
+                    }
+                    ArrayAdapter<String> adapter;
+                    adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, userNames);
+
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    usersDrop.setAdapter(adapter);
                 }
-                ArrayAdapter<String> adapter;
-                adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, userNames);
 
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-                usersDrop.setAdapter(adapter);
             }
         });
+    }
+
+    /*
+    Adds a new house to the system
+     */
+    private void addHouse(){
+        String name = houseName.getText().toString();
+        Integer headPos = usersDrop.getSelectedItemPosition();
+        Integer headID = users.get(headPos).getID();
+
+        House h = new House();
+        h.setHouseName(name);
+        //TODO: add db ID
+        h.setID(housesVM.getHouses().getValue().size()+1);
+
+        h.setHeadOfHouseID(headID);
+
+        ArrayList<User> u= new ArrayList<>();
+
+        if(!accountVM.getCurrentUser().getID().equals(headID)){//If current user is not the same as the head of house
+            u.add(accountVM.getCurrentUser());
+        }
+        u.add(appVM.getUserByID(headID));
+        h.setMembers(u);
+
+        h.setLatitude(latitude);
+        h.setLongitude(longitude);
+
+        appVM.addHouse(h);
+        housesVM.addHouse(h);
     }
 
 

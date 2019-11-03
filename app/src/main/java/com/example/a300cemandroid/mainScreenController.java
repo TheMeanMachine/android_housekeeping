@@ -24,7 +24,7 @@ public class mainScreenController {
     }
 
     public void newHouseSelected(House newHouse){
-        User headOfHouse = app.getUser(newHouse.getHeadOfHouseID());
+        /*User headOfHouse = app.getUser(newHouse.getHeadOfHouseID());
         //housesVM.setHeadOfHouseImg(headOfHouse.getImageURL());
         housesVM.setHeadOfHouseName(headOfHouse.getFullName());
         housesVM.setTotalTasks(newHouse.countTasks());
@@ -32,7 +32,7 @@ public class mainScreenController {
         housesVM.setUsers(newHouse.getMembers());
         housesVM.setLongitude(newHouse.getLongitude());
         housesVM.setLatitude(newHouse.getLatitude());
-
+*/
     }
 
     public void addNewHouse(){
@@ -46,7 +46,7 @@ public class mainScreenController {
     }
 
     public void selectHouse(House house){
-        housesVM.setSelectedHouse(house);
+        housesVM.setSelectedHouseRaw(house);
 
     }
 

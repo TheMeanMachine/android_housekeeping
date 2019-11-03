@@ -4,28 +4,28 @@ import java.util.ArrayList;
 
 
 public class House {
-    private String houseName;
-    private Integer ID;
-    private Integer headOfHouseID;
-    private ArrayList<User> members;
-    private ArrayList<Task> tasks;
+    private String houseName = "";
+    private Integer ID = 0;
+    private Integer headOfHouseID = 0;
+    private ArrayList<User> members = new ArrayList<>();
+    private ArrayList<Task> tasks = new ArrayList<>();
 
-    private Long Longitude;
-    private Long Latitude;
+    private Double Longitude = 0.0;
+    private Double Latitude = 0.0;
 
-    public Long getLongitude() {
+    public Double getLongitude() {
         return Longitude;
     }
 
-    public void setLongitude(Long longitude) {
+    public void setLongitude(Double longitude) {
         Longitude = longitude;
     }
 
-    public Long getLatitude() {
+    public Double getLatitude() {
         return Latitude;
     }
 
-    public void setLatitude(Long latitude) {
+    public void setLatitude(Double latitude) {
         Latitude = latitude;
     }
 
@@ -33,6 +33,12 @@ public class House {
 
 
     public House() {
+
+
+    }
+
+    public void addTask(Task t){
+        tasks.add(t);
     }
 
     public ArrayList<Task> getTasks() {
