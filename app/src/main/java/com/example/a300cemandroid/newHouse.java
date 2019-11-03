@@ -41,8 +41,8 @@ public class newHouse extends AppCompatActivity {
     private Button okayBtn;
     private Button cancelBtn;
 
-    private Double latitude;
-    private Double longitude;
+    private Double latitude = 0.0;
+    private Double longitude = 0.0;
 
     private ArrayList<User> users;
 

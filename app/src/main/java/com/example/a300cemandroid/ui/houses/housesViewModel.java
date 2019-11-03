@@ -178,8 +178,10 @@ public class housesViewModel extends ViewModel {
 
             //Todo db
 
-        selectedHouse.getValue().addMember(user);
+
         houses.getValue().get(selectedPosition).addMember(user);
+
+
 
         updateFields();
 
