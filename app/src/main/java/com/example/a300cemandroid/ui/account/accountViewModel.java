@@ -21,26 +21,32 @@ public class accountViewModel extends ViewModel {
 
     private appViewModel appVM = appViewModel.getInstance();
 
-
+    public void reset(){
+        this.instance = new accountViewModel();
+    }
 
     public accountViewModel(){
 
 
-        User u = new User();
-        u.setFirstName("Reepio");
-        u.setLastName("Lopio");
-        u.setID(2);
 
 
-        currentUser =u;
+
+
 
         getInformation();
     }
 
     private void getInformation() {
         if(true){
+            User u = appVM.getUserByID(1);
 
-            firstName.setValue(currentUser.getFirstName());
+            currentUser = u;
+
+            setFirstName(u.getFirstName());
+            setLastName(u.getLastName());
+            setEmail(u.getEmail());
+            setUsrImg(u.getImg());
+
         }
 
 
@@ -64,24 +70,26 @@ public class accountViewModel extends ViewModel {
         return firstName;
     }
 
-    public void setFirstName(MutableLiveData<String> firstName) {
-        this.firstName = firstName;
+    public void setFirstName(String firstName) {
+        this.firstName.setValue(firstName);
     }
 
     public MutableLiveData<String> getLastName() {
         return lastName;
     }
 
-    public void setLastName(MutableLiveData<String> lastName) {
-        this.lastName = lastName;
+    public void setLastName(String lastName) {
+        this.lastName.setValue(lastName);
     }
+
+
 
     public MutableLiveData<String> getEmail() {
         return email;
     }
 
-    public void setEmail(MutableLiveData<String> email) {
-        this.email = email;
+    public void setEmail(String email) {
+        this.email.setValue(email);
     }
 
     public MutableLiveData<Bitmap> getUsrImg() {
@@ -94,10 +102,5 @@ public class accountViewModel extends ViewModel {
 
         appVM.updateUser(currentUser);
     }
-
-
-
-
-
 
 }

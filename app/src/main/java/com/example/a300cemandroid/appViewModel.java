@@ -11,7 +11,9 @@ public class appViewModel {
     private MutableLiveData<ArrayList<House>> allHouses = new MutableLiveData<>();
 
 
-
+    public void reset(){
+        this.instance = new appViewModel();
+    }
 
 
     //Singleton pattern applied

@@ -69,6 +69,10 @@ public class housesViewModel extends ViewModel {
         return instance;
     }
 
+    public void reset(){
+        this.instance = new housesViewModel();
+    }
+
     public House getSelectedHouseRaw(){
         return selectedHouse.getValue();
     }

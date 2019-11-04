@@ -20,8 +20,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.a300cemandroid.MainActivity;
 import com.example.a300cemandroid.R;
 import com.example.a300cemandroid.appViewModel;
+import com.example.a300cemandroid.mainScreenController;
 
 public class accountFragment extends Fragment {
 
@@ -58,6 +60,8 @@ public class accountFragment extends Fragment {
         newPhoto = (Button) view.findViewById(R.id.newPhotoBtn);
         logout = (Button) view.findViewById(R.id.logoutBtn);
         deleteAccount = (Button) view.findViewById(R.id.deleteAccount);
+
+        //deleteAccount.setVisibility(View.GONE);
 
         setListeners();
         setObservers();
@@ -109,15 +113,38 @@ public class accountFragment extends Fragment {
                 startCamera();
             }
         });
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logout();
+            }
+        });
+
+        deleteAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+    }
+
+    private void logout(){
+        Intent login = new Intent(getActivity(), MainActivity.class);
+        login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(login);
+        mainScreenController.getInstance().resetInstances();
+        //TODO db
+        getActivity().finish();
     }
 
     private void startCamera(){
         Context context = getActivity();
         PackageManager packageManager = context.getPackageManager();
-        if (packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA) == false) {
+        if (!packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
             Toast.makeText(getActivity(), "This device does not have a camera.", Toast.LENGTH_SHORT)
                     .show();
-            return;
+
         } else {
             Intent camera_intent
                     = new Intent(MediaStore

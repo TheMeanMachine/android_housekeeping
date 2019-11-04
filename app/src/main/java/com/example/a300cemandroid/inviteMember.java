@@ -90,6 +90,7 @@ public class inviteMember extends AppCompatActivity {
 
 
 
+
     private void setSpinner(){
         membersExist = new ArrayList<User>(housesVM.getUsers().getValue());
         users = new ArrayList<User>(appVM.getAllUsers().getValue());
