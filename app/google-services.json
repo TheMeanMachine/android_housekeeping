@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "680343025384",
+    "firebase_url": "https://housekeeping-9f4cf.firebaseio.com",
+    "project_id": "housekeeping-9f4cf",
+    "storage_bucket": "housekeeping-9f4cf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:680343025384:android:73d88b4eb744dcec25fb5d",
+        "android_client_info": {
+          "package_name": "com.example.a300cemandroid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "680343025384-gf39tkrf6p76nlqrrptd95vo44cur506.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAIL32NhH8lFxSxNgGMyQ0DChFC3v-93E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "680343025384-gf39tkrf6p76nlqrrptd95vo44cur506.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
