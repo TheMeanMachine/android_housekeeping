@@ -71,7 +71,7 @@ public class tasksFragment extends Fragment {
                     Task tNew = new Task();
                     User uNew = accountVM.getCurrentUser();
                     tNew.setTitle("Title");
-                    //SimpleDateFormat date = new SimpleDateFormat("dd-MM-yy");//https://stackoverflow.com/questions/28542070/how-to-save-date-dd-mm-yyyy-in-java
+
                     Date date;
                     date = Calendar.getInstance().getTime();
 
