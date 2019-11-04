@@ -1,5 +1,6 @@
 package com.example.a300cemandroid;
 
+import com.example.a300cemandroid.ui.account.accountViewModel;
 import com.example.a300cemandroid.ui.houses.housesViewModel;
 
 import java.util.ArrayList;
@@ -19,7 +20,9 @@ public class mainScreenController {
         return instance;
     }
 
-
+    public void reset(){
+        this.instance = new mainScreenController();
+    }
 
 
     public void clearFields_Houses(){
@@ -54,4 +57,10 @@ public class mainScreenController {
     }
 
 
+    public void resetInstances(){
+        housesVM.reset();
+        appViewModel.getInstance().reset();
+        accountViewModel.getInstance().reset();
+
+    }
 }
