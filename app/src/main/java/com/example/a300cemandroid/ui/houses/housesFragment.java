@@ -1,14 +1,15 @@
 package com.example.a300cemandroid.ui.houses;
 
 import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -18,26 +19,22 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.arch.lifecycle.ViewModelProviders;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.a300cemandroid.AppController;
 import com.example.a300cemandroid.House;
+import com.example.a300cemandroid.MapsActivity;
 import com.example.a300cemandroid.R;
 import com.example.a300cemandroid.User;
-
 import com.example.a300cemandroid.appViewModel;
 import com.example.a300cemandroid.inviteMember;
 import com.example.a300cemandroid.mainScreenController;
 import com.example.a300cemandroid.newHouse;
 
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,12 +56,18 @@ public class housesFragment extends Fragment{
     private TextView tasksCompletedVal;
     private TextView totalTasksVal;
 
+    private LinearLayout content;
+
     private ImageView headOfHouseImg;
 
     private ProgressBar taskProgress;
 
     private List<House> houses;
+    private int previousHouseSize = 0;
     private List<User> members;
+
+    private Boolean restarted;
+
 
     private static AppController appController = AppController.getInstance();
     private static appViewModel appVM = appViewModel.getInstance();
@@ -87,6 +90,7 @@ public class housesFragment extends Fragment{
         housesDrop = (Spinner) view.findViewById(R.id.housesDropdown);
         membersDrop = (Spinner) view.findViewById(R.id.membersDrop);
         selectBtn = (Button) view.findViewById(R.id.selectBtn);
+        selectBtn.setVisibility(View.GONE);
 
         headOfHouseVal = (TextView) view.findViewById(R.id.headOfHouseValue);
         tasksCompletedVal = (TextView) view.findViewById(R.id.tasksCompletedValue);
@@ -96,7 +100,12 @@ public class housesFragment extends Fragment{
 
         taskProgress = (ProgressBar) view.findViewById(R.id.taskProgress);
 
-        setListeners();
+        content = (LinearLayout) view.findViewById(R.id.content);
+        content.setVisibility(View.GONE);
+
+        restarted = true;
+
+
 
         return view;
     }
@@ -105,7 +114,13 @@ public class housesFragment extends Fragment{
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+
+
+
+
+        setListeners();
         setObservers();
+
 
     }
 
@@ -147,6 +162,18 @@ public class housesFragment extends Fragment{
             public void onChanged(@Nullable ArrayList<House> h) {
                 houses = h;
 
+
+                if(h.size() > 0){
+                    content.setVisibility(View.VISIBLE);
+                }else{
+                    content.setVisibility(View.GONE);
+                }
+
+                if(h.size() == 1){
+                    viewModel.setSelectedHouseRaw(h.get(0));
+                    viewModel.setSelectedPosition(housesDrop.getSelectedItemPosition());
+                }
+
                 //Houses
                 List<String> houseNames = new ArrayList<String>();
                 for(Integer i =0; i < houses.size(); i++){
@@ -158,6 +185,13 @@ public class housesFragment extends Fragment{
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
                 housesDrop.setAdapter(adapter);
+
+                if(previousHouseSize != h.size()){
+                    previousHouseSize = h.size();
+                    housesDrop.setSelection(-1, false);
+                }
+
+                viewModel.updateFields();
             }
         });
 
@@ -168,7 +202,7 @@ public class housesFragment extends Fragment{
 
                 //User
                 List<String> userNames = new ArrayList<String>();
-                for(Integer i = 0; i < members.size(); i++){
+                for(int i = 0; i < members.size(); i++){
                     userNames.add(members.get(i).getFullName());
                 }
                 ArrayAdapter<String> adapter;
@@ -179,6 +213,8 @@ public class housesFragment extends Fragment{
                 membersDrop.setAdapter(adapter);
             }
         });
+
+
 
     }
 
@@ -198,12 +234,18 @@ public class housesFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 Integer sel = (Integer) housesDrop.getSelectedItemPosition();
-                if(housesDrop.getCount()  > 0){
-                    Intent myIntent = new Intent(v.getContext(), inviteMember.class);
+
+
+                if(housesDrop.getCount() > 0){
+                    Intent myIntent = new Intent(v.getContext(), MapsActivity.class);
                     Bundle extras = new Bundle();
 
-                    extras.putLong("longitude", viewModel.getLongitude());
-                    extras.putLong("latitude", viewModel.getLatitude());
+                    if(viewModel.getLongitude() == 0.0 && viewModel.getLatitude() == 0.0){
+                        Toast.makeText(getContext(), "No location saved", Toast.LENGTH_SHORT).show();
+                    }else{
+                        extras.putDouble("longitude", viewModel.getLongitude());
+                        extras.putDouble("latitude", viewModel.getLatitude());
+                    }
 
                     myIntent.putExtras(extras);
                     startActivity(myIntent);
@@ -216,7 +258,12 @@ public class housesFragment extends Fragment{
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteAlert();
+                if(housesDrop.getCount()  > 0){
+                    deleteAlert();
+                }else{
+                    Toast.makeText(getContext(), "No house selected", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
@@ -226,7 +273,7 @@ public class housesFragment extends Fragment{
                 if(housesDrop.getCount()  > 0){
                     Intent myIntent = new Intent(v.getContext(), inviteMember.class);
                     Bundle extras = new Bundle();
-                    extras.putInt("houseID", houses.get(housesDrop.getSelectedItemPosition()).getID());
+                    //extras.putInt("houseID", houses.get(housesDrop.getSelectedItemPosition()).getID());
                     myIntent.putExtras(extras);
                     startActivity(myIntent);
                 }else{
@@ -243,15 +290,30 @@ public class housesFragment extends Fragment{
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
 
+                if(restarted){
+                    housesDrop.setSelection(viewModel.getSelectedPosition(), false);
 
-                if(position > 0){
+                    restarted = false;
+                    return;
+                }
+                if(position > -1){
                     House selHouse = houses.get(position);
                     if(selHouse != null){
-                        msController.newHouseSelected(selHouse);
+
+
+
+
+                        viewModel.setSelectedHouseRaw(selHouse);
+                        viewModel.setSelectedPosition(position);
+
+                        content.setVisibility(View.VISIBLE);
+
+                    }else{
+                        content.setVisibility(View.GONE);
                     }
 
                 }else{
-                    Toast.makeText(getContext(), "No house selected", Toast.LENGTH_SHORT).show();
+
                 }
 
             }
@@ -259,10 +321,11 @@ public class housesFragment extends Fragment{
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 msController.clearFields_Houses();
+                content.setVisibility(View.GONE);
             }
         });
 
-        selectBtn.setOnClickListener(new View.OnClickListener() {
+        /*selectBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
                 Integer pos = housesDrop.getSelectedItemPosition();
@@ -278,7 +341,7 @@ public class housesFragment extends Fragment{
 
 
             }
-        });
+        });*/
 
     }
 
@@ -289,15 +352,12 @@ public class housesFragment extends Fragment{
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         Integer pos = housesDrop.getSelectedItemPosition();
-                        if(housesDrop.getCount()  > 0){
-                            House selHouse = houses.get(pos);
-                            if(selHouse != null){
-                                msController.deleteHouse(selHouse);
-                            }
-
-                        }else{
-                            Toast.makeText(getContext(), "No house selected", Toast.LENGTH_SHORT).show();
+                        House selHouse = houses.get(pos);
+                        if(selHouse != null){
+                            msController.deleteHouse(selHouse);
                         }
+
+
                     }
                 })
                 .setNegativeButton(android.R.string.no, null)

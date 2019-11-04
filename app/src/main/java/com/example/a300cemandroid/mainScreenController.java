@@ -1,8 +1,6 @@
 package com.example.a300cemandroid;
 
-import android.content.Intent;
-import android.view.View;
-
+import com.example.a300cemandroid.ui.account.accountViewModel;
 import com.example.a300cemandroid.ui.houses.housesViewModel;
 
 import java.util.ArrayList;
@@ -13,6 +11,7 @@ public class mainScreenController {
     private static housesViewModel housesVM = housesViewModel.getInstance();
 
 
+
     //Singleton pattern applied
     public static mainScreenController getInstance(){
         if(instance == null){
@@ -21,7 +20,9 @@ public class mainScreenController {
         return instance;
     }
 
-
+    public void reset(){
+        this.instance = new mainScreenController();
+    }
 
 
     public void clearFields_Houses(){
@@ -29,14 +30,6 @@ public class mainScreenController {
     }
 
     public void newHouseSelected(House newHouse){
-        User headOfHouse = app.getUser(newHouse.getHeadOfHouseID());
-        housesVM.setHeadOfHouseImg(headOfHouse.getImageURL());
-        housesVM.setHeadOfHouseName(headOfHouse.getFullName());
-        housesVM.setTotalTasks(newHouse.countTasks());
-        housesVM.setTasksCompleted(newHouse.countCompletedTasks());
-        housesVM.setUsers(newHouse.getMembers());
-        housesVM.setLongitude(newHouse.getLongitude());
-        housesVM.setLatitude(newHouse.getLatitude());
 
     }
 
@@ -48,12 +41,26 @@ public class mainScreenController {
 
     public void deleteHouse(House house){
         //Delete code
+        ArrayList<House> result = housesVM.getHouses().getValue();
+
+        result.remove(housesVM.getSelectedPosition());
+
+        housesVM.setHouses(result);
+
+        housesVM.updateFields();
+        //Todo db
     }
 
     public void selectHouse(House house){
-        housesVM.setSelectedHouse(house);
+        housesVM.setSelectedHouseRaw(house);
 
     }
 
 
+    public void resetInstances(){
+        housesVM.reset();
+        appViewModel.getInstance().reset();
+        accountViewModel.getInstance().reset();
+
+    }
 }

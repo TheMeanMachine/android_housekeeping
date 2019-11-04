@@ -1,10 +1,9 @@
 package com.example.a300cemandroid;
 
-import android.arch.lifecycle.Observer;
-import android.support.annotation.Nullable;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -20,8 +19,8 @@ public class inviteMember extends AppCompatActivity {
     private housesViewModel housesVM;
     private appViewModel appVM;
 
-    private ArrayList<User> users;
-    private ArrayList<User> membersExist;
+    private ArrayList<User> users = new ArrayList<>();
+    private ArrayList<User> membersExist = new ArrayList<>();
     private Spinner usersDrop;
 
     private Button inviteBtn;
@@ -30,6 +29,7 @@ public class inviteMember extends AppCompatActivity {
 
     private House house;
 
+    private ArrayList<User> removedList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,19 +41,20 @@ public class inviteMember extends AppCompatActivity {
         setContentView(R.layout.activity_invite_member);
 
         Bundle b = getIntent().getExtras();
-        houseID = -1; // or other values
-        if(b != null) {
-            houseID = b.getInt("houseID");
-        }
-        housesVM = housesViewModel.getInstance();
 
-        membersExist = house.getMembers();
+        housesVM = housesViewModel.getInstance();
+        house = housesVM.getSelectedHouseRaw();
+        appVM = appViewModel.getInstance();
+
+        membersExist = new ArrayList<User>(housesVM.getUsers().getValue());
+        users = new ArrayList<User>(appVM.getAllUsers().getValue());
+
+
 
         appVM = appViewModel.getInstance();
 
 
 
-        house = appVM.getHouseByID(houseID);
 
         if(house == null){
             Toast.makeText(this, "No found", Toast.LENGTH_SHORT).show();
@@ -66,15 +67,16 @@ public class inviteMember extends AppCompatActivity {
         usersDrop = (Spinner) findViewById(R.id.usersDropdown);
 
         setListeners();
-        setObservers();
+        setSpinner();
     }
 
     private void setListeners(){
         inviteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                User user = users.get(usersDrop.getSelectedItemPosition());
+                User user = removedList.get(usersDrop.getSelectedItemPosition());
                 housesVM.addUser(user);
+                finish();
             }
         });
 
@@ -86,48 +88,78 @@ public class inviteMember extends AppCompatActivity {
         });
     }
 
-    private void setObservers(){
-        appVM.getAllUsers().observe(this, new Observer<ArrayList<User>>() {
-            @Override
-            public void onChanged(@Nullable ArrayList<User> u) {
-                users = removeExistingMembers(u);
 
-                //Houses
-                List<String> userNames = new ArrayList<String>();
-                for(Integer i = 0; i < u.size(); i++){
-                    userNames.add(users.get(i).getFullName());
-                }
-                ArrayAdapter<String> adapter;
-                adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, userNames);
 
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-                usersDrop.setAdapter(adapter);
-            }
-        });
+    private void setSpinner(){
+        membersExist = new ArrayList<User>(housesVM.getUsers().getValue());
+        users = new ArrayList<User>(appVM.getAllUsers().getValue());
+
+        if (users.size() == 0 || membersExist.size() == users.size()) {
+            Toast.makeText(getApplicationContext(), "No users to invite", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
+        removedList = removeExistingMembers(users, membersExist);
+
+        if(removedList.size() == 0){
+            Toast.makeText(getApplicationContext(), "No users to invite", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
+        List<String> userNames = new ArrayList<>();
+        for(int i = 0; i < removedList.size(); i++){
+            userNames.add(removedList.get(i).getFullName());
+        }
+        ArrayAdapter<String> adapter;
+        adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, userNames);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        usersDrop.setAdapter(adapter);
     }
 
-    private ArrayList<User> removeExistingMembers(ArrayList<User> u){
-        ArrayList<User> newUserList = u;
-        for(int i = 0; i < u.size(); i++){
-            for(int j = 0; j < membersExist.size(); i++){
-                if(u.get(i).getID() == membersExist.get(j).getID()) {
-                    newUserList = removeUserByID(u.get(i).getID(), newUserList);
+    private ArrayList<User> removeExistingMembers(ArrayList<User> u, ArrayList<User> m){
+        /*for(int i = 0; i < u.size(); i++){
+            Integer thisID = u.get(i).getID();
+            for(int j = 0; j < m.size(); j++){
+                if(thisID.intValue() == m.get(j).getID().intValue()) {
+                    result = removeUserByID(thisID, u);
+
                     break;
                 }
             }
+        }*/
+        ArrayList<User> result = new ArrayList<>(u);
+
+        ArrayList<Integer> uID = new ArrayList<>();
+        for(int i = 0; i < u.size(); i++){
+            uID.add(u.get(i).getID());
+            Log.d("IM_ember - uID", String.valueOf(u.get(i).getID()));
         }
-        return newUserList;
+
+        //ArrayList<Integer> mID = new ArrayList<>();
+        for(int i = 0; i < m.size(); i++){
+            //mID.add(m.get(i).getID());
+            Log.d("IM_ember - mID", String.valueOf(m.get(i).getID()));
+            int index = uID.indexOf(m.get(i).getID());
+            if(index >= 0){
+                result.remove(index);
+                uID.remove(index);
+                Log.d("IM_ember-Deleting", String.valueOf(index));
+            }else{
+                Log.d("IM_ember-Notfound", String.valueOf(index));
+            }
+
+
+        }
+
+        return result;
+
     }
 
-    private ArrayList<User> removeUserByID(Integer ID, ArrayList<User> u){
-        for(int i = 0; i < u.size(); i++){
-            if(u.get(i).getID() == ID){
-                u.remove(i);
-                break;
-            }
-        }
-        return u;
-    }
+
 
 }

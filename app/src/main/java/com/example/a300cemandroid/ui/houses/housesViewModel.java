@@ -1,28 +1,21 @@
 package com.example.a300cemandroid.ui.houses;
 
-import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModel;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.support.annotation.Nullable;
-import android.util.Log;
-import android.widget.ArrayAdapter;
 
 import com.example.a300cemandroid.AppController;
 import com.example.a300cemandroid.House;
 import com.example.a300cemandroid.Task;
 import com.example.a300cemandroid.User;
+import com.example.a300cemandroid.appViewModel;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
-
-import static android.content.ContentValues.TAG;
 
 public class housesViewModel extends ViewModel {
     private static housesViewModel instance = null;
@@ -36,16 +29,34 @@ public class housesViewModel extends ViewModel {
 
     private MutableLiveData<Bitmap> headOfHouseImg = new MutableLiveData<>();
 
-    private Long Longitude = 0L;
-    private Long Latitude = 0L;
+    private Double Longitude = 0.0;
+    private Double Latitude = 0.0;
 
-    private House selectedHouse;
+    private MutableLiveData<House> selectedHouse = new MutableLiveData<>();
+    private int selectedPosition = 0;
 
+    private appViewModel appVM = appViewModel.getInstance();
     private AppController app = AppController.getInstance();
 
     public housesViewModel(){
+
+
         ArrayList<House> h = new ArrayList<House>();
         ArrayList<User> u = new ArrayList<User>();
+        House house = new House();
+        house.setID(1);
+        house.setHouseName("Faloula");
+        h.add(house);
+
+        house = new House();
+        house.setID(2);
+        house.setHouseName("Yeepers Creepers");
+        h.add(house);
+
+        house = new House();
+        house.setID(3);
+        house.setHouseName("Deepers Shaggy");
+        h.add(house);
 
         setHouses(h);
         setUsers(u);
@@ -58,6 +69,39 @@ public class housesViewModel extends ViewModel {
         return instance;
     }
 
+    public void reset(){
+        this.instance = new housesViewModel();
+    }
+
+    public House getSelectedHouseRaw(){
+        return selectedHouse.getValue();
+    }
+
+    public void setSelectedHouseRaw(House h){
+        selectedHouse.setValue(h);
+        updateFields();
+    }
+
+    public void updateFields(){
+        House h = selectedHouse.getValue();
+        if(h != null) {
+            totalTasks.setValue(h.countTasks());
+            tasksCompleted.setValue(h.countCompletedTasks());
+
+            User head = appVM.getUserByID(h.getHeadOfHouseID());
+            if(head != null){
+                headOfHouseName.setValue(head.getFullName());
+                headOfHouseImg.setValue(head.getImg());
+            }
+
+
+            users.setValue(h.getMembers());
+
+            Longitude = h.getLongitude();
+            Latitude = h.getLatitude();
+        }
+
+    }
 
     public MutableLiveData<Bitmap> getHeadOfHouseImg() {
         return headOfHouseImg;
@@ -76,36 +120,22 @@ public class housesViewModel extends ViewModel {
     }
 
 
-    public Long getLongitude() {
+    public Double getLongitude() {
         return Longitude;
     }
 
-    public void setLongitude(Long longitude) {
+    public void setLongitude(Double longitude) {
         Longitude = longitude;
     }
 
-    public Long getLatitude() {
+    public Double getLatitude() {
         return Latitude;
     }
 
-    public void setLatitude(Long latitude) {
+    public void setLatitude(Double latitude) {
         Latitude = latitude;
     }
 
-
-
-
-
-
-
-
-    public House getSelectedHouse() {
-        return selectedHouse;
-    }
-
-    public void setSelectedHouse(House selectedHouse) {
-        this.selectedHouse = selectedHouse;
-    }
 
     public void clearData(){
         ArrayList<User> u = new ArrayList<User>();
@@ -132,8 +162,14 @@ public class housesViewModel extends ViewModel {
         ArrayList<House> h = houses.getValue();
         h.add(house);
 
+
         houses.setValue(h);
 
+    }
+
+    public void addTaskToHouse(Task task){
+        selectedHouse.getValue().addTask(task);
+        updateFields();
     }
 
     public void setHouses(ArrayList<House> h){
@@ -145,10 +181,17 @@ public class housesViewModel extends ViewModel {
     }
 
     public void addUser(User user){
-        ArrayList<User> u = users.getValue();
-        u.add(user);
 
-        users.setValue(u);
+
+            //Todo db
+
+
+        houses.getValue().get(selectedPosition).addMember(user);
+
+
+
+        updateFields();
+
     }
 
     public void setUsers(ArrayList<User> u){
@@ -169,6 +212,22 @@ public class housesViewModel extends ViewModel {
 
     public void setTasksCompleted(Integer tasks){
         tasksCompleted.setValue(tasks);
+    }
+
+    public MutableLiveData<House> getSelectedHouse() {
+        return selectedHouse;
+    }
+
+    public void setSelectedHouse(MutableLiveData<House> selectedHouse) {
+        this.selectedHouse = selectedHouse;
+    }
+
+    public int getSelectedPosition() {
+        return selectedPosition;
+    }
+
+    public void setSelectedPosition(int selectedPosition) {
+        this.selectedPosition = selectedPosition;
     }
 
     private class getImage extends AsyncTask<URL, Void, Bitmap> {
@@ -203,5 +262,7 @@ public class housesViewModel extends ViewModel {
             }
         }
     }
+
+
 
 }

@@ -75,7 +75,7 @@
                         app:layout_constraintTop_toTopOf="parent">
 
                         <ImageView
-                            android:id="@+id/imageView4"
+                            android:id="@+id/userImg"
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
                             android:scaleType="centerInside"
@@ -97,7 +97,7 @@
                         app:layout_constraintTop_toBottomOf="@id/constraintLayout" />
 
                     <Button
-                        android:id="@+id/button2"
+                        android:id="@+id/newPhotoBtn"
                         style="@style/Widget.AppCompat.Button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -112,7 +112,7 @@
                         android:layout_height="@dimen/StandardSpacingHalf"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/button2" />
+                        app:layout_constraintTop_toBottomOf="@+id/newPhotoBtn" />
 
                 </android.support.constraint.ConstraintLayout>
 
@@ -138,14 +138,14 @@
                             android:layout_height="wrap_content">
 
                             <TextView
-                                android:id="@+id/textView3"
+                                android:id="@+id/firstNameVal"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="@string/firstName" />
 
                             <TextView
-                                android:id="@+id/headOfHouseValue"
+                                android:id="@+id/lastNameVal"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -159,7 +159,7 @@
                         android:layout_height="@dimen/StandardSpacingHalf" />
 
                     <TextView
-                        android:id="@+id/textView5"
+                        android:id="@+id/emailVal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/email" />
@@ -169,7 +169,7 @@
                         android:layout_height="50dp" />
 
                     <Button
-                        android:id="@+id/selectBtn"
+                        android:id="@+id/logoutBtn"
                         style="@style/Widget.AppCompat.Button.Colored"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -180,7 +180,7 @@
                         android:layout_height="@dimen/StandardSpacingHalf" />
 
                     <Button
-                        android:id="@+id/deleteHouseBtn"
+                        android:id="@+id/deleteAccount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="1dp"

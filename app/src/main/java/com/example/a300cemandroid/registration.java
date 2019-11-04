@@ -253,13 +253,35 @@ public class registration extends AppCompatActivity {
     }
 
     private void register(){
+        inProgress();
+
+
+    }
+
+    private void inProgress(){
         progressBarAnimation animation = new progressBarAnimation(progressSpin, 1000, 2000);
         animation.setDuration(1000);
         progressSpin.startAnimation(animation);
 
         progressSpin.setVisibility(View.VISIBLE);
 
-        Toast.makeText(this, "Registering now...", Toast.LENGTH_SHORT).show();
+        email.setEnabled(false);
+        firstName.setEnabled(false);
+        lastName.setEnabled(false);
+        password.setEnabled(false);
+        rePassword.setEnabled(false);
+        regBtn.setClickable(false);
+    }
+
+    private void stopProgress(){
+        progressSpin.setVisibility(View.GONE);
+
+        email.setEnabled(true);
+        firstName.setEnabled(true);
+        lastName.setEnabled(true);
+        password.setEnabled(true);
+        rePassword.setEnabled(true);
+        regBtn.setClickable(true);
     }
 
 

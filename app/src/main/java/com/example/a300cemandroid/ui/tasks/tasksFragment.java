@@ -1,34 +1,39 @@
 package com.example.a300cemandroid.ui.tasks;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.support.annotation.Nullable;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
+import android.widget.Toast;
 
+import com.example.a300cemandroid.House;
 import com.example.a300cemandroid.R;
 import com.example.a300cemandroid.Task;
 import com.example.a300cemandroid.User;
 import com.example.a300cemandroid.taskAdapter;
+import com.example.a300cemandroid.ui.account.accountViewModel;
+import com.example.a300cemandroid.ui.houses.housesViewModel;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class tasksFragment extends Fragment {
     private View view;
     private tasksViewModel tasksVM;
+    private housesViewModel houseVM = housesViewModel.getInstance();
+    private accountViewModel accountVM = accountViewModel.getInstance();
 
-    private ArrayList<Task> tasks;
+    private ArrayList<Task> tasks = new ArrayList<>();
 
     private ListView list;
 
@@ -60,19 +65,26 @@ public class tasksFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(houseVM.getSelectedHouseRaw() == null){
+                    Toast.makeText(getContext(), "No house selected", Toast.LENGTH_SHORT).show();
+                }else{
+                    Task tNew = new Task();
+                    User uNew = accountVM.getCurrentUser();
+                    tNew.setTitle("Title");
 
-                Task tNew = new Task();
-                User uNew = new User();
-                tNew.setTitle("Somewhere");
-                uNew.setFirstName("Aaron");
-                uNew.setLastName("Mandol");
-                SimpleDateFormat date = new SimpleDateFormat("dd-MM-yy");//https://stackoverflow.com/questions/28542070/how-to-save-date-dd-mm-yyyy-in-java
-                tNew.setDateMade(date);
-                date = new SimpleDateFormat("HH:mm:ss");
-                tNew.setTimeMade(date);
-                tNew.setMadeBy(uNew);
+                    Date date;
+                    date = Calendar.getInstance().getTime();
 
-                tasksVM.addTask(tNew);
+                    tNew.setDateMade(date);
+                    tNew.setTimeMade(date);
+
+                    tNew.setMadeBy(uNew);
+
+                    houseVM.addTaskToHouse(tNew);
+                    setList();
+                    //tasksVM.addTask(tNew);
+                }
+
             }
         });
 
@@ -95,14 +107,35 @@ public class tasksFragment extends Fragment {
         tasksVM.getTasks().observe(this, new Observer<ArrayList<Task>>() {
             @Override
             public void onChanged(@Nullable ArrayList<Task> task) {
-                tasks = task;
+                if(houseVM.getSelectedHouseRaw() != null){
+
+                    //tasksVM.setTasks(houseVM.getSelectedHouseRaw().getTasks());
+                    tasks = tasksVM.getTasks().getValue();
+                }
                 setList();
 
             }
         });
+
+        houseVM.getSelectedHouse().observe(this, new Observer<House>() {
+            @Override
+            public void onChanged(@Nullable House house) {
+
+                if(houseVM.getSelectedHouseRaw() != null){
+
+                    tasksVM.setTasks(houseVM.getSelectedHouseRaw().getTasks());
+                    tasks = tasksVM.getTasks().getValue();
+                }
+                setList();
+            }
+        });
+
+
     }
 
     private void setList(){
+
+
         list.setAdapter(new taskAdapter(view.getContext(), R.layout.task_item, tasks));
 
 
