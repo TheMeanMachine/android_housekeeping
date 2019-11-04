@@ -63,9 +63,11 @@ public class housesFragment extends Fragment{
     private ProgressBar taskProgress;
 
     private List<House> houses;
+    private int previousHouseSize = 0;
     private List<User> members;
 
     private Boolean restarted;
+
 
     private static AppController appController = AppController.getInstance();
     private static appViewModel appVM = appViewModel.getInstance();
@@ -160,6 +162,7 @@ public class housesFragment extends Fragment{
             public void onChanged(@Nullable ArrayList<House> h) {
                 houses = h;
 
+
                 if(h.size() > 0){
                     content.setVisibility(View.VISIBLE);
                 }else{
@@ -168,7 +171,7 @@ public class housesFragment extends Fragment{
 
                 if(h.size() == 1){
                     viewModel.setSelectedHouseRaw(h.get(0));
-                    //viewModel.setSelectedPosition(housesDrop.getSelectedItemPosition());
+                    viewModel.setSelectedPosition(housesDrop.getSelectedItemPosition());
                 }
 
                 //Houses
@@ -182,6 +185,13 @@ public class housesFragment extends Fragment{
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
                 housesDrop.setAdapter(adapter);
+
+                if(previousHouseSize != h.size()){
+                    previousHouseSize = h.size();
+                    housesDrop.setSelection(-1, false);
+                }
+
+                viewModel.updateFields();
             }
         });
 

@@ -80,20 +80,23 @@ public class housesViewModel extends ViewModel {
 
     public void updateFields(){
         House h = selectedHouse.getValue();
-        totalTasks.setValue(h.countTasks());
-        tasksCompleted.setValue(h.countCompletedTasks());
+        if(h != null) {
+            totalTasks.setValue(h.countTasks());
+            tasksCompleted.setValue(h.countCompletedTasks());
 
-        User head = appVM.getUserByID(h.getHeadOfHouseID());
-        if(head != null){
-            headOfHouseName.setValue(head.getFullName());
-            headOfHouseImg.setValue(head.getImg());
+            User head = appVM.getUserByID(h.getHeadOfHouseID());
+            if(head != null){
+                headOfHouseName.setValue(head.getFullName());
+                headOfHouseImg.setValue(head.getImg());
+            }
+
+
+            users.setValue(h.getMembers());
+
+            Longitude = h.getLongitude();
+            Latitude = h.getLatitude();
         }
 
-
-        users.setValue(h.getMembers());
-
-        Longitude = h.getLongitude();
-        Latitude = h.getLatitude();
     }
 
     public MutableLiveData<Bitmap> getHeadOfHouseImg() {

@@ -23,8 +23,9 @@ import com.example.a300cemandroid.taskAdapter;
 import com.example.a300cemandroid.ui.account.accountViewModel;
 import com.example.a300cemandroid.ui.houses.housesViewModel;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class tasksFragment extends Fragment {
     private View view;
@@ -69,11 +70,14 @@ public class tasksFragment extends Fragment {
                 }else{
                     Task tNew = new Task();
                     User uNew = accountVM.getCurrentUser();
-                    tNew.setTitle("Somewhere");
-                    SimpleDateFormat date = new SimpleDateFormat("dd-MM-yy");//https://stackoverflow.com/questions/28542070/how-to-save-date-dd-mm-yyyy-in-java
+                    tNew.setTitle("Title");
+                    //SimpleDateFormat date = new SimpleDateFormat("dd-MM-yy");//https://stackoverflow.com/questions/28542070/how-to-save-date-dd-mm-yyyy-in-java
+                    Date date;
+                    date = Calendar.getInstance().getTime();
+
                     tNew.setDateMade(date);
-                    date = new SimpleDateFormat("HH:mm:ss");
                     tNew.setTimeMade(date);
+
                     tNew.setMadeBy(uNew);
 
                     houseVM.addTaskToHouse(tNew);
