@@ -1,10 +1,12 @@
 package com.example.a300cemandroid;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +17,13 @@ import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
 
 public class registration extends AppCompatActivity {
     private EditText password;
@@ -44,6 +53,11 @@ public class registration extends AppCompatActivity {
     private passwordValidation passValidator = new passwordValidation();
     private emailValidation emailValidator = new emailValidation();
     private nameValidation nameValidator = new nameValidation();
+
+
+    private FirebaseAuth mAuth;
+    private String TAG = "REG";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +67,8 @@ public class registration extends AppCompatActivity {
 
         setContentView(R.layout.activity_registration);
 
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
 
         email = (EditText) findViewById(R.id.emailText);
         emailValidation = (TextView) findViewById(R.id.emailValidationText);
@@ -80,6 +96,59 @@ public class registration extends AppCompatActivity {
         setListeners();
 
 
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        updateUI(currentUser);
+    }
+
+    private void updateUI(final FirebaseUser currentUser) {
+        if(currentUser != null){
+
+            currentUser.getIdToken(true).addOnSuccessListener(new OnSuccessListener<GetTokenResult>() {
+                @Override
+                public void onSuccess(GetTokenResult result) {
+                    String idToken = result.getToken();
+                    //Do whatever
+                    Log.d(TAG, "GetTokenResult result = " + idToken);
+                    if(idToken != null){
+                        //Todo DB
+                        currentUser.getEmail();
+                    }
+                }
+            });
+
+        }else{
+            stopProgress();
+        }
+    }
+
+    private void createAccount(String email, String password){
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "createUserWithEmail:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            updateUI(user);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                            Toast.makeText(getApplicationContext(), "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                            updateUI(null);
+                        }
+
+                        // ...
+                    }
+                });
 
     }
 
@@ -237,13 +306,15 @@ public class registration extends AppCompatActivity {
             public void onClick(View v) {
                 boolean nameV = nameValidationManager();
                 boolean emailV = emailValidationManager();
+                String emailS = email.getText().toString();
                 boolean passwordV = passwordStrengthManager(password.getText().toString());
 
                 String passwordS =  password.getText().toString();
                 String rePasswordS = rePassword.getText().toString();
                 boolean isPasswordSame =passwordS.equals(rePasswordS);
                 if(nameV && emailV && passwordV && isPasswordSame){
-                    register();
+                    inProgress();
+                    createAccount(emailS, passwordS);
                 }else{
                     progressSpin.setVisibility(View.GONE);
                     Toast.makeText(registration.this, "You must enter valid information", Toast.LENGTH_SHORT).show();
@@ -253,7 +324,7 @@ public class registration extends AppCompatActivity {
     }
 
     private void register(){
-        inProgress();
+
 
 
     }

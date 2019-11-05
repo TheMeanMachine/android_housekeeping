@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class tasksFragment extends Fragment {
+public class tasksFragment extends Fragment  {
     private View view;
     private tasksViewModel tasksVM;
     private housesViewModel houseVM = housesViewModel.getInstance();
