@@ -2,11 +2,14 @@ package com.example.a300cemandroid;
 
 import android.Manifest;
 import android.arch.lifecycle.Observer;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
@@ -16,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -26,6 +30,7 @@ import com.example.a300cemandroid.ui.houses.housesViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class newHouse extends AppCompatActivity {
     private housesViewModel housesVM;
@@ -40,9 +45,13 @@ public class newHouse extends AppCompatActivity {
 
     private Button okayBtn;
     private Button cancelBtn;
+    private ImageButton mic;
 
     private Double latitude = 0.0;
     private Double longitude = 0.0;
+
+    private static final int REQ_CODE_SPEECH_INPUT = 100;
+
 
     private ArrayList<User> users;
 
@@ -69,9 +78,25 @@ public class newHouse extends AppCompatActivity {
 
         okayBtn = (Button) findViewById(R.id.okayBtn);
         cancelBtn = (Button) findViewById(R.id.cancelBtn);
+        mic = (ImageButton) findViewById(R.id.mic);
 
         setListeners();
         setObservers();
+
+
+
+    }
+
+    private void startVoiceInput() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Say name");
+        try {
+            startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
+        } catch (ActivityNotFoundException a) {
+
+        }
     }
 
 
@@ -114,6 +139,13 @@ public class newHouse extends AppCompatActivity {
                     longitude = 0.0;
                     latitude = 0.0;
                 }
+            }
+        });
+
+        mic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startVoiceInput();
             }
         });
 
@@ -176,6 +208,24 @@ public class newHouse extends AppCompatActivity {
 
         appVM.addHouse(h);
         housesVM.addHouse(h);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        //Returns microphone data and inputs it into houseName
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case REQ_CODE_SPEECH_INPUT: {
+                if (resultCode == RESULT_OK && null != data) {
+                    ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    houseName.setText(result.get(0));
+                }
+                break;
+            }
+
+        }
     }
 
 

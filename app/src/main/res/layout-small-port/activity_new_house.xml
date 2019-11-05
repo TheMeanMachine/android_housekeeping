@@ -97,6 +97,14 @@
                             android:text="@string/mustBeValidHouseName"
                             android:textColor="@color/textWarn"
                             android:visibility="gone" />
+
+                        <ImageButton
+                            android:id="@+id/imageButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="10"
+                            app:srcCompat="@drawable/ic_mic_black_24dp" />
+
                     </LinearLayout>
 
                     <Space
