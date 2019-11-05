@@ -1,7 +1,6 @@
 package com.example.a300cemandroid;
 
 import android.content.Context;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -14,16 +13,14 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
-public class taskAdapter extends ArrayAdapter<Task> {
-    private ArrayList<Task> tasks;
+public class taskAdapter extends ArrayAdapter<taskObj> {
+    private ArrayList<taskObj> tasks;
     private Context context;
     private int resource;
 
-    public taskAdapter(@NonNull Context context, int resource, ArrayList<Task> tasks) {
+    public taskAdapter(@NonNull Context context, int resource, ArrayList<taskObj> tasks) {
         super(context, resource, tasks);
         this.resource = resource;
         this.context = context;
@@ -41,7 +38,7 @@ public class taskAdapter extends ArrayAdapter<Task> {
                 v = layoutInflater.inflate(resource, parent, false);
             }
 
-            final Task task = tasks.get(position);
+            final taskObj task = tasks.get(position);
 
             TextView time = (TextView) v.findViewById(R.id.timeVal);
             TextView date = (TextView) v.findViewById(R.id.dateVal);

@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class Task {
+public class taskObj {
     private String title;
     private boolean completed;
     private Date dateMade = new Date();
@@ -23,7 +23,7 @@ public class Task {
     private Boolean editing = false;
 
 
-    public Task(){
+    public taskObj(){
 
     }
     /*

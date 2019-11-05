@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import com.example.a300cemandroid.House;
 import com.example.a300cemandroid.R;
-import com.example.a300cemandroid.Task;
+import com.example.a300cemandroid.taskObj;
 import com.example.a300cemandroid.User;
 import com.example.a300cemandroid.taskAdapter;
 import com.example.a300cemandroid.ui.account.accountViewModel;
@@ -33,7 +33,7 @@ public class tasksFragment extends Fragment {
     private housesViewModel houseVM = housesViewModel.getInstance();
     private accountViewModel accountVM = accountViewModel.getInstance();
 
-    private ArrayList<Task> tasks = new ArrayList<>();
+    private ArrayList<taskObj> tasks = new ArrayList<>();
 
     private ListView list;
 
@@ -68,7 +68,7 @@ public class tasksFragment extends Fragment {
                 if(houseVM.getSelectedHouseRaw() == null){
                     Toast.makeText(getContext(), "No house selected", Toast.LENGTH_SHORT).show();
                 }else{
-                    Task tNew = new Task();
+                    taskObj tNew = new taskObj();
                     User uNew = accountVM.getCurrentUser();
                     tNew.setTitle("Title");
 
@@ -104,9 +104,9 @@ public class tasksFragment extends Fragment {
     }
 
     private void setObservers(){
-        tasksVM.getTasks().observe(this, new Observer<ArrayList<Task>>() {
+        tasksVM.getTasks().observe(this, new Observer<ArrayList<taskObj>>() {
             @Override
-            public void onChanged(@Nullable ArrayList<Task> task) {
+            public void onChanged(@Nullable ArrayList<taskObj> task) {
                 if(houseVM.getSelectedHouseRaw() != null){
 
                     //tasksVM.setTasks(houseVM.getSelectedHouseRaw().getTasks());

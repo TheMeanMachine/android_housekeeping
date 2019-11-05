@@ -94,7 +94,18 @@
                     android:layout_height="wrap_content"
                     android:text="@string/register"
                     android:textSize="@dimen/text_standard" />
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp" />
 
+                <com.google.android.gms.common.SignInButton
+                    android:id="@+id/sign_in_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp" />
                 <Space
                     android:layout_width="match_parent"
                     android:layout_height="50dp" />

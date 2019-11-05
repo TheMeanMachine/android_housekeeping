@@ -9,7 +9,7 @@ import android.os.AsyncTask;
 
 import com.example.a300cemandroid.AppController;
 import com.example.a300cemandroid.House;
-import com.example.a300cemandroid.Task;
+import com.example.a300cemandroid.taskObj;
 import com.example.a300cemandroid.User;
 import com.example.a300cemandroid.appViewModel;
 
@@ -167,7 +167,7 @@ public class housesViewModel extends ViewModel {
 
     }
 
-    public void addTaskToHouse(Task task){
+    public void addTaskToHouse(taskObj task){
         selectedHouse.getValue().addTask(task);
         updateFields();
     }

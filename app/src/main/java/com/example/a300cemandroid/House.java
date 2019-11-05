@@ -8,7 +8,7 @@ public class House {
     private Integer ID = 0;
     private Integer headOfHouseID = 0;
     private ArrayList<User> members = new ArrayList<>();
-    private ArrayList<Task> tasks = new ArrayList<>();
+    private ArrayList<taskObj> tasks = new ArrayList<>();
 
     private Double Longitude = 0.0;
     private Double Latitude = 0.0;
@@ -37,15 +37,15 @@ public class House {
 
     }
 
-    public void addTask(Task t){
+    public void addTask(taskObj t){
         tasks.add(t);
     }
 
-    public ArrayList<Task> getTasks() {
+    public ArrayList<taskObj> getTasks() {
         return tasks;
     }
 
-    public void setTasks(ArrayList<Task> tasks) {
+    public void setTasks(ArrayList<taskObj> tasks) {
         this.tasks = tasks;
     }
 
