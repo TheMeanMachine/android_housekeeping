@@ -242,6 +242,7 @@ public class housesFragment extends Fragment{
 
                     if(viewModel.getLongitude() == 0.0 && viewModel.getLatitude() == 0.0){
                         Toast.makeText(getContext(), "No location saved", Toast.LENGTH_SHORT).show();
+                        return;
                     }else{
                         extras.putDouble("longitude", viewModel.getLongitude());
                         extras.putDouble("latitude", viewModel.getLatitude());

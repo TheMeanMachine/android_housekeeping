@@ -6,7 +6,9 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
@@ -27,6 +29,7 @@ import android.widget.Toast;
 
 import com.example.a300cemandroid.ui.account.accountViewModel;
 import com.example.a300cemandroid.ui.houses.housesViewModel;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,8 +55,11 @@ public class newHouse extends AppCompatActivity {
 
     private static final int REQ_CODE_SPEECH_INPUT = 100;
 
+    public String bestProvider;
+    public Criteria criteria;
 
     private ArrayList<User> users;
+    private LocationManager lm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +85,8 @@ public class newHouse extends AppCompatActivity {
         okayBtn = (Button) findViewById(R.id.okayBtn);
         cancelBtn = (Button) findViewById(R.id.cancelBtn);
         mic = (ImageButton) findViewById(R.id.mic);
+
+        lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         setListeners();
         setObservers();
@@ -120,20 +128,17 @@ public class newHouse extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    //If user wants location saved
-                    LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
                     if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                         //Location is not enabled
-                        Toast.makeText(newHouse.this, "You need to enable location permissions", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "You need to enable location permissions", Toast.LENGTH_SHORT).show();
                         locationSwitch.setChecked(false);
 
+                    }else{
+                        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,1000L,500.0f, locationListenerGPS);
                     }
-                    //Get location
-                    Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                    longitude = location.getLongitude();
-                    latitude = location.getLatitude();
-                    //Show user
-                    Toast.makeText(newHouse.this, "Your longitude is: " + Double.toString(longitude) + " Your latitude is: " + Double.toString(latitude), Toast.LENGTH_SHORT).show();
+
+
+
 
                 }else{
                     longitude = 0.0;
@@ -150,6 +155,46 @@ public class newHouse extends AppCompatActivity {
         });
 
     }
+
+    LocationListener locationListenerGPS=new LocationListener() {
+        @Override
+        public void onLocationChanged(android.location.Location location) {
+            if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                //Location is not enabled
+                Toast.makeText(getApplicationContext(), "You need to enable location permissions", Toast.LENGTH_SHORT).show();
+                locationSwitch.setChecked(false);
+
+            }else{
+                if (location != null) {
+                    longitude = location.getLongitude();
+                    latitude = location.getLatitude();
+                    //Show user
+                    Toast.makeText(newHouse.this, "Your longitude is: " + Double.toString(longitude) + " Your latitude is: " + Double.toString(latitude), Toast.LENGTH_SHORT).show();
+                }else{
+                    lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,1000L,500.0f, locationListenerGPS);
+                    locationSwitch.setChecked(false);
+                }
+            }
+
+
+
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+
+        }
+    };
 
     private void setObservers(){
 
