@@ -1,6 +1,7 @@
 package com.example.a300cemandroid;
 
 import android.content.Context;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -90,6 +91,9 @@ public class taskAdapter extends ArrayAdapter<taskObj> {
                     doneBtn.setVisibility(View.GONE);
                     title.setVisibility(View.VISIBLE);
                     titleEdit.setVisibility(View.GONE);
+
+                    DatabaseHandler db = new DatabaseHandler(context);
+                    db.updateTask(task);
                 }
             });
 
@@ -98,14 +102,16 @@ public class taskAdapter extends ArrayAdapter<taskObj> {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     task.setCompleted(isChecked);
+                    DatabaseHandler db = new DatabaseHandler(context);
+                    db.updateTask(task);
                 }
             });
 
 
 
             //Sets the values of the elements
-            time.setText(task.getStringTimeMade());
-            date.setText(task.getStringDateMade());
+            time.setText(task.getTimeMade());
+            date.setText(task.getDateMade());
             madeBy.setText(task.getMadeBy().getFullName());
             title.setText(task.getTitle());
             titleEdit.setText(task.getTitle());

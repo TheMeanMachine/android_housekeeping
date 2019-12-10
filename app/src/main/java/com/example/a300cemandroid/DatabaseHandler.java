@@ -9,10 +9,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.widget.Toast;
-
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-
 public class DatabaseHandler extends SQLiteOpenHelper {
     private Context dbcontext;
 
@@ -67,12 +65,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     }
 
+
+
     /**
      * Adds house to db
      * @param house - the house to add (House obj)
-     * @return boolean - true if successful
+     * @return insert ID
      */
-    public Boolean addHouse(House house){
+    public Long addHouse(House house){
+
+        if(house == null){
+            return null;
+        }
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -80,7 +84,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put("long", house.getLongitude());
         values.put("lat", house.getLatitude());
         values.put("headOfHouseID", house.getHeadOfHouseID());
-
 
         long result = db.insert("house", null, values);
 
@@ -90,11 +93,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         if (result > 0) {
             Log.v("dbhelper", "inserted successfully");
-            return true;
+
         } else {
             Log.v("dbhelper", "failed to insert");
-            return false;
+
         }
+
+        return result;
     }
 
 
@@ -114,10 +119,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }else{
             values.put("completed", 0);
         }
-        values.put("datemade", task.getStringDateMade());
-        values.put("timemade", task.getStringTimeMade());
-
-        long result = db.update("houseMembers", values, "_id=", new String[]{task.getID().toString()});
+        long result = db.update("task", values, "_id=?", new String[]{task.getID().toString()});
 
         if (result > 0) {
             Log.v("dbhelper", "inserted successfully");
@@ -132,10 +134,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
      * Add task
      * @param task - task Obj to add
      * @param houseID - houseID of house to add task to
-     * @return true if inserted
+     * @return Insert ID
      */
-    public Boolean addTask(taskObj task, int houseID){
+    public Long addTask(taskObj task, int houseID){
         SQLiteDatabase db = getWritableDatabase();
+
+        if(task == null || houseID < 0){
+            return null;
+        }
+
+
 
         ContentValues values = new ContentValues();
         values.put("userID", task.getMadeBy().getID());
@@ -146,18 +154,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }else{
             values.put("completed", 0);
         }
-        values.put("datemade", task.getStringDateMade());
-        values.put("timemade", task.getStringTimeMade());
+        values.put("datemade", task.getDateMade());
+        values.put("timemade", task.getTimeMade());
 
-        long result = db.insert("houseMembers", null, values);
+        long result = db.insert("task", null, values);
 
         if (result > 0) {
             Log.v("dbhelper", "inserted successfully");
-            return true;
+
         } else {
             Log.v("dbhelper", "failed to insert");
-            return false;
         }
+        return result;
     }
 
     /**
@@ -245,7 +253,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
      */
     private ArrayList<Integer> getHouseIDList(Integer userID){
         SQLiteDatabase db = getReadableDatabase();
-        ContentValues contentValues = new ContentValues();
 
         Cursor c = db.rawQuery("select * from houseMembers where userID = ? ", new String[] {userID.toString()});
 
@@ -322,7 +329,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
      */
     public ArrayList<taskObj> getTasks(Integer houseID){
         SQLiteDatabase db = getReadableDatabase();
-        ContentValues contentValues = new ContentValues();
 
         Cursor c = db.rawQuery("select * from task where houseID = ? ", new String[] {houseID.toString()});
 
@@ -332,8 +338,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             Integer ID = c.getInt(c.getColumnIndex("_id"));
 
             taskObj task = new taskObj();
-            task.setDateMadeString(c.getString(c.getColumnIndex("datemade")));
-            task.setTimeMadeString(c.getString(c.getColumnIndex("timemade")));
+            task.setDateMade(c.getString(c.getColumnIndex("datemade")));
+            task.setTimeMade(c.getString(c.getColumnIndex("timemade")));
             int completed = c.getInt(c.getColumnIndex("completed"));
             boolean com;
             if(completed == 0) {
@@ -359,7 +365,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
      */
     public Boolean checkDuplicateUser(String email) {
         SQLiteDatabase db = getReadableDatabase();
-        ContentValues contentValues = new ContentValues();
 
         Cursor c = db.rawQuery("select count(_id) from user where email = ? ", new String[] {email});
 
@@ -502,12 +507,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     /**
      * Checks if user exists, if doesn't, adds them to database
      * @param user user Obj to get information
-     * @return true if inserted
      */
-    public Boolean addUser(User user){
+    public void addUser(User user){
         SQLiteDatabase db = getWritableDatabase();
         if(this.checkDuplicateUser(user.getEmail())){
-            return false;
+            return;
         }
         ContentValues values = new ContentValues();
         values.put("email", user.getEmail());
@@ -524,10 +528,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         if (result > 0) {
             Log.v("dbhelper", "inserted successfully");
-            return true;
+
         } else {
             Log.v("dbhelper", "failed to insert");
-            return false;
         }
 
 

@@ -17,6 +17,20 @@ public class tasksViewModel extends ViewModel {
         tasks.setValue(new ArrayList<taskObj>());
     }
 
+    private static tasksViewModel instance = null;
+
+
+    //Singleton pattern applied
+    public static tasksViewModel getInstance(){
+        if(instance == null){
+            instance = new tasksViewModel();
+        }
+        return instance;
+    }
+
+    public void reset(){
+        this.instance = new tasksViewModel();
+    }
 
     public MutableLiveData<ArrayList<taskObj>> getTasks() {
 
@@ -25,15 +39,17 @@ public class tasksViewModel extends ViewModel {
 
     public void setTasks(ArrayList<taskObj> tasks) {
         this.tasks.setValue(tasks);
+
     }
 
     public void addTask(taskObj t){
 //        ArrayList<taskObj> newTasks = this.tasks.getValue();
 //        newTasks.add(t);
-        housesViewModel hvm = housesViewModel.getInstance();
-        if(hvm.getSelectedHouseRaw() != null) {
-            hvm.addTaskToHouse(t);
-        }
+//        setTasks(newTasks);
+//        housesViewModel hvm = housesViewModel.getInstance();
+//        if(hvm.getSelectedHouseRaw() != null) {
+//            hvm.addTaskToHouse(t);
+//        }
     }
 
 

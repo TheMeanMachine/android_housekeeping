@@ -252,9 +252,14 @@ public class newHouse extends AppCompatActivity {
         h.setLongitude(longitude);
 
         DatabaseHandler db = new DatabaseHandler(this);
-        db.addHouse(h);
+        Long id = db.addHouse(h);
 
-        housesVM.addHouse(h);
+        if(id > 0){
+            h.setID(id.intValue());
+
+            housesVM.addHouse(h);
+        }
+
     }
 
     @Override

@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +31,7 @@ import java.util.Date;
 
 public class tasksFragment extends Fragment  {
     private View view;
-    private tasksViewModel tasksVM;
+    private tasksViewModel tasksVM = tasksViewModel.getInstance();
     private housesViewModel houseVM = housesViewModel.getInstance();
     private accountViewModel accountVM = accountViewModel.getInstance();
 
@@ -44,8 +45,8 @@ public class tasksFragment extends Fragment  {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        tasksVM =
-                ViewModelProviders.of(this).get(tasksViewModel.class);
+        //tasksVM =
+         //       ViewModelProviders.of(this).get(tasksViewModel.class);
         view = inflater.inflate(R.layout.fragment_tasks, container, false);
 
         list = view.findViewById(R.id.taskListView);
@@ -73,20 +74,17 @@ public class tasksFragment extends Fragment  {
                     User uNew = accountVM.getCurrentUser();
                     tNew.setTitle("Title");
 
-                    Date date;
-                    date = Calendar.getInstance().getTime();
-
-                    tNew.setDateMade(date);
-                    tNew.setTimeMade(date);
-
                     tNew.setMadeBy(uNew);
 
                     DatabaseHandler db = new DatabaseHandler(getContext());
-                    db.addTask(tNew, houseVM.getSelectedHouse().getValue().getID());
+                    Long id = db.addTask(tNew, houseVM.getSelectedHouse().getValue().getID());
+                    if(id > 0){
+                        tNew.setID(id.intValue());
 
+                        houseVM.addTaskToHouse(tNew);
+                        setList();
+                    }
 
-                    houseVM.addTaskToHouse(tNew);
-                    setList();
                     //tasksVM.addTask(tNew);
                 }
 
@@ -109,32 +107,18 @@ public class tasksFragment extends Fragment  {
     }
 
     private void setObservers(){
-//        tasksVM.getTasks().observe(this, new Observer<ArrayList<taskObj>>() {
-//            @Override
-//            public void onChanged(@Nullable ArrayList<taskObj> task) {
-//                if(houseVM.getSelectedHouseRaw() != null){
-//
-//                    //tasksVM.setTasks(houseVM.getSelectedHouseRaw().getTasks());
-//                    tasks = tasksVM.getTasks().getValue();
-//                }
-//                setList();
-//
-//            }
-//        });
-
-        houseVM.getSelectedHouse().observe(this, new Observer<House>() {
+        tasksVM.getTasks().observe(this, new Observer<ArrayList<taskObj>>() {
             @Override
-            public void onChanged(@Nullable House house) {
-
+            public void onChanged(@Nullable ArrayList<taskObj> task) {
                 if(houseVM.getSelectedHouseRaw() != null){
-
-                    tasksVM.setTasks(houseVM.getSelectedHouseRaw().getTasks());
+                    if(tasks.size() > 0) Log.v("tasksYo", task.get(0).getTitle());
+                    //tasksVM.setTasks(houseVM.getSelectedHouseRaw().getTasks());
                     tasks = tasksVM.getTasks().getValue();
                 }
                 setList();
+
             }
         });
-
 
     }
 

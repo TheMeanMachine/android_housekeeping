@@ -2,6 +2,7 @@ package com.example.a300cemandroid;
 
 import com.example.a300cemandroid.ui.account.accountViewModel;
 import com.example.a300cemandroid.ui.houses.housesViewModel;
+import com.example.a300cemandroid.ui.tasks.tasksViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
@@ -26,6 +27,6 @@ public class mainScreenController {
         appVM.reset();
         accountViewModel.getInstance().reset();
         FirebaseAuth.getInstance().signOut();
-
+        tasksViewModel.getInstance().reset();
     }
 }

@@ -33,6 +33,7 @@ import com.example.a300cemandroid.appViewModel;
 import com.example.a300cemandroid.inviteMember;
 import com.example.a300cemandroid.mainScreenController;
 import com.example.a300cemandroid.newHouse;
+import com.example.a300cemandroid.ui.tasks.tasksViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -213,7 +214,18 @@ public class housesFragment extends Fragment{
         });
 
 
+        viewModel.getSelectedHouse().observe(this, new Observer<House>() {
+            @Override
+            public void onChanged(@Nullable House house) {
 
+                if(house != null){
+                    tasksViewModel tasksVM = tasksViewModel.getInstance();
+                    tasksVM.setTasks(house.getTasks());
+
+                }
+
+            }
+        });
     }
 
 

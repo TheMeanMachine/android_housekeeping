@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.a300cemandroid.DatabaseHandler;
 import com.example.a300cemandroid.MainActivity;
 import com.example.a300cemandroid.R;
 import com.example.a300cemandroid.appViewModel;
@@ -61,7 +62,7 @@ public class accountFragment extends Fragment {
         logout = (Button) view.findViewById(R.id.logoutBtn);
         deleteAccount = (Button) view.findViewById(R.id.deleteAccount);
 
-        //deleteAccount.setVisibility(View.GONE);
+        deleteAccount.setVisibility(View.GONE);
 
         setListeners();
         setObservers();
@@ -166,6 +167,8 @@ public class accountFragment extends Fragment {
         if (requestCode == pic_id) {
             Bitmap usrImg = (Bitmap) data.getExtras().get("data");
             viewModel.setUsrImg( usrImg );
+            DatabaseHandler db = new DatabaseHandler(getContext());
+            db.updateUser(viewModel.getCurrentUser());
 
 
 
