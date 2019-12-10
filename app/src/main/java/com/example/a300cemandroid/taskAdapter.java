@@ -25,7 +25,12 @@ public class taskAdapter extends ArrayAdapter<taskObj> {
     private Context context;
     private int resource;
 
-
+    /**
+     * Constructor
+     * @param context Sets the context of the app
+     * @param resource - Resource
+     * @param tasks - List of tasks
+     */
     public taskAdapter(@NonNull Context context, int resource, ArrayList<taskObj> tasks) {
         super(context, resource, tasks);
         this.resource = resource;
@@ -33,6 +38,14 @@ public class taskAdapter extends ArrayAdapter<taskObj> {
         this.tasks = tasks;
     }
 
+
+    /**
+     * Sets the task view
+     * @param position position of this particular adapter
+     * @param convertView - View of the placement
+     * @param parent - parent element
+     * @return view of the adapter
+     */
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent){

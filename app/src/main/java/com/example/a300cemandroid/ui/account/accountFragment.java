@@ -77,6 +77,9 @@ public class accountFragment extends Fragment {
         ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
     }
 
+    /**
+     * Sets observers of the view model
+     */
     private void setObservers(){
         viewModel.getUsrImg().observe(this, new Observer<Bitmap>() {
             @Override
@@ -107,6 +110,9 @@ public class accountFragment extends Fragment {
         });
     }
 
+    /**
+     * Sets listeners of the elements
+     */
     private void setListeners(){
         newPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,6 +136,9 @@ public class accountFragment extends Fragment {
         });
     }
 
+    /**
+     * Logs the user out of the application, calls resets and sends back to login screen
+     */
     private void logout(){
         Intent login = new Intent(getActivity(), MainActivity.class);
         mainScreenController.getInstance().resetInstances();
@@ -139,6 +148,9 @@ public class accountFragment extends Fragment {
 
     }
 
+    /**
+     * Starts the camera for avatar picture
+     */
     private void startCamera(){
         Context context = getActivity();
         PackageManager packageManager = context.getPackageManager();
@@ -157,6 +169,12 @@ public class accountFragment extends Fragment {
         }
     }
 
+    /**
+     * On camera return
+     * @param requestCode Code of the inital request
+     * @param resultCode Result code (Okay, bad)
+     * @param data Data of the request return
+     */
     @Override
     public void onActivityResult(int requestCode,
                                  int resultCode,

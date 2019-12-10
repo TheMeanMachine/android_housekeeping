@@ -36,6 +36,10 @@ public class auth {
         startUpApp(u);
     }
 
+    /**
+     * Initialises the application with the new data corrospoding to the new user
+     * @param currentUser - user start the app with
+     */
     private void startUpApp(User currentUser){
         DatabaseHandler db = new DatabaseHandler(context);
 
@@ -52,7 +56,6 @@ public class auth {
         accVM.setCurrentUser(currentUser);
         appVM.setAllUsers(users);
         houseVM.setHouses(houses_CU);
-
 
 
         Intent i = new Intent(context.getApplicationContext(), main_screen.class);

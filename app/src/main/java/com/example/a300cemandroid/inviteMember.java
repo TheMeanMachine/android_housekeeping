@@ -51,10 +51,7 @@ public class inviteMember extends AppCompatActivity {
 
         houseID = house.getID();
 
-
-
-
-        if(house == null){
+        if(house == null){//No house found
             Toast.makeText(this, "No found", Toast.LENGTH_SHORT).show();
             finish();
         }
@@ -68,6 +65,10 @@ public class inviteMember extends AppCompatActivity {
         setSpinner();
     }
 
+
+    /**
+     * Sets the listeners of elements
+     */
     private void setListeners(){
         inviteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,8 +92,9 @@ public class inviteMember extends AppCompatActivity {
     }
 
 
-
-
+    /**
+     * Sets the dropdown lists needed
+     */
     private void setSpinner(){
         membersExist = new ArrayList<User>(housesVM.getUsers().getValue());
         users = new ArrayList<User>(appVM.getAllUsers().getValue());
@@ -123,45 +125,30 @@ public class inviteMember extends AppCompatActivity {
         usersDrop.setAdapter(adapter);
     }
 
+    /**
+     * Generates a new ArrayList which has no duplicates (by ID)
+     * @param u - first User list
+     * @param m - second User list
+     * @return ArrayList containing no duplicates(byID)
+     */
     private ArrayList<User> removeExistingMembers(ArrayList<User> u, ArrayList<User> m){
-        /*for(int i = 0; i < u.size(); i++){
-            Integer thisID = u.get(i).getID();
-            for(int j = 0; j < m.size(); j++){
-                if(thisID.intValue() == m.get(j).getID().intValue()) {
-                    result = removeUserByID(thisID, u);
-
-                    break;
-                }
-            }
-        }*/
         ArrayList<User> result = new ArrayList<>(u);
 
         ArrayList<Integer> uID = new ArrayList<>();
         for(int i = 0; i < u.size(); i++){
             uID.add(u.get(i).getID());
-            Log.d("IM_ember - uID", String.valueOf(u.get(i).getID()));
         }
 
-        //ArrayList<Integer> mID = new ArrayList<>();
         for(int i = 0; i < m.size(); i++){
-            //mID.add(m.get(i).getID());
-            Log.d("IM_ember - mID", String.valueOf(m.get(i).getID()));
             int index = uID.indexOf(m.get(i).getID());
-            if(index >= 0){
+            if(index >= 0){//remove
                 result.remove(index);
                 uID.remove(index);
-                Log.d("IM_ember-Deleting", String.valueOf(index));
-            }else{
-                Log.d("IM_ember-Notfound", String.valueOf(index));
             }
-
-
         }
 
         return result;
 
     }
-
-
 
 }

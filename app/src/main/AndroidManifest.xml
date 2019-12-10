@@ -45,9 +45,6 @@
         <activity android:name=".main_screen">
 
         </activity>
-        <activity android:name=".tasks_main">
-
-        </activity>
         <activity android:name=".registration">
 
         </activity>

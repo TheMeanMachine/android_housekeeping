@@ -86,6 +86,12 @@ public class login_main extends AppCompatActivity {
         updateUI(currentUser);
     }
 
+    /**
+     * Updates the UI based on the result of attempted login
+     * If unsuccessful, will stop progress bars and return to normal,
+     * If successful, will send details to auth class to init the app
+     * @param currentUser - FirebaseUser credientials
+     */
     private void updateUI(FirebaseUser currentUser) {
         if(currentUser != null){
             stopProgress();
@@ -101,14 +107,14 @@ public class login_main extends AppCompatActivity {
     }
 
 
-
+    /**
+     * Sets the listeners for the elements
+     */
     private void setListeners(){
-
-
         showToggleCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                togglePasswordVisibility(buttonView, isChecked);
+                togglePasswordVisibility(isChecked);
             }
         });
 
@@ -145,7 +151,11 @@ public class login_main extends AppCompatActivity {
         });
     }
 
-    public void togglePasswordVisibility(CompoundButton compoundButton, boolean isChecked) {
+    /**
+     * Toggles the 'show password' option
+     * @param isChecked - if true, will set password visble
+     */
+    public void togglePasswordVisibility(boolean isChecked) {
         if (isChecked) {
             // show password
             password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());

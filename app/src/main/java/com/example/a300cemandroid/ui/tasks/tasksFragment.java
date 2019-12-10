@@ -63,6 +63,9 @@ public class tasksFragment extends Fragment  {
         ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
     }
 
+    /**
+     * Sets the listeners of the elements
+     */
     private void setListeners(){
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,6 +109,9 @@ public class tasksFragment extends Fragment  {
         });
     }
 
+    /**
+     * Sets observers of the viewmodel
+     */
     private void setObservers(){
         tasksVM.getTasks().observe(this, new Observer<ArrayList<taskObj>>() {
             @Override
@@ -122,6 +128,9 @@ public class tasksFragment extends Fragment  {
 
     }
 
+    /**
+     * Creates the list based on the task list
+     */
     private void setList(){
 
 

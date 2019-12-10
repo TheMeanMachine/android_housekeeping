@@ -70,6 +70,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Updates UI based on Google account sign in
+     * Will pass credientials to auth class to init app
+     * @param account
+     */
     private void updateUI(GoogleSignInAccount account) {
         auth authenticator = new auth(getApplicationContext());
         User u = new User();
@@ -78,11 +83,11 @@ public class MainActivity extends AppCompatActivity {
         u.setLastName(account.getFamilyName());
         u.setEmail(account.getEmail());
         authenticator.loginUserWithThird(u);
-
-
-
     }
 
+    /**
+     * Sets the listeners for the elements
+     */
     private void setListeners(){
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,13 +114,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Handles the google signin button
+     */
     private void googleHandler(){
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
+
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {//When google comes back with result
         super.onActivityResult(requestCode, resultCode, data);
 
         // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
@@ -127,6 +136,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+    /**
+     * Handles the activities result
+     * @param completedTask The googlesignin task
+     */
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);

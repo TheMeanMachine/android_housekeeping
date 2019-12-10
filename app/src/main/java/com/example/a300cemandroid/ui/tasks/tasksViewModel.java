@@ -28,29 +28,31 @@ public class tasksViewModel extends ViewModel {
         return instance;
     }
 
+    /**
+     * Resets instance of class for singleton
+     */
     public void reset(){
         this.instance = new tasksViewModel();
     }
 
+
+    /**
+     * Returns Tasklist
+     * @return MutableLiveData of taskObj obj
+     */
     public MutableLiveData<ArrayList<taskObj>> getTasks() {
 
         return tasks;
     }
 
+
+    /**
+     * Sets task list
+     * @param tasks ArrayList of taskObj
+     */
     public void setTasks(ArrayList<taskObj> tasks) {
         this.tasks.setValue(tasks);
 
     }
-
-    public void addTask(taskObj t){
-//        ArrayList<taskObj> newTasks = this.tasks.getValue();
-//        newTasks.add(t);
-//        setTasks(newTasks);
-//        housesViewModel hvm = housesViewModel.getInstance();
-//        if(hvm.getSelectedHouseRaw() != null) {
-//            hvm.addTaskToHouse(t);
-//        }
-    }
-
 
 }

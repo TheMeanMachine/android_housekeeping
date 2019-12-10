@@ -20,8 +20,9 @@ public class mainScreenController {
         return instance;
     }
 
-
-
+    /**
+     * Reset all instances of classes
+     */
     public void resetInstances(){
         housesVM.reset();
         appVM.reset();

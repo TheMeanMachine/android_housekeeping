@@ -189,26 +189,50 @@ public class taskObj {
         this.editing = editing;
     }
 
+    /**
+     * Gets the current ID
+     * @return Integer containing DB referenced ID
+     */
     public Integer getID() {
         return ID;
     }
 
+    /**
+     * Sets the ID referring to the DB
+     * @param ID - Integer to set
+     */
     public void setID(Integer ID) {
         this.ID = ID;
     }
 
+    /**
+     * Gets the string time made
+     * @return String of time made
+     */
     public String getTimeMade() {
         return timeMade;
     }
 
+    /**
+     * Sets the time made
+     * @param timeMade - String timemade
+     */
     public void setTimeMade(String timeMade) {
         this.timeMade = timeMade;
     }
 
+    /**
+     * Gets the date made string
+     * @return String of datemade
+     */
     public String getDateMade() {
         return dateMade;
     }
 
+    /**
+     * Sets the date made by string
+     * @param dateMade - Date made String
+     */
     public void setDateMade(String dateMade) {
         this.dateMade = dateMade;
     }

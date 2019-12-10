@@ -95,6 +95,9 @@ public class newHouse extends AppCompatActivity {
 
     }
 
+    /**
+     * Initializes the voice input
+     */
     private void startVoiceInput() {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
@@ -108,6 +111,9 @@ public class newHouse extends AppCompatActivity {
     }
 
 
+    /**
+     * Sets the listeners for the elements on the form
+     */
     private void setListeners() {
         okayBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -196,6 +202,9 @@ public class newHouse extends AppCompatActivity {
         }
     };
 
+    /**
+     * Sets the observers for the variables
+     */
     private void setObservers(){
 
         /*
@@ -225,8 +234,8 @@ public class newHouse extends AppCompatActivity {
         });
     }
 
-    /*
-    Adds a new house to the system
+    /**
+     * Adds a new house to the houseViewModel and database
      */
     private void addHouse(){
         String name = houseName.getText().toString();
@@ -235,7 +244,7 @@ public class newHouse extends AppCompatActivity {
 
         House h = new House();
         h.setHouseName(name);
-        //TODO: add db ID
+
         h.setID(housesVM.getHouses().getValue().size()+1);
 
         h.setHeadOfHouseID(headID);
@@ -262,6 +271,12 @@ public class newHouse extends AppCompatActivity {
 
     }
 
+    /**
+     * On return from microphone data
+     * @param requestCode - code of the request
+     * @param resultCode - result code (good, or bad result)
+     * @param data - data of the request
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 

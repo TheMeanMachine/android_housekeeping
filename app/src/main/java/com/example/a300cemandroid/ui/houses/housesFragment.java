@@ -107,20 +107,21 @@ public class housesFragment extends Fragment{
         return view;
     }
 
+    /**
+     * When activity is created
+     * @param savedInstanceState - instance passed by android
+     */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
-
-
-
-
         setListeners();
         setObservers();
-
-
     }
 
+    /**
+     * Sets observers of the viewmodel
+     */
     private void setObservers(){
 
         viewModel.getHeadOfHouseName().observe(this, new Observer<String>() {
@@ -229,7 +230,9 @@ public class housesFragment extends Fragment{
     }
 
 
-
+    /**
+     * Sets the listeners of the elements
+     */
     public void setListeners(){
         faBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -356,6 +359,9 @@ public class housesFragment extends Fragment{
 
     }
 
+    /**
+     * Ensures user wants to delete a house beforehand by showing alert
+     */
     public void deleteAlert(){
         new AlertDialog.Builder(getContext())
                 .setTitle("Delete house")

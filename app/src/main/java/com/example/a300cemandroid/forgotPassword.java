@@ -33,6 +33,9 @@ public class forgotPassword extends AppCompatActivity {
         setListeners();
     }
 
+    /**
+     * Sets the listeners for the elements
+     */
     private void setListeners(){
 
         email.addTextChangedListener(new TextWatcher() {
@@ -68,6 +71,10 @@ public class forgotPassword extends AppCompatActivity {
 
     }
 
+    /**
+     * Separately handles the email logic for the email validation element
+     * @param emailString - email string to check by
+     */
     private void emailLogic(String emailString){
         if(emailValidator.isEmail(emailString)){
             emailValidation.setVisibility(View.GONE);
