@@ -16,9 +16,9 @@ import java.util.ArrayList;
 public class DatabaseHandler extends SQLiteOpenHelper {
     private Context dbcontext;
 
-    DatabaseHandler(Context context) {
+    public DatabaseHandler(Context context) {
 
-        super(context, "houseDB1", null, 1);
+        super(context, "houseDB", null, 1);
         this.dbcontext = context;
     }
 
@@ -99,6 +99,36 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 
     /**
+     * Update task
+     * @param task - task Obj to update
+     * @return true if update
+     */
+    public Boolean updateTask(taskObj task){
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("userID", task.getMadeBy().getID());
+        values.put("title", task.getTitle());
+        if(task.isCompleted()){
+            values.put("completed", 1);
+        }else{
+            values.put("completed", 0);
+        }
+        values.put("datemade", task.getStringDateMade());
+        values.put("timemade", task.getStringTimeMade());
+
+        long result = db.update("houseMembers", values, "_id=", new String[]{task.getID().toString()});
+
+        if (result > 0) {
+            Log.v("dbhelper", "inserted successfully");
+            return true;
+        } else {
+            Log.v("dbhelper", "failed to insert");
+            return false;
+        }
+    }
+
+    /**
      * Add task
      * @param task - task Obj to add
      * @param houseID - houseID of house to add task to
@@ -167,19 +197,19 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         Cursor c = db.rawQuery("select * from house where _id = ? ", new String[] {houseID.toString()});
 
-        c.moveToFirst();
         House house = new House();
-        while (!c.isAfterLast()){
+        if (c.moveToFirst()) {
+            do {
 
-            house.setID(c.getInt(c.getColumnIndex("_id")));
-            house.setHeadOfHouseID(c.getInt(c.getColumnIndex("userID")));
-            house.setHouseName(c.getString(c.getColumnIndex("houseName")));
-            house.setLatitude(c.getDouble(c.getColumnIndex("lat")));
-            house.setLongitude(c.getDouble(c.getColumnIndex("long")));
+                house.setID(c.getInt(c.getColumnIndex("_id")));
+                house.setHeadOfHouseID(c.getInt(c.getColumnIndex("headOfHouseID")));
+                house.setHouseName(c.getString(c.getColumnIndex("houseName")));
+                house.setLatitude(c.getDouble(c.getColumnIndex("lat")));
+                house.setLongitude(c.getDouble(c.getColumnIndex("long")));
 
-            house.setTasks(this.getTasks(house.getID()));
-            house.setMembers(this.getMembers(house.getID()));
-            c.moveToNext();
+                house.setTasks(this.getTasks(house.getID()));
+                house.setMembers(this.getMembers(house.getID()));
+            } while (c.moveToNext());
         }
 
         return house;
@@ -219,13 +249,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         Cursor c = db.rawQuery("select * from houseMembers where userID = ? ", new String[] {userID.toString()});
 
-        c.moveToFirst();
+
         ArrayList<Integer> houses = new ArrayList<>();
-        while (!c.isAfterLast()) {
+        if (c.moveToFirst()) {
+            do {
             Integer ID = c.getInt(c.getColumnIndex("_id"));
 
             houses.add(c.getInt(c.getColumnIndex("houseID")));
             c.moveToNext();
+            } while (c.moveToNext());
         }
         c.close();
         return houses;
@@ -254,15 +286,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
      */
     private ArrayList<Integer> getMemberIDList(Integer houseID){
         SQLiteDatabase db = getReadableDatabase();
-        ContentValues contentValues = new ContentValues();
 
         Cursor c = db.rawQuery("select * from houseMembers where houseID = ? ", new String[] {houseID.toString()});
 
         c.moveToFirst();
         ArrayList<Integer> members = new ArrayList<>();
         while (!c.isAfterLast()) {
-            Integer ID = c.getInt(c.getColumnIndex("_id"));
-
             members.add(c.getInt(c.getColumnIndex("userID")));
             c.moveToNext();
         }
@@ -277,11 +306,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
      */
     public ArrayList<User> getMembers(Integer houseID){
         ArrayList<Integer> memberIDs = getMemberIDList(houseID);
+
         ArrayList<User> members = new ArrayList<>();
         for(int i = 0; i < memberIDs.size(); i++){
-            this.getUser(memberIDs.get(i));
+            Log.v("getMembers", memberIDs.get(i).toString());
+            members.add(this.getUser(memberIDs.get(i)));
         }
-
         return members;
     }
 
@@ -412,23 +442,61 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         Cursor c = db.rawQuery("SELECT * FROM user",null);
         ArrayList<User> usersList = new ArrayList<>();
-        if (c.moveToLast()){
-            Integer ID = c.getInt(c.getColumnIndex("_id"));
-            if (ID == null) {
-                return usersList;
-            }
-            User user = new User();
-            // Passing values
-            user.setID(c.getInt(c.getColumnIndex("_id")));
-            user.setFirstName(c.getString(c.getColumnIndex("firstName")));
-            user.setLastName(c.getString(c.getColumnIndex("lastName")));
-            user.setEmail(c.getString(c.getColumnIndex("email")));
-            user.setImg(getBitmapFromBytes(c.getBlob(c.getColumnIndex("img"))));
-            usersList.add(user);
+        if (c.moveToFirst()) {
+            do {
+                Integer ID = c.getInt(c.getColumnIndex("_id"));
+                if (ID == null) {
+                    return usersList;
+                }
+                User user = new User();
+                // Passing values
+                user.setID(c.getInt(c.getColumnIndex("_id")));
+                user.setFirstName(c.getString(c.getColumnIndex("firstName")));
+
+                user.setLastName(c.getString(c.getColumnIndex("lastName")));
+                user.setEmail(c.getString(c.getColumnIndex("email")));
+                user.setImg(getBitmapFromBytes(c.getBlob(c.getColumnIndex("img"))));
+                Log.v("db-users", user.getEmail());
+                usersList.add(user);
+            }while(c.moveToNext());
         }
 
         c.close();
         return usersList;
+    }
+
+    /**
+     * Checks if user exists, if they do updates their data
+     * @param user user Obj to get information
+     * @return true if updated
+     */
+    public Boolean updateUser(User user){
+        SQLiteDatabase db = getWritableDatabase();
+        if(!this.checkDuplicateUser(user.getEmail())){//User doesn't exist
+            return false;
+        }
+        ContentValues values = new ContentValues();
+        values.put("email", user.getEmail());
+        values.put("firstName", user.getFirstName());
+        values.put("lastName", user.getLastName());
+        if(user.getImg() != null){
+            Bitmap img = user.getImg();
+            byte[] imgByte = getBytesFromBitmap(img);
+
+            values.put("img", imgByte);
+        }
+
+        long result = db.update("user", values,"_id = ?", new String[]{user.getID().toString()});
+        Toast.makeText(dbcontext, Long.toString(result), Toast.LENGTH_SHORT).show();
+
+
+        if (result > 0) {
+            Log.v("dbhelper", "inserted successfully");
+            return true;
+        } else {
+            Log.v("dbhelper", "failed to insert");
+            return false;
+        }
     }
 
     /**
@@ -453,8 +521,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
 
         long result = db.insert("user", null, values);
-        Toast.makeText(dbcontext, Long.toString(result), Toast.LENGTH_SHORT).show();
-
 
         if (result > 0) {
             Log.v("dbhelper", "inserted successfully");

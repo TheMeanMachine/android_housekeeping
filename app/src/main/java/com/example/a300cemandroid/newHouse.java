@@ -251,7 +251,9 @@ public class newHouse extends AppCompatActivity {
         h.setLatitude(latitude);
         h.setLongitude(longitude);
 
-        appVM.addHouse(h);
+        DatabaseHandler db = new DatabaseHandler(this);
+        db.addHouse(h);
+
         housesVM.addHouse(h);
     }
 

@@ -1,15 +1,16 @@
 package com.example.a300cemandroid;
 
+import android.app.Application;
 import android.arch.lifecycle.MutableLiveData;
+
+import com.example.a300cemandroid.ui.account.accountViewModel;
 
 import java.util.ArrayList;
 
-public class appViewModel {
+public class appViewModel{
     private static appViewModel instance = null;
 
     private MutableLiveData<ArrayList<User>> allUsers = new MutableLiveData<>();
-    private MutableLiveData<ArrayList<House>> allHouses = new MutableLiveData<>();
-    private MutableLiveData<User> currentUser = new MutableLiveData<>();
 
     public void reset(){
         this.instance = new appViewModel();
@@ -24,30 +25,6 @@ public class appViewModel {
         return instance;
     }
 
-
-
-    private appViewModel(){
-        allHouses.setValue(new ArrayList<House>());
-        allUsers.setValue(new ArrayList<User>());
-
-        User u = new User();
-        u.setFirstName("Peepe");
-        u.setLastName("Deepe");
-        u.setID(1);
-        allUsers.getValue().add(u);
-
-        u = new User();
-        u.setFirstName("Reepio");
-        u.setLastName("Lopio");
-        u.setID(2);
-        allUsers.getValue().add(u);
-
-        u = new User();
-        u.setFirstName("Lopindo");
-        u.setLastName("Pindiantio");
-        u.setID(3);
-        allUsers.getValue().add(u);
-    }
 
     public MutableLiveData<ArrayList<User>> getAllUsers() {
         return allUsers;
@@ -65,20 +42,20 @@ public class appViewModel {
 
     }
 
-    public House getHouseByID(Integer ID){
-
-        House h = null;
-        if(allHouses.getValue() == null){
-            return null;
-        }
-        for(int i = 0; i < allHouses.getValue().size(); i++){
-            if(allHouses.getValue().get(i).getID() == ID){
-                h = allHouses.getValue().get(i);
-                break;
-            }
-        }
-        return h;
-    }
+//    public House getHouseByID(Integer ID){
+//
+//        House h = null;
+//        if(allHouses.getValue() == null){
+//            return null;
+//        }
+//        for(int i = 0; i < allHouses.getValue().size(); i++){
+//            if(allHouses.getValue().get(i).getID() == ID){
+//                h = allHouses.getValue().get(i);
+//                break;
+//            }
+//        }
+//        return h;
+//    }
 
     public User getUserByID(Integer ID){
 
@@ -122,23 +99,26 @@ public class appViewModel {
         //do db stuff
     }
 
-    public void addHouse(House h){
-        allHouses.getValue().add(h);
-    }
+//    public void addHouse(House h){
+//        DatabaseHandler db = new DatabaseHandler(getContext());
+//        db.addHouse(h);
+//        allHouses.getValue().add(h);
+//
+//    }
 
-    public MutableLiveData<User> getCurrentUser() {
-        return currentUser;
-    }
+//    public MutableLiveData<User> getCurrentUser() {
+//        return currentUser;
+//    }
 
-    public void setCurrentUser(MutableLiveData<User> currentUser) {
-        this.currentUser = currentUser;
-    }
-    public void setCurrentUserValue(User currentUser) {
-        this.currentUser.setValue(currentUser);
-    }
-
-
-    public User getCurrentUserValue(){
-        return this.currentUser.getValue();
-    }
+//    public void setCurrentUser(MutableLiveData<User> currentUser) {
+//        this.currentUser = currentUser;
+//    }
+//    public void setCurrentUserValue(User currentUser) {
+//        this.currentUser.setValue(currentUser);
+//    }
+//
+//
+//    public User getCurrentUserValue(){
+//        return this.currentUser.getValue();
+//    }
 }

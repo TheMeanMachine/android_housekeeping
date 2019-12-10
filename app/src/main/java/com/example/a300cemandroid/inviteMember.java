@@ -49,9 +49,7 @@ public class inviteMember extends AppCompatActivity {
         membersExist = new ArrayList<User>(housesVM.getUsers().getValue());
         users = new ArrayList<User>(appVM.getAllUsers().getValue());
 
-
-
-        appVM = appViewModel.getInstance();
+        houseID = house.getID();
 
 
 
@@ -76,6 +74,10 @@ public class inviteMember extends AppCompatActivity {
             public void onClick(View v) {
                 User user = removedList.get(usersDrop.getSelectedItemPosition());
                 housesVM.addUser(user);
+
+                DatabaseHandler db = new DatabaseHandler(getApplicationContext());
+                db.addUserToHouse(user.getID(), houseID);
+
                 finish();
             }
         });

@@ -87,7 +87,7 @@ public class login_main extends AppCompatActivity {
     }
 
     private void updateUI(FirebaseUser currentUser) {
-        if(currentUser == null){
+        if(currentUser != null){
             stopProgress();
             auth authenticator = new auth(getApplicationContext());
             User u = new User();
@@ -95,6 +95,8 @@ public class login_main extends AppCompatActivity {
             u.setFirstName(u.getFirstName());
             u.setLastName(u.getLastName());
             authenticator.loginUserWithThird(u);
+        }else{
+            stopProgress();
         }
     }
 
@@ -177,8 +179,6 @@ public class login_main extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
-
-                        // ...
                     }
                 });
 

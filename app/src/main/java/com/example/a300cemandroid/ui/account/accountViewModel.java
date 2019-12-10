@@ -25,26 +25,6 @@ public class accountViewModel extends ViewModel {
         this.instance = new accountViewModel();
     }
 
-    public accountViewModel(){
-        getInformation();
-    }
-
-    private void getInformation() {
-        if(true){
-            User u = appVM.getCurrentUserValue();
-
-            currentUser = u;
-
-            setFirstName(u.getFirstName());
-            setLastName(u.getLastName());
-            setEmail(u.getEmail());
-            setUsrImg(u.getImg());
-
-        }
-
-
-    }
-
     //Singleton pattern applied
     public static accountViewModel getInstance(){
         if(instance == null){
@@ -52,6 +32,26 @@ public class accountViewModel extends ViewModel {
         }
         return instance;
     }
+
+    public void setCurrentUser(User u) {
+
+
+        if(u != null){
+            currentUser = u;
+
+            setFirstName(u.getFirstName());
+            setLastName(u.getLastName());
+            setEmail(u.getEmail());
+            setUsrImg(u.getImg());
+        }
+
+
+
+
+
+    }
+
+
 
     public User getCurrentUser() {
         return currentUser;

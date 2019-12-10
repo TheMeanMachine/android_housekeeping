@@ -4,6 +4,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
 import com.example.a300cemandroid.taskObj;
+import com.example.a300cemandroid.ui.houses.housesViewModel;
 
 import java.util.ArrayList;
 
@@ -27,9 +28,12 @@ public class tasksViewModel extends ViewModel {
     }
 
     public void addTask(taskObj t){
-        ArrayList<taskObj> newTasks = this.tasks.getValue();
-        newTasks.add(t);
-        setTasks(newTasks);
+//        ArrayList<taskObj> newTasks = this.tasks.getValue();
+//        newTasks.add(t);
+        housesViewModel hvm = housesViewModel.getInstance();
+        if(hvm.getSelectedHouseRaw() != null) {
+            hvm.addTaskToHouse(t);
+        }
     }
 
 

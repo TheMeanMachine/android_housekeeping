@@ -6,6 +6,8 @@ import android.arch.lifecycle.ViewModel;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+
+import com.example.a300cemandroid.DatabaseHandler;
 import com.example.a300cemandroid.House;
 import com.example.a300cemandroid.taskObj;
 import com.example.a300cemandroid.User;
@@ -37,26 +39,6 @@ public class housesViewModel extends ViewModel {
 
     public housesViewModel(){
 
-
-        ArrayList<House> h = new ArrayList<House>();
-        ArrayList<User> u = new ArrayList<User>();
-        House house = new House();
-        house.setID(1);
-        house.setHouseName("Faloula");
-        h.add(house);
-
-        house = new House();
-        house.setID(2);
-        house.setHouseName("Yeepers Creepers");
-        h.add(house);
-
-        house = new House();
-        house.setID(3);
-        house.setHouseName("Deepers Shaggy");
-        h.add(house);
-
-        setHouses(h);
-        setUsers(u);
     }
     //Singleton pattern applied
     public static housesViewModel getInstance(){
@@ -96,6 +78,21 @@ public class housesViewModel extends ViewModel {
 
             Longitude = h.getLongitude();
             Latitude = h.getLatitude();
+        }else{
+            if(houses.getValue().size() != 0){
+                setSelectedHouseRaw(houses.getValue().get(0));
+                updateFields();
+            }else{
+//                totalTasks.setValue(0);
+//                tasksCompleted.setValue(0);
+//                headOfHouseImg.setValue(null);
+//                headOfHouseName.setValue(null);
+//                users.setValue(new ArrayList<User>() );
+//                Longitude = 0.0;
+//                Latitude = 0.0;
+
+            }
+
         }
 
     }
@@ -156,6 +153,7 @@ public class housesViewModel extends ViewModel {
     }
 
     public void addHouse(House house){
+
         ArrayList<House> h = houses.getValue();
         h.add(house);
 
@@ -171,6 +169,16 @@ public class housesViewModel extends ViewModel {
 
     public void setHouses(ArrayList<House> h){
         houses.setValue(h);
+        if(h.size() > 0){
+            setSelectedHouseRaw(h.get(0));
+            setSelectedPosition(0);
+            updateFields();
+
+        }else{
+
+        }
+
+
     }
 
     public MutableLiveData<ArrayList<User>> getUsers(){
@@ -179,17 +187,26 @@ public class housesViewModel extends ViewModel {
 
     public void addUser(User user){
 
-
-            //Todo db
-
-
-        houses.getValue().get(selectedPosition).addMember(user);
-
+        //houses.getValue().get(selectedPosition).addMember(user);
+        selectedHouse.getValue().addMember(user);
 
 
         updateFields();
 
     }
+
+    public void deleteHouse(House house){
+        //Delete code
+        ArrayList<House> result = getHouses().getValue();
+
+        result.remove(getSelectedPosition());
+
+        setHouses(result);
+
+        updateFields();
+        //Todo db
+    }
+
 
     public void setUsers(ArrayList<User> u){
         users.setValue(u);

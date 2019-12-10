@@ -12,6 +12,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,7 +68,6 @@ public class housesFragment extends Fragment{
     private Boolean restarted;
 
     private static appViewModel appVM = appViewModel.getInstance();
-    private static mainScreenController msController = mainScreenController.getInstance();
     private housesViewModel viewModel = housesViewModel.getInstance();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -194,11 +194,13 @@ public class housesFragment extends Fragment{
         viewModel.getUsers().observe(this, new Observer<ArrayList<User>>() {
             @Override
             public void onChanged(@Nullable ArrayList<User> m) {
-                members = m;
+                ArrayList<User> members = m;
 
                 //User
                 List<String> userNames = new ArrayList<String>();
+                Log.v("houseFrag", ((Integer)members.size()).toString());
                 for(int i = 0; i < members.size(); i++){
+
                     userNames.add(members.get(i).getFullName());
                 }
                 ArrayAdapter<String> adapter;
@@ -317,7 +319,7 @@ public class housesFragment extends Fragment{
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                msController.clearFields_Houses();
+                viewModel.clearData();
                 content.setVisibility(View.GONE);
             }
         });
@@ -351,9 +353,9 @@ public class housesFragment extends Fragment{
                         Integer pos = housesDrop.getSelectedItemPosition();
                         House selHouse = houses.get(pos);
                         if(selHouse != null){
-                            msController.deleteHouse(selHouse);
+                            viewModel.deleteHouse(selHouse);
                         }
-
+                        viewModel.setSelectedPosition(housesDrop.getSelectedItemPosition());
 
                     }
                 })

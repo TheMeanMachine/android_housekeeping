@@ -108,7 +108,7 @@ public class registration extends AppCompatActivity {
      * Updates the UI based on the login procedure
      * @param currentUser
      */
-    private void updateUI(final FirebaseUser currentUser, User u) {
+    private void updateUI(final FirebaseUser currentUser, final User u) {
         if(currentUser != null && u != null){
 
             currentUser.getIdToken(true).addOnSuccessListener(new OnSuccessListener<GetTokenResult>() {
@@ -119,10 +119,9 @@ public class registration extends AppCompatActivity {
                     Log.d(TAG, "GetTokenResult result = " + idToken);
                     if(idToken != null){
                         auth authenticator = new auth(getApplicationContext());
-                        User u = new User();
+
                         u.setEmail(currentUser.getEmail());
-                        u.setFirstName(u.getFirstName());
-                        u.setLastName(u.getLastName());
+
                         authenticator.loginUserWithThird(u);
                     }
 
@@ -147,15 +146,15 @@ public class registration extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 // Sign in success, update UI with the signed-in user's information
-                                User u = new User();
-                                u.setFirstName(cU.getFirstName());
-                                u.setLastName(cU.getLastName());
-                                u.setEmail(cU.getEmail());
-                                u.setImg(cU.getImg());
-                                u.setID(cU.getID());
+//                                User u = new User();
+//                                u.setFirstName(cU.getFirstName());
+//                                u.setLastName(cU.getLastName());
+//                                u.setEmail(cU.getEmail());
+//                                u.setImg(cU.getImg());
+//                                u.setID(cU.getID());
                                 Log.d(TAG, "createUserWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
-                                updateUI(user, u);
+                                updateUI(user, cU);
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -172,7 +171,9 @@ public class registration extends AppCompatActivity {
 
     }
 
-
+    /**
+     * Sets listeners for elements
+     */
     private void setListeners() {
         icon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -347,12 +348,9 @@ public class registration extends AppCompatActivity {
         });
     }
 
-    private void register(){
-
-
-
-    }
-
+    /**
+     * Sets spinners in action, inputs disabled
+     */
     private void inProgress(){
         progressBarAnimation animation = new progressBarAnimation(progressSpin, 1000, 2000);
         animation.setDuration(1000);
@@ -368,6 +366,9 @@ public class registration extends AppCompatActivity {
         regBtn.setClickable(false);
     }
 
+    /**
+     * Hides spinner, allows input
+     */
     private void stopProgress(){
         progressSpin.setVisibility(View.GONE);
 
@@ -379,7 +380,10 @@ public class registration extends AppCompatActivity {
         regBtn.setClickable(true);
     }
 
-
+    /**
+     * Validates the first and last name fields on the form
+     * @return True if valid names
+     */
     private boolean nameValidationManager(){
         String fName = firstName.getText().toString();
         String lName = lastName.getText().toString();
@@ -394,6 +398,10 @@ public class registration extends AppCompatActivity {
         return nameValid;
     }
 
+    /**
+     * Validates the email entry on the form
+     * @return True if valid email
+     */
     private Boolean emailValidationManager(){
         String email_string = email.getText().toString();
         if (emailValidator.isEmail(email_string)) {
@@ -405,6 +413,11 @@ public class registration extends AppCompatActivity {
         }
     }
 
+    /**
+     * Validates the strength of the password on the form
+     * @param passText - password to check
+     * @return true if strong enough
+     */
     private boolean passwordStrengthManager(String passText){
         int strength = passValidator.passwordStrength(passText);
 

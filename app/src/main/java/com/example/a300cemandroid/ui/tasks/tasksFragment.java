@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.a300cemandroid.DatabaseHandler;
 import com.example.a300cemandroid.House;
 import com.example.a300cemandroid.R;
 import com.example.a300cemandroid.taskObj;
@@ -80,6 +81,10 @@ public class tasksFragment extends Fragment  {
 
                     tNew.setMadeBy(uNew);
 
+                    DatabaseHandler db = new DatabaseHandler(getContext());
+                    db.addTask(tNew, houseVM.getSelectedHouse().getValue().getID());
+
+
                     houseVM.addTaskToHouse(tNew);
                     setList();
                     //tasksVM.addTask(tNew);
@@ -104,18 +109,18 @@ public class tasksFragment extends Fragment  {
     }
 
     private void setObservers(){
-        tasksVM.getTasks().observe(this, new Observer<ArrayList<taskObj>>() {
-            @Override
-            public void onChanged(@Nullable ArrayList<taskObj> task) {
-                if(houseVM.getSelectedHouseRaw() != null){
-
-                    //tasksVM.setTasks(houseVM.getSelectedHouseRaw().getTasks());
-                    tasks = tasksVM.getTasks().getValue();
-                }
-                setList();
-
-            }
-        });
+//        tasksVM.getTasks().observe(this, new Observer<ArrayList<taskObj>>() {
+//            @Override
+//            public void onChanged(@Nullable ArrayList<taskObj> task) {
+//                if(houseVM.getSelectedHouseRaw() != null){
+//
+//                    //tasksVM.setTasks(houseVM.getSelectedHouseRaw().getTasks());
+//                    tasks = tasksVM.getTasks().getValue();
+//                }
+//                setList();
+//
+//            }
+//        });
 
         houseVM.getSelectedHouse().observe(this, new Observer<House>() {
             @Override

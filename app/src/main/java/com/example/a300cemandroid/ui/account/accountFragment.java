@@ -131,11 +131,11 @@ public class accountFragment extends Fragment {
 
     private void logout(){
         Intent login = new Intent(getActivity(), MainActivity.class);
+        mainScreenController.getInstance().resetInstances();
         login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(login);
-        mainScreenController.getInstance().resetInstances();
-        //TODO db
-        getActivity().finish();
+
+
     }
 
     private void startCamera(){
