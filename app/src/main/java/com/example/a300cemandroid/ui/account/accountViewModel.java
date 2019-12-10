@@ -26,19 +26,12 @@ public class accountViewModel extends ViewModel {
     }
 
     public accountViewModel(){
-
-
-
-
-
-
-
         getInformation();
     }
 
     private void getInformation() {
         if(true){
-            User u = appVM.getUserByID(1);
+            User u = appVM.getCurrentUserValue();
 
             currentUser = u;
 

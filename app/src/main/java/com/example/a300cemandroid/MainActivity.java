@@ -71,16 +71,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateUI(GoogleSignInAccount account) {
+        auth authenticator = new auth(getApplicationContext());
+        User u = new User();
+        u.setEmail(account.getEmail());
+        u.setFirstName(account.getGivenName());
+        u.setLastName(account.getFamilyName());
+        u.setEmail(account.getEmail());
+        authenticator.loginUserWithThird(u);
 
-        User current = new User();
-
-        current.setFirstName(account.getGivenName());
-        current.setLastName(account.getFamilyName());
-        current.setEmail(account.getEmail());
-
-        Toast.makeText(getApplicationContext(), current.getFullName(), Toast.LENGTH_SHORT).show();
-
-        //accountViewModel.getInstance().getCurrentUser();
 
 
     }

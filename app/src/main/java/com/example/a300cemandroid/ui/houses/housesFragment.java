@@ -24,8 +24,6 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.example.a300cemandroid.AppController;
 import com.example.a300cemandroid.House;
 import com.example.a300cemandroid.MapsActivity;
 import com.example.a300cemandroid.R;
@@ -68,8 +66,6 @@ public class housesFragment extends Fragment{
 
     private Boolean restarted;
 
-
-    private static AppController appController = AppController.getInstance();
     private static appViewModel appVM = appViewModel.getInstance();
     private static mainScreenController msController = mainScreenController.getInstance();
     private housesViewModel viewModel = housesViewModel.getInstance();

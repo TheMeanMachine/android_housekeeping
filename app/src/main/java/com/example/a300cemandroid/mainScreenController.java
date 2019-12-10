@@ -7,10 +7,8 @@ import java.util.ArrayList;
 
 public class mainScreenController {
     private static mainScreenController instance;
-    private static AppController app = AppController.getInstance();
     private static housesViewModel housesVM = housesViewModel.getInstance();
-
-
+    private static appViewModel appVM = appViewModel.getInstance();
 
     //Singleton pattern applied
     public static mainScreenController getInstance(){

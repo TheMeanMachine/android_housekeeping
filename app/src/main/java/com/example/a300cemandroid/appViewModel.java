@@ -9,7 +9,7 @@ public class appViewModel {
 
     private MutableLiveData<ArrayList<User>> allUsers = new MutableLiveData<>();
     private MutableLiveData<ArrayList<House>> allHouses = new MutableLiveData<>();
-
+    private MutableLiveData<User> currentUser = new MutableLiveData<>();
 
     public void reset(){
         this.instance = new appViewModel();
@@ -23,6 +23,8 @@ public class appViewModel {
         }
         return instance;
     }
+
+
 
     private appViewModel(){
         allHouses.setValue(new ArrayList<House>());
@@ -124,4 +126,19 @@ public class appViewModel {
         allHouses.getValue().add(h);
     }
 
+    public MutableLiveData<User> getCurrentUser() {
+        return currentUser;
+    }
+
+    public void setCurrentUser(MutableLiveData<User> currentUser) {
+        this.currentUser = currentUser;
+    }
+    public void setCurrentUserValue(User currentUser) {
+        this.currentUser.setValue(currentUser);
+    }
+
+
+    public User getCurrentUserValue(){
+        return this.currentUser.getValue();
+    }
 }

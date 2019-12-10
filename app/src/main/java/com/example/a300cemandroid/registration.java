@@ -102,13 +102,14 @@ public class registration extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
     }
 
-    private void updateUI(final FirebaseUser currentUser) {
-        if(currentUser != null){
+    /**
+     * Updates the UI based on the login procedure
+     * @param currentUser
+     */
+    private void updateUI(final FirebaseUser currentUser, User u) {
+        if(currentUser != null && u != null){
 
             currentUser.getIdToken(true).addOnSuccessListener(new OnSuccessListener<GetTokenResult>() {
                 @Override
@@ -117,9 +118,14 @@ public class registration extends AppCompatActivity {
                     //Do whatever
                     Log.d(TAG, "GetTokenResult result = " + idToken);
                     if(idToken != null){
-                        //Todo DB
-                        currentUser.getEmail();
+                        auth authenticator = new auth(getApplicationContext());
+                        User u = new User();
+                        u.setEmail(currentUser.getEmail());
+                        u.setFirstName(u.getFirstName());
+                        u.setLastName(u.getLastName());
+                        authenticator.loginUserWithThird(u);
                     }
+
                 }
             });
 
@@ -128,27 +134,41 @@ public class registration extends AppCompatActivity {
         }
     }
 
-    private void createAccount(String email, String password){
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "createUserWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(getApplicationContext(), "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                            updateUI(null);
-                        }
+    /**
+     * Registers an account (U&P) on firebase
+     * @param cU - user Obj
+     * @param password - Password of new user
+     */
+    private void createAccount(final User cU, String password){
+        if(cU != null){
+            mAuth.createUserWithEmailAndPassword(cU.getEmail(), password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                User u = new User();
+                                u.setFirstName(cU.getFirstName());
+                                u.setLastName(cU.getLastName());
+                                u.setEmail(cU.getEmail());
+                                u.setImg(cU.getImg());
+                                u.setID(cU.getID());
+                                Log.d(TAG, "createUserWithEmail:success");
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                updateUI(user, u);
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                                Toast.makeText(getApplicationContext(), "Authentication failed.",
+                                        Toast.LENGTH_SHORT).show();
+                                updateUI(null, null);
+                            }
 
-                        // ...
-                    }
-                });
+                            // ...
+                        }
+                    });
+
+        }
 
     }
 
@@ -314,7 +334,11 @@ public class registration extends AppCompatActivity {
                 boolean isPasswordSame =passwordS.equals(rePasswordS);
                 if(nameV && emailV && passwordV && isPasswordSame){
                     inProgress();
-                    createAccount(emailS, passwordS);
+                    User u = new User();
+                    u.setEmail(email.getText().toString());
+                    u.setLastName(lastName.getText().toString());
+                    u.setFirstName(firstName.getText().toString());
+                    createAccount(u, passwordS);
                 }else{
                     progressSpin.setVisibility(View.GONE);
                     Toast.makeText(registration.this, "You must enter valid information", Toast.LENGTH_SHORT).show();

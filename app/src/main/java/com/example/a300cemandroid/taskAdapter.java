@@ -15,10 +15,15 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+
+/**
+ * Task element (adapter) to insert into task list
+ */
 public class taskAdapter extends ArrayAdapter<taskObj> {
     private ArrayList<taskObj> tasks;
     private Context context;
     private int resource;
+
 
     public taskAdapter(@NonNull Context context, int resource, ArrayList<taskObj> tasks) {
         super(context, resource, tasks);
@@ -33,7 +38,7 @@ public class taskAdapter extends ArrayAdapter<taskObj> {
         View v = convertView;
 
         try{
-            if(v==null){
+            if(v==null){//If view is not present
                 LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 v = layoutInflater.inflate(resource, parent, false);
             }
@@ -51,11 +56,11 @@ public class taskAdapter extends ArrayAdapter<taskObj> {
             final Button doneBtn = (Button) v.findViewById(R.id.doneBtn);
 
 
-
+            //User clicks edit button
             editBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(task.getEditing()){//Already editing, undo
+                    if(task.getEditing()){//Already editing, undo changes
                         task.setEditing(false);
                         editBtn.setBackgroundDrawable(ContextCompat.getDrawable(context,R.drawable.ic_edit_black_24dp));
                         doneBtn.setVisibility(View.GONE);
@@ -73,6 +78,7 @@ public class taskAdapter extends ArrayAdapter<taskObj> {
                 }
             });
 
+            //User is done with editing and wants to save
             doneBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -87,6 +93,7 @@ public class taskAdapter extends ArrayAdapter<taskObj> {
                 }
             });
 
+            //User completed task
             completed.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -96,7 +103,7 @@ public class taskAdapter extends ArrayAdapter<taskObj> {
 
 
 
-
+            //Sets the values of the elements
             time.setText(task.getStringTimeMade());
             date.setText(task.getStringDateMade());
             madeBy.setText(task.getMadeBy().getFullName());

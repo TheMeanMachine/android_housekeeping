@@ -2,17 +2,26 @@ package com.example.a300cemandroid;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 
 public class login_main extends AppCompatActivity {
@@ -36,7 +45,7 @@ public class login_main extends AppCompatActivity {
     private passwordValidation passValidator = new passwordValidation();
     private emailValidation emailValidator = new emailValidation();
 
-
+    private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,10 +68,37 @@ public class login_main extends AppCompatActivity {
 
         progressSpin = (ProgressBar) findViewById(R.id.progressAnim);
 
+
+
+        // ...
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
         setListeners();
 
 
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        updateUI(currentUser);
+    }
+
+    private void updateUI(FirebaseUser currentUser) {
+        if(currentUser == null){
+            stopProgress();
+            auth authenticator = new auth(getApplicationContext());
+            User u = new User();
+            u.setEmail(currentUser.getEmail());
+            u.setFirstName(u.getFirstName());
+            u.setLastName(u.getLastName());
+            authenticator.loginUserWithThird(u);
+        }
+    }
+
+
 
     private void setListeners(){
 
@@ -119,14 +155,39 @@ public class login_main extends AppCompatActivity {
         }
     }
 
+    /**
+     * Handles the login procedures
+     */
     private void login(){
 
         inProgress();
+        mAuth.signInWithEmailAndPassword(email.getText().toString(), password.getText().toString())
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d("login", "signInWithEmail:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            updateUI(user);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w("login", "signInWithEmail:failure", task.getException());
+                            Toast.makeText(getApplicationContext(), "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                            updateUI(null);
+                        }
 
+                        // ...
+                    }
+                });
 
 
     }
 
+    /**
+     * Sets spinners and stops input
+     */
     private void inProgress(){
         progressBarAnimation animation = new progressBarAnimation(progressSpin, 1000, 2000);
         animation.setDuration(1000);
@@ -140,6 +201,9 @@ public class login_main extends AppCompatActivity {
 
     }
 
+    /**
+     * Stops spinners and allows input
+     */
     private void stopProgress(){
         progressSpin.setVisibility(View.GONE);
 
@@ -150,6 +214,10 @@ public class login_main extends AppCompatActivity {
 
     }
 
+    /**
+     * Handles email validation text
+     * @return true if email okay
+     */
     private Boolean emailValidationManager(){
         String email_string = email.getText().toString();
         if (emailValidator.isEmail(email_string)) {
@@ -161,6 +229,11 @@ public class login_main extends AppCompatActivity {
         }
     }
 
+    /**
+     * Handles password strength management text
+     * @param passText - password to check
+     * @return true if strength is okay
+     */
     private boolean passwordStrengthManager(String passText){
         int strength = passValidator.passwordStrength(passText);
 

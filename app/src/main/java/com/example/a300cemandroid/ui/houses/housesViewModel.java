@@ -6,8 +6,6 @@ import android.arch.lifecycle.ViewModel;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-
-import com.example.a300cemandroid.AppController;
 import com.example.a300cemandroid.House;
 import com.example.a300cemandroid.taskObj;
 import com.example.a300cemandroid.User;
@@ -36,7 +34,6 @@ public class housesViewModel extends ViewModel {
     private int selectedPosition = 0;
 
     private appViewModel appVM = appViewModel.getInstance();
-    private AppController app = AppController.getInstance();
 
     public housesViewModel(){
 
