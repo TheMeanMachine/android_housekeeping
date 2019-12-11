@@ -262,12 +262,13 @@ public class newHouse extends AppCompatActivity {
 
         DatabaseHandler db = new DatabaseHandler(this);
         Long id = db.addHouse(h);
-
+        db.closeDB();
         if(id > 0){
             h.setID(id.intValue());
 
             housesVM.addHouse(h);
         }
+
 
     }
 

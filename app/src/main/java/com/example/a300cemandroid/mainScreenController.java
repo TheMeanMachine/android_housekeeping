@@ -5,8 +5,6 @@ import com.example.a300cemandroid.ui.houses.housesViewModel;
 import com.example.a300cemandroid.ui.tasks.tasksViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.ArrayList;
-
 public class mainScreenController {
     private static mainScreenController instance;
     private static housesViewModel housesVM = housesViewModel.getInstance();

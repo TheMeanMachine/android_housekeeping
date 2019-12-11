@@ -65,7 +65,22 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     }
 
-
+    /**
+     * Deletes a house by ID
+     * @param houseID - ID to delete
+     * @return true if successful
+     */
+    public boolean deleteHouse(Integer houseID)
+    {
+        if(houseID == null){
+            return false;
+        }
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete("houseMembers", "houseID=?", new String[]{houseID.toString()});
+        db.delete("task", "houseID=?", new String[]{houseID.toString()});
+        db.delete("house", "_id=?", new String[]{houseID.toString()});
+        return true;
+    }
 
     /**
      * Adds house to db
@@ -101,7 +116,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         return result;
     }
-
 
     /**
      * Update task
@@ -560,6 +574,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             return BitmapFactory.decodeByteArray(bytes, 0 ,bytes.length);
         }
         return null;
+    }
+
+    public void closeDB(){
+        SQLiteDatabase db = getWritableDatabase();
+        SQLiteDatabase db2 = this.getReadableDatabase();
+        db.close();
+        db2.close();
     }
 }
 

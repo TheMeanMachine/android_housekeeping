@@ -187,7 +187,7 @@ public class accountFragment extends Fragment {
             viewModel.setUsrImg( usrImg );
             DatabaseHandler db = new DatabaseHandler(getContext());
             db.updateUser(viewModel.getCurrentUser());
-
+            db.closeDB();
 
 
         }

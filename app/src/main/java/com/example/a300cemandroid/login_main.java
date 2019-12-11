@@ -178,7 +178,9 @@ public class login_main extends AppCompatActivity {
      * Handles the login procedures
      */
     private void login(){
-
+        DatabaseHandler db = new DatabaseHandler(this);
+        final User gotUser = db.getUser(email.getText().toString());
+        db.closeDB();
         inProgress();
         mAuth.signInWithEmailAndPassword(email.getText().toString(), password.getText().toString())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -189,14 +191,14 @@ public class login_main extends AppCompatActivity {
                             Log.d("login", "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user, null);
-                        } else {
-                            // If sign in fails, display a message to the user.
+                        } else if(gotUser != null) {
+                            // If firebase fails, use local
+                            updateUI(null, gotUser);
+                        }else{
                             Log.w("login", "signInWithEmail:failure", task.getException());
                             Toast.makeText(getApplicationContext(), "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-                            User u = new User();
-                            u.setEmail(email.getText().toString());
-                            updateUI(null, u);
+                            updateUI(null, null);
                         }
                     }
                 });

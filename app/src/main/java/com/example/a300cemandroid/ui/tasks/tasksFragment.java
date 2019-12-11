@@ -87,6 +87,7 @@ public class tasksFragment extends Fragment  {
                         houseVM.addTaskToHouse(tNew);
                         setList();
                     }
+                    db.closeDB();
 
                     //tasksVM.addTask(tNew);
                 }

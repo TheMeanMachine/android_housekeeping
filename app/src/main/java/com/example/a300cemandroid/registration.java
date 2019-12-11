@@ -162,10 +162,9 @@ public class registration extends AppCompatActivity {
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 updateUI(user, cU);
                             } else {
-                                // If sign in fails, display a message to the user.
+                                // If sign in fails, use local
                                 Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                Toast.makeText(getApplicationContext(), "Authentication failed.",
-                                        Toast.LENGTH_SHORT).show();
+
                                 updateUI(null, cU);
                             }
 

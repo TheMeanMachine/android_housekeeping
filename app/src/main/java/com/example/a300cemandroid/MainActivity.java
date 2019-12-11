@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
 
         login = (Button) findViewById(R.id.login);
         register = (Button) findViewById(R.id.register);
-        Toast.makeText(getApplicationContext(), "Setup",Toast.LENGTH_SHORT).show();
 
         // Set the dimensions of the sign-in button.
         SignInButton signInButton = findViewById(R.id.sign_in_button);

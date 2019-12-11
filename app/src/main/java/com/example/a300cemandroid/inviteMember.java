@@ -80,6 +80,7 @@ public class inviteMember extends AppCompatActivity {
                 db.addUserToHouse(user.getID(), houseID);
 
                 finish();
+                db.closeDB();
             }
         });
 

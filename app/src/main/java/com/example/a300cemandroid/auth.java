@@ -34,6 +34,7 @@ public class auth {
         //login
 
         startUpApp(u);
+        db.closeDB();
     }
 
     /**
@@ -61,6 +62,8 @@ public class auth {
         Intent i = new Intent(context.getApplicationContext(), main_screen.class);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.getApplicationContext().startActivity(i);
+
+        db.closeDB();
     }
 
 

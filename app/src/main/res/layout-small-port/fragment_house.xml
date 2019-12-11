@@ -5,6 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/StandardSpacing"
+        android:layout_marginRight="@dimen/StandardSpacing"
+        android:layout_marginBottom="@dimen/StandardSpacing"
+        android:clickable="true"
+        android:elevation="10dp"
+        android:tint="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_plussymbol" />
+
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
@@ -285,13 +299,6 @@
                     <Space
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/StandardSpacingHalf" />
-
-                    <Button
-                        android:id="@+id/floatingActionButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="1dp"
-                        android:text="@string/newHouse" />
 
                     <LinearLayout
                         android:layout_width="match_parent"

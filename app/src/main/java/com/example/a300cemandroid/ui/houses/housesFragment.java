@@ -25,6 +25,8 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.a300cemandroid.DatabaseHandler;
 import com.example.a300cemandroid.House;
 import com.example.a300cemandroid.MapsActivity;
 import com.example.a300cemandroid.R;
@@ -371,16 +373,18 @@ public class housesFragment extends Fragment{
                         Integer pos = housesDrop.getSelectedItemPosition();
                         House selHouse = houses.get(pos);
                         if(selHouse != null){
-                            viewModel.deleteHouse(selHouse);
+                            DatabaseHandler db = new DatabaseHandler(getContext());
+                            if(db.deleteHouse(selHouse.getID())){
+                                viewModel.deleteHouse(selHouse);
+                            }
+                            db.closeDB();
                         }
                         viewModel.setSelectedPosition(housesDrop.getSelectedItemPosition());
-
                     }
                 })
                 .setNegativeButton(android.R.string.no, null)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
     }
-
 
 }

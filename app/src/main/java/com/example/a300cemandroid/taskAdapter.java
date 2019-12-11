@@ -107,6 +107,7 @@ public class taskAdapter extends ArrayAdapter<taskObj> {
 
                     DatabaseHandler db = new DatabaseHandler(context);
                     db.updateTask(task);
+                    db.closeDB();
                 }
             });
 
@@ -117,6 +118,7 @@ public class taskAdapter extends ArrayAdapter<taskObj> {
                     task.setCompleted(isChecked);
                     DatabaseHandler db = new DatabaseHandler(context);
                     db.updateTask(task);
+                    db.closeDB();
                 }
             });
 

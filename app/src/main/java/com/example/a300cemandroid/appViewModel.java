@@ -1,10 +1,7 @@
 package com.example.a300cemandroid;
 
-import android.app.Application;
+
 import android.arch.lifecycle.MutableLiveData;
-
-import com.example.a300cemandroid.ui.account.accountViewModel;
-
 import java.util.ArrayList;
 
 public class appViewModel{
