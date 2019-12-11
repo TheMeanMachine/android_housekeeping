@@ -128,6 +128,12 @@ public class registration extends AppCompatActivity {
                 }
             });
 
+        }else if(u != null){
+
+            auth authenticator = new auth(getApplicationContext());
+
+            authenticator.loginUserWithThird(u);
+
         }else{
             stopProgress();
         }
@@ -160,7 +166,7 @@ public class registration extends AppCompatActivity {
                                 Log.w(TAG, "createUserWithEmail:failure", task.getException());
                                 Toast.makeText(getApplicationContext(), "Authentication failed.",
                                         Toast.LENGTH_SHORT).show();
-                                updateUI(null, null);
+                                updateUI(null, cU);
                             }
 
                             // ...

@@ -68,7 +68,7 @@ public class login_main extends AppCompatActivity {
 
         progressSpin = (ProgressBar) findViewById(R.id.progressAnim);
 
-
+        forgotDetails.setVisibility(View.GONE);
 
         // ...
         // Initialize Firebase Auth
@@ -83,7 +83,7 @@ public class login_main extends AppCompatActivity {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
+        updateUI(currentUser, null);
     }
 
     /**
@@ -92,7 +92,7 @@ public class login_main extends AppCompatActivity {
      * If successful, will send details to auth class to init the app
      * @param currentUser - FirebaseUser credientials
      */
-    private void updateUI(FirebaseUser currentUser) {
+    private void updateUI(FirebaseUser currentUser, User cu) {
         if(currentUser != null){
             stopProgress();
             auth authenticator = new auth(getApplicationContext());
@@ -101,10 +101,17 @@ public class login_main extends AppCompatActivity {
             u.setFirstName(u.getFirstName());
             u.setLastName(u.getLastName());
             authenticator.loginUserWithThird(u);
-        }else{
+        }else if(cu != null){
+            stopProgress();
+            auth authenticator = new auth(getApplicationContext());
+            authenticator.loginUserWithThird(cu);
+        }
+        else{
             stopProgress();
         }
     }
+
+
 
 
     /**
@@ -181,13 +188,15 @@ public class login_main extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("login", "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
+                            updateUI(user, null);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("login", "signInWithEmail:failure", task.getException());
                             Toast.makeText(getApplicationContext(), "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-                            updateUI(null);
+                            User u = new User();
+                            u.setEmail(email.getText().toString());
+                            updateUI(null, u);
                         }
                     }
                 });
