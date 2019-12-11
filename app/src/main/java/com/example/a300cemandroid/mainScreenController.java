@@ -3,6 +3,8 @@ package com.example.a300cemandroid;
 import com.example.a300cemandroid.ui.account.accountViewModel;
 import com.example.a300cemandroid.ui.houses.housesViewModel;
 import com.example.a300cemandroid.ui.tasks.tasksViewModel;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class mainScreenController {
